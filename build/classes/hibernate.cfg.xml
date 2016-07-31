@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+	<session-factory>
+
+		<!-- mariaDB -->
+		<property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
+<!-- 		<property name="hibernate.connection.url">jdbc:mariadb://123.204.50.155:3307/jersey</property> -->
+		<property name="hibernate.connection.url">jdbc:mariadb://localhost:3307/jersey</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">qwerty</property>
+
+		<!--SQL方言,以下使用MySQL -->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+		<!--是否要顯示實際操作資料庫時的SQL -->
+		<property name="hibernate.show_sql">true</property>
+
+		<!-- Disable the second-level cache -->
+		<property name="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+		<!--交易管理類型, 以下使用JDBC Transaction -->
+		<property name="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+
+		<!-- Enable Hibernate's automatic session context management -->
+		<property name="hibernate.current_session_context_class">thread</property>
+
+		<!-- c3p0 -->
+		<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+		<property name="hibernate.c3p0.max_size">50</property>
+		<property name="hibernate.c3p0.min_size">5</property>
+		<property name="hibernate.c3p0.timeout">1800</property>
+		<property name="hibernate.c3p0.max_statements">100</property>
+		<property name="c3p0.testConnectionOnCheckout">true</property>
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+		<!--Java物件與資料庫表格的映射檔 -->
+		<mapping resource="commodity/model/CommodityVO.hbm.xml" />
+		<mapping resource="purchaseCase/model/PurchaseCaseVO.hbm.xml" />
+		<mapping resource="sellCase/model/SellCaseVO.hbm.xml" />
+		<mapping resource="store/model/StoreVO.hbm.xml" />
+		<mapping resource="picture/model/PictureVO.hbm.xml" />
+
+
+
+
+	</session-factory>
+
+</hibernate-configuration>

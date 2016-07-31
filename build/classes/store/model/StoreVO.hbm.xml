@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="store.model.StoreVO" table="store" >
+        
+        <id name="storeId" column="store_id">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="type" column="type">
+        	<type name="org.hibernate.type.EnumType">
+        		<param name="enumClass">tools.JerseyEnum$StoreType</param>
+        	</type>
+        </property>
+        
+        <property name="name" column="name" />
+        <property name="createTime" column="create_time" />
+        <property name="lastModifyTime" column="last_modify_time" />
+    </class>
+</hibernate-mapping>
+

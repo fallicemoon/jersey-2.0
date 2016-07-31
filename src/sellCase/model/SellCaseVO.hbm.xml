@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="sellCase.model.SellCaseVO" table="sell_case" >
+        
+        <id name="sellCaseId" column="sell_case_id">
+            <generator class="identity"/>
+        </id>
+        
+        <set name="purchaseCases" table="purchase_case" lazy="false" order-by="purchaseCaseId asc" >
+        	<key><column name="sell_case_id"></column></key>
+        	<one-to-many class="purchaseCase.model.PurchaseCaseVO" />
+        </set>
+        
+        <property name="addressee" column="addressee" />
+        <property name="phone" column="phone"/>
+        <property name="address" column="address" />
+        <property name="description" column="description" />
+        <property name="trackingNumber" column="tracking_number" />
+        <property name="transportMethod" column="transport_method"/>
+        <property name="isShipping" column="is_shipping" />
+        <property name="income" column="income" />
+        <property name="transportCost" column="transport_cost" />
+        <property name="collected" column="collected"/>
+        <property name="uncollected" column="uncollected" />
+        <property name="shippingTime" column="shipping_time"/>
+        <property name="closeTime" column="close_time" />        
+        <property name="isChecked" column="is_checked" />
+        <property name="createTime" column="create_time" />
+        <property name="lastModifyTime" column="last_modify_time" />
+    </class>
+</hibernate-mapping>
+
