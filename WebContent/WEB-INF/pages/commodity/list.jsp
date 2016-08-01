@@ -8,7 +8,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script src="lib/jquery-2.1.3.min.js"></script>
 
 <style type="text/css">
 	.checkboxDiv{
@@ -20,7 +19,14 @@
 	}
 </style>
 
-<script type="text/javascript">
+
+
+<title>商品</title>
+</head>
+<body>
+	<form action="/jersey/CommodityServlet" method="POST">
+		<c:import url="/WEB-INF/pages/header.jsp" />
+		<script type="text/javascript">
 
 	var commodityAttr = [ "itemName", "player", "team", "style", "brand",
 			"size", "level", "condition", "tag", "owner", "sellPlatform",
@@ -49,8 +55,8 @@
 			var name = this;
 			$("."+name).each(function(){
 				$("<input>").attr("type", "checkbox").attr("name", name)
-					.attr("value", $(this).text()).prop("checked", true).append($("<label>"))
-					.append($("div."+name+"CheckboxDiv"));
+					.attr("value", $(this).text()).prop("checked", true).appendTo($("<label>")).text($(this).text()+"&nbsp").after($("<br>"))
+					.appendTo($("div."+name+"CheckboxDiv"));
 			});
 		});
 		
@@ -73,12 +79,6 @@
 		});
 	});
 </script>
-
-<title>商品</title>
-</head>
-<body>
-	<form action="/jersey/CommodityServlet" method="POST">
-		<c:import url="/WEB-INF/pages/header.jsp" />
 		<span style="display: inline-block; width: 100px"></span> <a
 			href="/jersey/CommodityServlet?action=getOne"><button
 				type="button" class="btn btn-success" data-toggle="modal">新增</button></a>
@@ -97,7 +97,7 @@
 						<th></th>
 						<th>圖片</th>
 						<th>
-							<button type="button" class="btn btn-warning" data-toggle="modal">商品名稱</button>				
+							<button type="button" class="btn btn-warning" data-toggle="modal">商品名稱</button>
 							<div class="itemNameCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
 <%-- 								<c:forEach items="${requestScope.itemNames}" var="itemName"> --%>

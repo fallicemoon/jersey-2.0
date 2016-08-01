@@ -14,8 +14,9 @@ import commodity.model.CommodityService;
 import commodity.model.CommodityVO;
 import commodity.model.CommodityWithPicCountVO;
 
-@Controller(value="/commodity")
-public class CommodityServlet {
+@Controller
+@RequestMapping(value="/commodity")
+public class CommodityController {
 	private static final String LIST = "commodity/list";
 	private static final String ADD = "commodity/add";
 	private static final String UPDATE = "commodity/update";
@@ -27,6 +28,7 @@ public class CommodityServlet {
 	//取得全部
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)
 	public String getAll(Map<String, Object> map){
+		System.out.println("123");
 		map.put("commodityList", commodityService.getAll());
 		return LIST;
 	}
@@ -81,7 +83,7 @@ public class CommodityServlet {
 	public String clone (@PathVariable("id") Integer id) {
 		commodityService.create(commodityService.getOne(id));
 		return REDIRECT_LIST;
-	} 
+	}
 	
 	
 
