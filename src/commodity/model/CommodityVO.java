@@ -11,6 +11,7 @@ public class CommodityVO extends AbstractVo{
 	private Integer commodityId;
 	private PurchaseCaseVO purchaseCaseVO;
 	private String itemName;
+	
 	private Integer qty;
 	private String link;
 	private String player;
@@ -27,26 +28,13 @@ public class CommodityVO extends AbstractVo{
 	private String patchAndCertificate;
 	private String serial;
 	private String owner;
+//	private String commodityType;
+//	private Clob commodityAttribute;
+	
 	private Integer cost;
 	private Integer sellPrice;
 	private String sellPlatform;
 	private Boolean isStored;
-
-	public Integer getQty() {
-		return this.qty;
-	}
-
-	public void setQty(Integer qty) {
-		this.qty = qty;
-	}
-
-	public String getStyle() {
-		return this.style;
-	}
-
-	public void setStyle(String style) {
-		this.style = style;
-	}
 
 	public Integer getCost() {
 		return this.cost;
@@ -70,14 +58,6 @@ public class CommodityVO extends AbstractVo{
 
 	public void setPurchaseCaseVO(PurchaseCaseVO purchaseCaseVO) {
 		this.purchaseCaseVO = purchaseCaseVO;
-	}
-
-	public String getLink() {
-		return this.link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
 	}
 
 	public Boolean getIsStored() {
@@ -112,8 +92,40 @@ public class CommodityVO extends AbstractVo{
 		this.itemName = itemName;
 	}
 
+//	public String getCommodityType() {
+//		return commodityType;
+//	}
+//
+//	public void setCommodityType(String commodityType) {
+//		this.commodityType = commodityType;
+//	}
+//
+//	public Clob getCommodityAttribute() {
+//		return commodityAttribute;
+//	}
+//
+//	public void setCommodityAttribute(Clob commodityAttribute) {
+//		this.commodityAttribute = commodityAttribute;
+//	}
+
+	public Integer getQty() {
+		return qty;
+	}
+
+	public void setQty(Integer qty) {
+		this.qty = qty;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
 	public String getPlayer() {
-		return this.player;
+		return player;
 	}
 
 	public void setPlayer(String player) {
@@ -121,7 +133,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getNumber() {
-		return this.number;
+		return number;
 	}
 
 	public void setNumber(String number) {
@@ -129,7 +141,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getSeason() {
-		return this.season;
+		return season;
 	}
 
 	public void setSeason(String season) {
@@ -137,15 +149,23 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getTeam() {
-		return this.team;
+		return team;
 	}
 
 	public void setTeam(String team) {
 		this.team = team;
 	}
 
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
+	}
+
 	public String getColor() {
-		return this.color;
+		return color;
 	}
 
 	public void setColor(String color) {
@@ -153,7 +173,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getBrand() {
-		return this.brand;
+		return brand;
 	}
 
 	public void setBrand(String brand) {
@@ -161,7 +181,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getSize() {
-		return this.size;
+		return size;
 	}
 
 	public void setSize(String size) {
@@ -169,7 +189,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getLevel() {
-		return this.level;
+		return level;
 	}
 
 	public void setLevel(String level) {
@@ -177,7 +197,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getCondition() {
-		return this.condition;
+		return condition;
 	}
 
 	public void setCondition(String condition) {
@@ -185,7 +205,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getTag() {
-		return this.tag;
+		return tag;
 	}
 
 	public void setTag(String tag) {
@@ -193,7 +213,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getPatchAndCertificate() {
-		return this.patchAndCertificate;
+		return patchAndCertificate;
 	}
 
 	public void setPatchAndCertificate(String patchAndCertificate) {
@@ -201,7 +221,7 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getSerial() {
-		return this.serial;
+		return serial;
 	}
 
 	public void setSerial(String serial) {
@@ -209,21 +229,11 @@ public class CommodityVO extends AbstractVo{
 	}
 
 	public String getOwner() {
-		return this.owner;
+		return owner;
 	}
 
 	public void setOwner(String owner) {
 		this.owner = owner;
-	}
-
-	@Override
-	public String toString() {
-		return "CommodityVO [commodityId=" + commodityId + ", purchaseCaseVO=" + purchaseCaseVO + ", itemName="
-				+ itemName + ", qty=" + qty + ", link=" + link + ", player=" + player + ", number=" + number
-				+ ", season=" + season + ", team=" + team + ", style=" + style + ", color=" + color + ", brand=" + brand
-				+ ", size=" + size + ", level=" + level + ", condition=" + condition + ", tag=" + tag
-				+ ", patchAndCertificate=" + patchAndCertificate + ", serial=" + serial + ", owner=" + owner + ", cost="
-				+ cost + ", sellPrice=" + sellPrice + ", sellPlatform=" + sellPlatform + ", isStored=" + isStored + "]";
 	}
 
 	@Override

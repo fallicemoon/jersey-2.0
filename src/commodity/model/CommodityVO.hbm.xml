@@ -29,6 +29,8 @@
         <property name="patchAndCertificate" column="patch_and_certificate" />
         <property name="serial" column="serial" />
         <property name="owner" column="owner" />
+<!-- 		<property name="commodityType" column="commodity_type" /> -->
+<!--         <property name="commodityAttribute" column="commodity_attribute" /> -->
         <property name="cost" column="cost" />
         <property name="sellPrice" column="sell_price" />
         <property name="sellPlatform" column="sell_platform" />

@@ -39,11 +39,21 @@
 				if($.inArray($(this).text(), keep)==-1){
 					$(this).closest("tr").hide();
 				}
-			});	
+			});
 		}
 	}
 
 	$(function(){
+		<%--生成篩選條件的下拉式選單內容--%>
+		$.each(commodityAttr, function(){
+			var name = this;
+			$("."+name).each(function(){
+				$("<input>").attr("type", "checkbox").attr("name", name)
+					.attr("value", $(this).text()).prop("checked", true).append($("<label>"))
+					.append($("div."+name+"CheckboxDiv"));
+			});
+		});
+		
 		<%--顯示下拉式篩選條件的按鈕們--%>
 		$(".checkboxDiv").prev().click(function(){
 			$(this).next().slideToggle("fast");
@@ -83,103 +93,70 @@
 		<table border=1 width="1500px" class="table table-hover">
 			<thead>
 				<tr>
-					<c:if test="${!requestScope.showRule}">
 						<th></th>
 						<th></th>
 						<th>圖片</th>
-						<th>商品名稱
-						<th>Qty</th>
-						<th>player</th>
-						<th>number</th>
-						<th>season</th>
-						<th>team</th>
-						<th>style</th>
-						<th>color</th>
-						<th>brand</th>
-						<th>size</th>
-						<th>level</th>
-						<th>condition</th>
-						<th>tag</th>
-						<th>Patch/Certificate</th>
-						<th>serial</th>
-						<th>owner</th>
-						<th>成本</th>
-						<th>售價</th>
-						<th>販售平台</th>
-						<th>是否仍在庫</th>
-					</c:if>
-					<c:if test="${requestScope.showRule}">
-						<th></th>
-						<th></th>
-						<th>圖片</th>
-<!-- 						<th>商品編號/商品名稱 <select name="itemName"> -->
-<!-- 								<option selected="selected">無</option> -->
-<%-- 								<c:forEach items="${requestScope.itemNames}" var="itemName"> --%>
-<%-- 									<option value="${itemName}">${itemName}</option> --%>
-<%-- 								</c:forEach> --%>
-<!-- 						</select> -->
-<!-- 						</th> -->
 						<th>
 							<button type="button" class="btn btn-warning" data-toggle="modal">商品名稱</button>				
-							<div class="checkboxDiv">
+							<div class="itemNameCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.itemNames}" var="itemName">
-									<label><input type="checkbox" name="itemName" value='<c:out value="${itemName}"/>' checked="checked">${itemName}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.itemNames}" var="itemName"> --%>
+<%-- 									<label><input type="checkbox" name="itemName" value='<c:out value="${itemName}"/>' checked="checked">${itemName}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>Qty</th>
 						<th>
 							<button type="button" class="btn btn-warning" data-toggle="modal">player</button>
-							<div class="checkboxDiv">
+							<div class="playerCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.players}" var="player">
-									<label><input type="checkbox" name="player"
-										value='<c:out value="${player}"/>' checked="checked">${player}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.players}" var="player"> --%>
+<!-- 									<label><input type="checkbox" name="player" -->
+<%-- 										value='<c:out value="${player}"/>' checked="checked">${player}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>number</th>
 						<th>season</th>
 						<th>							
 							<button type="button" class="btn btn-warning" data-toggle="modal">team</button>
-							<div class="checkboxDiv">
+							<div class="teamCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.teams}" var="team">
-									<label><input type="checkbox" name="team"
-										value='<c:out value="${team}"/>' checked="checked">${team}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.teams}" var="team"> --%>
+<!-- 									<label><input type="checkbox" name="team" -->
+<%-- 										value='<c:out value="${team}"/>' checked="checked">${team}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>
 						<button type="button" class="btn btn-warning" data-toggle="modal">style</button>
-							<div class="checkboxDiv">
+							<div class="styleCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.styles}" var="style">
-									<label><input type="checkbox" name="style"
-										value='<c:out value="${style}"/>' checked="checked">${style}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.styles}" var="style"> --%>
+<!-- 									<label><input type="checkbox" name="style" -->
+<%-- 										value='<c:out value="${style}"/>' checked="checked">${style}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>color</th>
 						<th>							
 						<button type="button" class="btn btn-warning" data-toggle="modal">brand</button>
-							<div class="checkboxDiv">
+							<div class="brandCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.brands}" var="brand">
-									<label><input type="checkbox" name="brand"
-										value='<c:out value="${brand}"/>' checked="checked">${brand}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.brands}" var="brand"> --%>
+<!-- 									<label><input type="checkbox" name="brand" -->
+<%-- 										value='<c:out value="${brand}"/>' checked="checked">${brand}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>						
 						<button type="button" class="btn btn-warning" data-toggle="modal">size</button>
-							<div class="checkboxDiv">
+							<div class="sizeCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.sizes}" var="size">
-									<label><input type="checkbox" name=size
-										value='<c:out value="${size}"/>' checked="checked">${size}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.sizes}" var="size"> --%>
+<!-- 									<label><input type="checkbox" name=size -->
+<%-- 										value='<c:out value="${size}"/>' checked="checked">${size}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>					
@@ -199,12 +176,12 @@
 						</th>
 						<th>						
 						<button type="button" class="btn btn-warning" data-toggle="modal">condition</button>
-							<div class="checkboxDiv">
+							<div class="conditionCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.conditions}" var="condition">
-									<label><input type="checkbox" name=condition
-										value='<c:out value="${condition}"/>' checked="checked">${condition}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.conditions}" var="condition"> --%>
+<!-- 									<label><input type="checkbox" name=condition -->
+<%-- 										value='<c:out value="${condition}"/>' checked="checked">${condition}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>
@@ -221,24 +198,24 @@
 						<th>serial</th>
 						<th>						
 						<button type="button" class="btn btn-warning" data-toggle="modal">owner</button>
-							<div class="checkboxDiv">
+							<div class="ownerCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.owners}" var="owner">
-									<label><input type="checkbox" name=owner
-										value='<c:out value="${owner}"/>' checked="checked">${owner}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.owners}" var="owner"> --%>
+<!-- 									<label><input type="checkbox" name=owner -->
+<%-- 										value='<c:out value="${owner}"/>' checked="checked">${owner}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>成本</th>
 						<th>售價</th>
 						<th>						
 							<button type="button" class="btn btn-warning" data-toggle="modal">販售平台</button>
-							<div class="checkboxDiv">
+							<div class="sellPlatformCheckboxDiv">
 								<label><input type="checkbox" name="all" checked="checked">全選&nbsp</label><br/>
-								<c:forEach items="${requestScope.sellPlatforms}" var="sellPlatform">
-									<label><input type="checkbox" name=sellPlatform
-										value='<c:out value="${sellPlatform}"/>' checked="checked">${sellPlatform}&nbsp</label><br/>
-								</c:forEach>
+<%-- 								<c:forEach items="${requestScope.sellPlatforms}" var="sellPlatform"> --%>
+<!-- 									<label><input type="checkbox" name=sellPlatform -->
+<%-- 										value='<c:out value="${sellPlatform}"/>' checked="checked">${sellPlatform}&nbsp</label><br/> --%>
+<%-- 								</c:forEach> --%>
 							</div>
 						</th>
 						<th>
@@ -250,7 +227,6 @@
 								<label><input type="checkbox" name=isStored value="否" checked="checked">否&nbsp</label><br/>
 							</div>
 						</th>
-					</c:if>
 				</tr>
 			</thead>
 

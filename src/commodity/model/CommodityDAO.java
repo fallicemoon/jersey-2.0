@@ -7,11 +7,13 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 import purchaseCase.model.PurchaseCaseVO;
 import tools.AbstractDAO;
 import tools.HibernateSessionFactory;
 
+@Repository
 public class CommodityDAO extends AbstractDAO<CommodityVO> {
 
 	public CommodityDAO() {

@@ -8,15 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import picture.model.PictureDAO;
 import tools.Tools;
 
+@Service
 public class CommodityService {
+	
+	@Autowired
 	private CommodityDAO dao;
-
-	public CommodityService() {
-		this.dao = new CommodityDAO();
-	}
 
 	public List<CommodityWithPicCountVO> getAll() {
 		return getCommodityWithPicCountList(dao.getAll());
