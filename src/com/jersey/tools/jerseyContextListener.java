@@ -4,6 +4,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.jersey.store.model.StoreService;
 import com.jersey.tools.JerseyEnum.StoreType;
 
@@ -13,7 +15,8 @@ import com.jersey.tools.JerseyEnum.StoreType;
  */
 public class jerseyContextListener implements ServletContextListener {
 
-	private StoreService storeService = new StoreService();
+	@Autowired
+	private StoreService storeService;
 
 	/**
 	 * Default constructor.
@@ -34,9 +37,9 @@ public class jerseyContextListener implements ServletContextListener {
 	 */
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		// 塞入商店和託運公司
-		ServletContext servletContext = servletContextEvent.getServletContext();
-		servletContext.setAttribute(StoreType.store.toString(), storeService.getStoreListByType(StoreType.store));
-		servletContext.setAttribute(StoreType.shippingCompany.toString(), storeService.getStoreListByType(StoreType.shippingCompany));
+//		ServletContext servletContext = servletContextEvent.getServletContext();
+//		servletContext.setAttribute(StoreType.store.toString(), storeService.getStoreListByType(StoreType.store));
+//		servletContext.setAttribute(StoreType.shippingCompany.toString(), storeService.getStoreListByType(StoreType.shippingCompany));
 	}
 
 }

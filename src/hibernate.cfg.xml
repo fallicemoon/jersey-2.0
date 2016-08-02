@@ -38,11 +38,11 @@
 		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 
 		<!--Java物件與資料庫表格的映射檔 -->
-		<mapping resource="commodity/model/CommodityVO.hbm.xml" />
-		<mapping resource="purchaseCase/model/PurchaseCaseVO.hbm.xml" />
-		<mapping resource="sellCase/model/SellCaseVO.hbm.xml" />
-		<mapping resource="store/model/StoreVO.hbm.xml" />
-		<mapping resource="picture/model/PictureVO.hbm.xml" />
+		<mapping resource="com/jersey/commodity/model/CommodityVO.hbm.xml" />
+		<mapping resource="com/jersey/purchaseCase/model/PurchaseCaseVO.hbm.xml" />
+		<mapping resource="com/jersey/sellCase/model/SellCaseVO.hbm.xml" />
+		<mapping resource="com/jersey/store/model/StoreVO.hbm.xml" />
+		<mapping resource="com/jersey/picture/model/PictureVO.hbm.xml" />
 
 
 

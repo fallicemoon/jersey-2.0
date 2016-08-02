@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jersey.purchaseCase.model.PurchaseCaseService;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
@@ -26,7 +27,8 @@ public class PurchaseCaseServlet extends HttpServlet {
 	private final String forwardAddUrl = forwardUrl + "/add.jsp";
 	private final String forwardUpdateUrl = forwardUrl + "/update.jsp";
 	private final String forwardAddCommodityUrl = forwardUrl + "/addCommodity.jsp?purchaseCaseId=%s";
-	private final PurchaseCaseService service = new PurchaseCaseService();
+	@Autowired
+	private PurchaseCaseService service;
 	private final StoreService storeService = new StoreService();
 
 	public String getForwardAddCommodityUrl(Integer purchaseCaseId) {

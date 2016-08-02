@@ -16,10 +16,6 @@ public class PurchaseCaseService {
 	@Autowired
 	private PurchaseCaseDAO dao;
 
-	public PurchaseCaseService() {
-		this.dao = new PurchaseCaseDAO();
-	}
-
 	public List<PurchaseCaseVO> getAll() {
 		return dao.getAll();
 	}
