@@ -10,8 +10,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
-	<context:component-scan base-package="commodity" />
-	<context:component-scan base-package="userConfig" />
+	<context:component-scan base-package="com.jersey" />
 	
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler/>

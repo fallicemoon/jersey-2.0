@@ -54,7 +54,7 @@
     <description></description>
     <display-name>SellCaseServlet</display-name>
     <servlet-name>SellCaseServlet</servlet-name>
-    <servlet-class>sellCase.controller.SellCaseServlet</servlet-class>
+    <servlet-class>com.jersey.sellCase.controller.SellCaseServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>SellCaseServlet</servlet-name>
@@ -64,7 +64,7 @@
     <description></description>
     <display-name>CommodityServlet</display-name>
     <servlet-name>CommodityServlet</servlet-name>
-    <servlet-class>commodity.controller.CommodityServlet</servlet-class>
+    <servlet-class>com.jersey.commodity.controller.CommodityServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>CommodityServlet</servlet-name>
@@ -74,7 +74,7 @@
     <description></description>
     <display-name>PurchaseCaseServlet</display-name>
     <servlet-name>PurchaseCaseServlet</servlet-name>
-    <servlet-class>purchaseCase.controller.PurchaseCaseServlet</servlet-class>
+    <servlet-class>com.jersey.purchaseCase.controller.PurchaseCaseServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>PurchaseCaseServlet</servlet-name>
@@ -103,7 +103,7 @@
     <description></description>
     <display-name>StoreServlet</display-name>
     <servlet-name>StoreServlet</servlet-name>
-    <servlet-class>store.controller.StoreServlet</servlet-class>
+    <servlet-class>com.jersey.store.controller.StoreServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>StoreServlet</servlet-name>
@@ -113,7 +113,7 @@
     <description></description>
     <display-name>PictureServlet</display-name>
     <servlet-name>PictureServlet</servlet-name>
-    <servlet-class>picture.controller.PictureServlet</servlet-class>
+    <servlet-class>com.jersey.picture.controller.PictureServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>PictureServlet</servlet-name>
@@ -128,7 +128,7 @@
     <description></description>
     <display-name>AccountingServlet</display-name>
     <servlet-name>AccountingServlet</servlet-name>
-    <servlet-class>accounting.controller.AccountingServlet</servlet-class>
+    <servlet-class>com.jersey.accounting.controller.AccountingServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>AccountingServlet</servlet-name>
@@ -138,7 +138,7 @@
     <description></description>
     <display-name>TripleServlet</display-name>
     <servlet-name>TripleServlet</servlet-name>
-    <servlet-class>triple.controller.TripleServlet</servlet-class>
+    <servlet-class>com.jersey.triple.controller.TripleServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>TripleServlet</servlet-name>
@@ -148,13 +148,13 @@
     <description></description>
     <display-name>MemberServlet</display-name>
     <servlet-name>MemberServlet</servlet-name>
-    <servlet-class>member.controller.MemberServlet</servlet-class>
+    <servlet-class>com.jersey.member.controller.MemberServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MemberServlet</servlet-name>
     <url-pattern>/MemberServlet</url-pattern>
   </servlet-mapping>
   <listener>
-    <listener-class>tools.jerseyContextListener</listener-class>
+    <listener-class>com.jersey.tools.jerseyContextListener</listener-class>
   </listener>
 </web-app>

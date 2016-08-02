@@ -6,9 +6,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import store.model.StoreDAO;
-import store.model.StoreVO;
-import tools.JerseyEnum.StoreType;
+import com.jersey.store.model.StoreDAO;
+import com.jersey.store.model.StoreVO;
+import com.jersey.tools.JerseyEnum.StoreType;
 
 public class StoreDAOTest {
 	

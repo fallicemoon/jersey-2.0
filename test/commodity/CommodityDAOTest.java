@@ -7,8 +7,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import commodity.model.CommodityDAO;
-import commodity.model.CommodityVO;
+import com.jersey.commodity.model.CommodityDAO;
+import com.jersey.commodity.model.CommodityVO;
 
 public class CommodityDAOTest {
 	

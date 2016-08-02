@@ -10,8 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import sellCase.model.SellCaseDAO;
-import sellCase.model.SellCaseVO;
+import com.jersey.sellCase.model.SellCaseDAO;
+import com.jersey.sellCase.model.SellCaseVO;
 
 public class SellCaseDAOTest {
 	

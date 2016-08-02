@@ -6,8 +6,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import picture.model.PictureDAO;
-import picture.model.PictureVO;
+import com.jersey.picture.model.PictureDAO;
+import com.jersey.picture.model.PictureVO;
 
 public class PictureDAOTest {
 	

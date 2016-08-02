@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import purchaseCase.model.PurchaseCaseDAO;
-import purchaseCase.model.PurchaseCaseVO;
+import com.jersey.purchaseCase.model.PurchaseCaseDAO;
+import com.jersey.purchaseCase.model.PurchaseCaseVO;
 
 public class PurchaseCaseDAOTest {
 	
