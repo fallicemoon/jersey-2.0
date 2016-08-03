@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
@@ -20,7 +21,7 @@ public class CommodityController {
 	private static final String LIST = "commodity/list";
 	private static final String ADD = "commodity/add";
 	private static final String UPDATE = "commodity/update";
-	private static final String REDIRECT_LIST = "redirect:commodity/list";
+	private static final String REDIRECT_LIST = "redirect:getAll";
 	
 	@Autowired
 	private CommodityService commodityService;
@@ -28,13 +29,12 @@ public class CommodityController {
 	//取得全部
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)
 	public String getAll(Map<String, Object> map){
-		System.out.println("123");
 		map.put("commodityList", commodityService.getAll());
 		return LIST;
 	}
 	
 	//準備新增
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@RequestMapping(value="", method=RequestMethod.GET)
 	public String get(Map<String, Object> map){
 		return ADD;
 	}
@@ -47,8 +47,9 @@ public class CommodityController {
 	}
 	
 	//新增
-	@RequestMapping(value="/", method=RequestMethod.POST)
+	@RequestMapping(value="", method=RequestMethod.POST)
 	public String create (CommodityVO vo, Map<String, Object> map) {
+		vo.setIsStored(true);
 		commodityService.create(vo);
 		List<CommodityWithPicCountVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityWithPicCountVO(vo));
@@ -67,15 +68,18 @@ public class CommodityController {
 	}
 	
 	//刪除
-	@RequestMapping(value="/", method=RequestMethod.DELETE)
-	public String delete (Map<String, Object> map) {
-		String[] commodityIds = (String[])map.get("commodityIds");
+	@RequestMapping(value="", method=RequestMethod.DELETE)
+	public String delete (Map<String, Object> map, @RequestParam String[] commodityIds) {
+		System.out.println("123");
+		for (String string : commodityIds) {
+			System.out.println(string);
+		}
 		Integer[] ids = new Integer[commodityIds.length];
 		for (int i = 0; i < commodityIds.length; i++) {
 			ids[i] = Integer.valueOf(commodityIds[i]);
 		}
 		commodityService.delete(ids);
-		return REDIRECT_LIST;
+		return LIST;
 	}
 	
 	//複製

@@ -11,13 +11,8 @@
 <body>
 	<br/><br/>
 	<br/><br/>
-	<c:forEach items="${requestScope.errors}" var="error">
-		<p style="color: red">${error}</p>
-	</c:forEach>
 	
-	<form action="/jersey/CommodityServlet" method="post" class="form-horizontal">
-	<input type="hidden" name="action" value="update">
-	
+	<form action="/jersey/commodity" method="post" class="form-horizontal">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">商品編號：</label>
     	<div class="col-sm-10">

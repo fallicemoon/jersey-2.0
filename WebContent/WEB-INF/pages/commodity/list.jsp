@@ -82,16 +82,15 @@
 		});
 		
 		<%--修改--%>
-		$("#update").click(function(){
-			location.href = "/"+$(this).val();
+		$("button[name=update]").click(function(){
+			location.href = $(this).val();
 		});
 		
 		<%--刪除--%>
 		$("#delete").click(function() {
 			if (confirm("確認刪除?")) {
-				$.ajax("/", {
+				$.ajax(".?"+$("input[name=commodityIds]").serialize(), {
 					type : "DELETE",
-					data : $("input[name=commodityIds]").serialize(),
 					success : function() {
 						alert("刪除成功");
 					}
@@ -104,7 +103,7 @@
 			$.ajax("/clone"+$("input[name=commodityIds]:checked").eq(0), {
 				type:"POST",
 				success:function(){
-					alert("複製成功");	
+					alert("複製成功");
 				}
 			});
 		});
@@ -115,8 +114,8 @@
 		<a href="/jersey/commodity">
 			<button type="button" class="btn btn-success" data-toggle="modal">新增</button>
 		</a>
-		<button id="delete" class="btn btn-danger" data-toggle="modal">刪除</button>
-		<button id="clone" class="btn btn-warning" data-toggle="modal">複製</button>
+		<button id="delete" type="button" class="btn btn-danger" data-toggle="modal">刪除</button>
+		<button id="clone" type="button" class="btn btn-warning" data-toggle="modal">複製</button>
 		
 		<table border=1 width="1500px" class="table table-hover">
 			<thead>
@@ -264,7 +263,7 @@
 					<td><input type="checkbox" name="commodityIds"
 						value="${vo.commodityId}"></td>
 					<td>
-						<button id="update" value="${vo.commodityId}" class="btn btn-warning">修改</button>
+						<button name="update" type="button" value="${vo.commodityId}" class="btn btn-warning">修改</button>
 					</td>
 					<c:if test="${vo.pictureCount!=0}">
 						<td><a

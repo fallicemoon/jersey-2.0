@@ -68,7 +68,9 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 	public E create(E vo) {
 		Session session = HibernateSessionFactory.getSession();
 		try {
-			vo.setCreateTime(new Date());
+			Date now = new Date();
+			vo.setLastModifyTime(now);
+			vo.setCreateTime(now);
 			session.beginTransaction();
 			session.save(vo);
 			session.getTransaction().commit();

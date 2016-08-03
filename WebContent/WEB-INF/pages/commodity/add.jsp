@@ -11,12 +11,8 @@
 <body>
 <c:import url="/WEB-INF/pages/header.jsp"/>
 	<br/><br/>
-	<c:forEach items="${requestScope.errors}" var="error">
-		<p style="color: red">${error}</p>
-	</c:forEach>
 		
-	<form action="/jersey/CommodityServlet" method="post" class="form-horizontal">
-	<input type="hidden" name="action" value="create">
+	<form action="/jersey/commodity" method="post" class="form-horizontal">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">商品名稱：</label>
     	<div class="col-sm-10">

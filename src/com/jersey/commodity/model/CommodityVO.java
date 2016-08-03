@@ -260,6 +260,16 @@ public class CommodityVO extends AbstractVo{
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "CommodityVO [commodityId=" + commodityId + ", purchaseCaseVO=" + purchaseCaseVO + ", itemName="
+				+ itemName + ", qty=" + qty + ", link=" + link + ", player=" + player + ", number=" + number
+				+ ", season=" + season + ", team=" + team + ", style=" + style + ", color=" + color + ", brand=" + brand
+				+ ", size=" + size + ", level=" + level + ", condition=" + condition + ", tag=" + tag
+				+ ", patchAndCertificate=" + patchAndCertificate + ", serial=" + serial + ", owner=" + owner + ", cost="
+				+ cost + ", sellPrice=" + sellPrice + ", sellPlatform=" + sellPlatform + ", isStored=" + isStored + "]";
+	}
 	
 	
 }

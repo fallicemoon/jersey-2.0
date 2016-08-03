@@ -40,7 +40,6 @@ public class jerseyContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContextEvent.getServletContext());
 		storeService = (StoreService)applicationContext.getBean("storeService");
-		System.out.println(storeService);
 		// 塞入商店和託運公司
 		ServletContext servletContext = servletContextEvent.getServletContext();
 		servletContext.setAttribute(StoreType.store.toString(), storeService.getStoreListByType(StoreType.store));
