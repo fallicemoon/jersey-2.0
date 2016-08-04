@@ -84,7 +84,7 @@
 		
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
-			location.href = $(this).val();
+			location.href = "/jersey/commodity/"+$(this).val();
 		});
 		
 		<%--刪除--%>
@@ -102,7 +102,7 @@
 		
 		<%--複製(ㄧ次只能複製一筆)--%>
 		$("#clone").click(function(){
-			$.ajax("clone", {
+			$.ajax("/jersey/commodity/clone", {
 				type : "POST",
 				data : $("input[name=commodityIds]:checked").eq(0),
 				success : function(){

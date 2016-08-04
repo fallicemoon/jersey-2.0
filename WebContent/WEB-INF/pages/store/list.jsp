@@ -20,7 +20,7 @@
     		
     		<%--修改--%>
     		$("table").on("click", "button[name=update]", function(){
-    			location.href = $(this).val();
+    			location.href = "/jersey/store/"+$(this).val();
     		});
     		
     		<%--刪除--%>

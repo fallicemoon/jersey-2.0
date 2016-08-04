@@ -33,8 +33,13 @@ public class StoreController {
 	
 	//for update store用
 	@ModelAttribute
-	public void getStore (Map<String, Object> map) {
-		map.put
+	public void getStore (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
+		Set<String> keySet = pathVariableMap.keySet();
+		if(keySet.contains("id")){
+			System.out.println("store update");
+			String storeId = pathVariableMap.get("id");
+			map.put("storeVO", storeService.getOne(Integer.valueOf(storeId)));
+		}
 	}
 	
 	//取得全部

@@ -8,12 +8,13 @@
 <title>修改商品項目</title>
 </head>
 <c:import url="/WEB-INF/pages/header.jsp"/>
+
 <body>
 	<br/><br/>
 	<br/><br/>
 	
-	<form action="/jersey/commodity/${commodity.commodityId}" method="post" class="form-horizontal">
-		<input type="hidden" name="_method" value="POST">
+	<form action="/jersey/commodity/${commodity.commodityId}" method="POST" class="form-horizontal">
+		<input type="hidden" name="_method" value="PUT">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">商品編號：</label>
     	<div class="col-sm-10">

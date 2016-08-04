@@ -91,7 +91,7 @@
 	    		
 	    		<%--修改--%>
 	    		$("table").on("click", "button[name=update]", function(){
-	    			location.href = $(this).val();
+	    			location.href = "/jersey/sellCase/"+$(this).val();
 	    		});
 	    		
 	    		<%--刪除--%>
@@ -109,7 +109,7 @@
 	    		
 	    		<%--匯入進貨--%>
 	    		$("table").on("click", "button[name=importPurchaseCase]", function(){
-	    			location.href = "getPurchaseCaseList/"+$(this).val();
+	    			location.href = "/jersey/sellCase/getPurchaseCaseList/"+$(this).val();
 	    		});
 
 				

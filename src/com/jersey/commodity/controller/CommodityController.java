@@ -3,9 +3,11 @@ package com.jersey.commodity.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +27,16 @@ public class CommodityController {
 	
 	@Autowired
 	private CommodityService commodityService;
+	
+	//for update store用
+	@ModelAttribute
+	public void getCommodity (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
+		Set<String> keySet = pathVariableMap.keySet();
+		if(keySet.contains("id")){
+			String storeId = pathVariableMap.get("id");
+			map.put("commodityVO", commodityService.getOne(Integer.valueOf(storeId)));
+		}
+	}
 	
 	//取得全部
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)
@@ -70,6 +82,7 @@ public class CommodityController {
 	//刪除多筆
 	@RequestMapping(value="", method=RequestMethod.PUT)
 	public String delete (Map<String, Object> map, @RequestParam String[] commodityIds) {
+		System.out.println("put");
 		Integer[] ids = new Integer[commodityIds.length];
 		for (int i = 0; i < commodityIds.length; i++) {
 			ids[i] = Integer.valueOf(commodityIds[i]);

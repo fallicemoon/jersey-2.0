@@ -36,7 +36,7 @@
     		
     		<%--修改--%>
     		$("table").on("click", "button[name=update]", function(){
-    			location.href = $(this).val();
+    			location.href = "/jersey/purchaseCase/"+$(this).val();
     		});
     		
     		<%--刪除--%>
@@ -54,7 +54,7 @@
     		
     		<%--匯入商品--%>
     		$("table").on("click", "button[name=importCommodity]", function(){
-    			location.href = "getCommodityList/"+$(this).val();
+    			location.href = "/jersey/purchaseCase/getCommodityList/"+$(this).val();
     		});
 
     		

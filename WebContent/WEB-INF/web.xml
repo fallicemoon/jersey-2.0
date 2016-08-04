@@ -34,34 +34,51 @@
 	<listener>
 		<listener-class>com.jersey.tools.jerseyContextListener</listener-class>
 	</listener>
-	
+
 	<filter>
 		<filter-name>HiddenHttpMethodFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>HiddenHttpMethodFilter</filter-name>
-		<servlet-name>springmvc</servlet-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!--   <filter> -->
-<!--     <display-name>JerseyFilter</display-name> -->
-<!--     <filter-name>JerseyFilter</filter-name> -->
-<!--     <filter-class>tools.JerseyFilter</filter-class> -->
-<!--     <init-param> -->
-<!--       <param-name>encoding</param-name> -->
-<!--       <param-value>UTF-8</param-value> -->
-<!--     </init-param> -->
-<!--   </filter> -->
-<!--   <filter-mapping> -->
-<!--     <filter-name>JerseyFilter</filter-name> -->
-<!--     <url-pattern>/CommodityServlet</url-pattern> -->
-<!--     <url-pattern>/PurchaseCaseServlet</url-pattern> -->
-<!--     <url-pattern>/SellCaseServlet</url-pattern> -->
-<!--     <url-pattern>/StoreServlet</url-pattern> -->
-<!--     <url-pattern>/PictureServlet</url-pattern> -->
-<!--     <url-pattern>/AccountingServlet</url-pattern> -->
-<!--     <url-pattern>/TripleServlet</url-pattern> -->
-<!--   </filter-mapping> -->
+		<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+<!-- 	<filter> -->
+<!-- 		<display-name>JerseyFilter</display-name> -->
+<!-- 		<filter-name>JerseyFilter</filter-name> -->
+<!-- 		<filter-class>com.jersey.tools.JerseyFilter</filter-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>encoding</param-name> -->
+<!-- 			<param-value>UTF-8</param-value> -->
+<!-- 		</init-param> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>JerseyFilter</filter-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 		<url-pattern>/commodity</url-pattern> -->
+<!-- 		<url-pattern>/purchaseCase</url-pattern> -->
+<!-- 		<url-pattern>/sellCase</url-pattern> -->
+<!-- 		<url-pattern>/store</url-pattern> -->
+<!-- 		<url-pattern>/PictureServlet</url-pattern> -->
+<!-- 		<url-pattern>/AccountingServlet</url-pattern> -->
+<!-- 		<url-pattern>/TripleServlet</url-pattern> -->
+<!-- 	</filter-mapping> -->
 
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>
