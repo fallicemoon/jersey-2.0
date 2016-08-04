@@ -67,13 +67,9 @@ public class CommodityController {
 		return LIST;
 	}
 	
-	//刪除
-	@RequestMapping(value="", method=RequestMethod.DELETE)
+	//刪除多筆
+	@RequestMapping(value="", method=RequestMethod.PUT)
 	public String delete (Map<String, Object> map, @RequestParam String[] commodityIds) {
-		System.out.println("123");
-		for (String string : commodityIds) {
-			System.out.println(string);
-		}
 		Integer[] ids = new Integer[commodityIds.length];
 		for (int i = 0; i < commodityIds.length; i++) {
 			ids[i] = Integer.valueOf(commodityIds[i]);
@@ -83,8 +79,8 @@ public class CommodityController {
 	}
 	
 	//複製
-	@RequestMapping(value="/clone/{id}", method=RequestMethod.POST)
-	public String clone (@PathVariable("id") Integer id) {
+	@RequestMapping(value="/clone", method=RequestMethod.POST)
+	public String clone (@RequestParam(value="commodityId", required=true) Integer id) {
 		commodityService.create(commodityService.getOne(id));
 		return REDIRECT_LIST;
 	}

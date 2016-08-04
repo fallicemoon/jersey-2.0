@@ -10,14 +10,9 @@
 </head>
 <body>
 <c:import url="/WEB-INF/pages/header.jsp"/>
-<%-- 	<c:if test="${param.action=='create'}"> --%>
-<%--     	<jsp:useBean id="store" class="store.model.StoreVO" scope="request"/> --%>
-<%--     	<jsp:setProperty property="*" name="store"/> --%>
-<%--     	<jsp:forward page="/StoreServlet"/> --%>
-<%--     </c:if> --%>
+
 	<br/><br/>
-	<form action="/jersey/StoreServlet" method="post" class="form-horizontal">
-	<input type="hidden" name="action" value="create">
+	<form action="/jersey/store" method="post" class="form-horizontal">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">商家類型：</label>
     	<div class="col-sm-10">

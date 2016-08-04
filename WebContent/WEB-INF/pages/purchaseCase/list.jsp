@@ -10,7 +10,7 @@
 <title>進貨</title>
 </head>
 <body>  
-  <form action="/jersey/PurchaseCaseServlet" method="POST">
+
     <c:import url="/WEB-INF/pages/header.jsp"/><span style="display: inline-block; width: 100px"></span>
     <script type="text/javascript">
     	$(function(){
@@ -29,12 +29,40 @@
     			}    			
     		});
     		
+    		<%--新增--%>
+    		$("#create").click(function(){
+    			location.href = "/jersey/purchaseCase";
+    		});
+    		
+    		<%--修改--%>
+    		$("table").on("click", "button[name=update]", function(){
+    			location.href = $(this).val();
+    		});
+    		
+    		<%--刪除--%>
+    		$("#delete").click(function() {
+    			if (confirm("確認刪除?")) {
+    				$.ajax("/jersey/purchaseCase", {
+    					type : "PUT",
+    					data : $("input[name=purchaseCaseIds]").serialize(),
+    					success : function() {
+    						alert("刪除成功");
+    					}
+    				});
+    			}
+    		});
+    		
+    		<%--匯入商品--%>
+    		$("table").on("click", "button[name=importCommodity]", function(){
+    			location.href = "getCommodityList/"+$(this).val();
+    		});
+
     		
     	});
     </script>
-    <a href="/jersey/PurchaseCaseServlet?action=getOne"><button type="button" class="btn btn-success" data-toggle="modal">新增</button></a>
-  	<button type="submit" name="action" value="delete" class="btn btn-danger" data-toggle="modal" onclick="return confirm('確認刪除?')">刪除</button>
-  	<button type="button" class="btn btn-default btn-lg" id="getProgressNotComplete">進貨未完成</button>
+		<button id="create" type="button" class="btn btn-success" data-toggle="modal">新增</button>
+		<button id="delete" type="button" class="btn btn-danger" data-toggle="modal">刪除</button>
+		<button id="getProgressNotComplete" type="button" class="btn btn-default btn-lg">進貨未完成</button>
   <table border=1 width="1500px" class="table table-hover">
     <thead>
     <tr>
@@ -62,10 +90,10 @@
   	    <input type="checkbox" name="purchaseCaseIds" value="${vo.purchaseCaseId}">
   	  </td>
   	  <td>
-		<a href="/jersey/PurchaseCaseServlet?action=getOne&purchaseCaseId=${vo.purchaseCaseId}"><button type="button" class="btn btn-warning">修改</button></a>
+  	  	<button name="update" type="button" class="btn btn-warning" data-toggle="modal">修改</button>
   	  </td>
 	  <td>
-	    <a href="/jersey/PurchaseCaseServlet?action=getCommodityList&purchaseCaseId=${vo.purchaseCaseId}"><button type="button" class="btn btn-success">匯入商品</button></a>
+	  	<button type="button" name="importCommodity" value="${vo.purchaseCaseId}" class="btn btn-success" data-toggle="modal">匯入商品</button>
 	  </td>
   	  <td><a href="/jersey/TripleServlet?action=purchaseCase&purchaseCaseId=${vo.purchaseCaseId}">${vo.purchaseCaseId} - <c:out value="${vo.store.name}" /></a></td>
   	  <td><c:forEach items="${vo.commoditys}" var="commodity">${commodity.commodityId}-${commodity.itemName}<br></c:forEach></td>
@@ -85,8 +113,6 @@
   	</tr>
   	</c:forEach>
   </table>
-  </form>
-
 <c:import url="/WEB-INF/pages/footer.jsp"></c:import>
 
 

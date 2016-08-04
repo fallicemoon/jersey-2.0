@@ -84,14 +84,41 @@
 					$(this).text(page=="before"?"到第二頁":"到第一頁");
 				});
 				
+	    		<%--新增--%>
+	    		$("#create").click(function(){
+	    			location.href = "/jersey/sellCase";
+	    		});
+	    		
+	    		<%--修改--%>
+	    		$("table").on("click", "button[name=update]", function(){
+	    			location.href = $(this).val();
+	    		});
+	    		
+	    		<%--刪除--%>
+	    		$("#delete").click(function() {
+	    			if (confirm("確認刪除?")) {
+	    				$.ajax("/jersey/sellCase", {
+	    					type : "PUT",
+	    					data : $("input[name=sellCaseIds]").serialize(),
+	    					success : function() {
+	    						alert("刪除成功");
+	    					}
+	    				});
+	    			}
+	    		});
+	    		
+	    		<%--匯入進貨--%>
+	    		$("table").on("click", "button[name=importPurchaseCase]", function(){
+	    			location.href = "getPurchaseCaseList/"+$(this).val();
+	    		});
+
+				
 			});
 		</script>
-		<span style="display: inline-block; width: 100px"></span> <a
-			href="/jersey/SellCaseServlet?action=getOne"><button
-				type="button" class="btn btn-success" data-toggle="modal">新增</button></a>
-		<button type="submit" name="action" value="delete"
-			class="btn btn-danger" data-toggle="modal"
-			onclick="return confirm('確認刪除?')">刪除</button>
+<!-- 		<span style="display: inline-block; width: 100px"></span> 		 -->
+		<button id="create" type="button" class="btn btn-success" data-toggle="modal">新增</button>
+		<button id="delete" type="button" class="btn btn-danger" data-toggle="modal">刪除</button>
+
 
 		<button type="button" class="btn btn-default btn-lg listType" id="getUncollectedNotZero">尚有未收額</button>
 		<button type="button" class="btn btn-default btn-lg listType" id="getIsClosed">已結案</button>
@@ -133,12 +160,8 @@
 					<tr>
 						<td><input type="checkbox" name="sellCaseIds"
 							value="${vo.sellCaseId}"></td>
-						<td><a
-							href="/jersey/SellCaseServlet?action=getOne&sellCaseId=${vo.sellCaseId}"><button
-									type="button" class="btn btn-warning">修改</button></a></td>
-						<td><a
-							href="/jersey/SellCaseServlet?action=getPurchaseCaseList&sellCaseId=${vo.sellCaseId}"><button
-									type="button" class="btn btn-success">匯入進貨</button></a></td>
+						<td><button name="update" type="button" class="btn btn-warning" data-toggle="modal">修改</button></td>
+						<td><button type="button" name="importPurchaseCase" value="${vo.sellCaseId}" class="btn btn-success" data-toggle="modal">匯入進貨</button></td>
 						<td class="before"><a
 							href="/jersey/TripleServlet?action=sellCase&sellCaseId=${vo.sellCaseId}">${vo.sellCaseId}
 								- <c:out value="${vo.addressee}" />

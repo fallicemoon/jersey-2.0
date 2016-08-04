@@ -15,13 +15,9 @@
 		min-width: 90px;
 	}
 </style>
-
-
-
 <title>商品</title>
 </head>
 <body>
-	<form action="/jersey/CommodityServlet" method="POST">
 		<c:import url="/WEB-INF/pages/header.jsp" />
 		<script type="text/javascript">
 
@@ -81,16 +77,22 @@
 			filter();
 		});
 		
+		<%--新增--%>
+		$("#create").click(function(){
+			location.href = "/jersey/commodity";
+		});
+		
 		<%--修改--%>
-		$("button[name=update]").click(function(){
+		$("table").on("click", "button[name=update]", function(){
 			location.href = $(this).val();
 		});
 		
 		<%--刪除--%>
 		$("#delete").click(function() {
 			if (confirm("確認刪除?")) {
-				$.ajax(".?"+$("input[name=commodityIds]").serialize(), {
-					type : "DELETE",
+				$.ajax("/jersey/commodity", {
+					type : "PUT",
+					data : $("input[name=commodityIds]").serialize(),
 					success : function() {
 						alert("刪除成功");
 					}
@@ -100,9 +102,10 @@
 		
 		<%--複製(ㄧ次只能複製一筆)--%>
 		$("#clone").click(function(){
-			$.ajax("/clone"+$("input[name=commodityIds]:checked").eq(0), {
-				type:"POST",
-				success:function(){
+			$.ajax("clone", {
+				type : "POST",
+				data : $("input[name=commodityIds]:checked").eq(0),
+				success : function(){
 					alert("複製成功");
 				}
 			});
@@ -111,9 +114,8 @@
 	});
 		</script>
 		<span style="display: inline-block; width: 100px"></span> 
-		<a href="/jersey/commodity">
-			<button type="button" class="btn btn-success" data-toggle="modal">新增</button>
-		</a>
+
+		<button id="create" type="button" class="btn btn-success" data-toggle="modal">新增</button>
 		<button id="delete" type="button" class="btn btn-danger" data-toggle="modal">刪除</button>
 		<button id="clone" type="button" class="btn btn-warning" data-toggle="modal">複製</button>
 		
@@ -303,7 +305,6 @@
 				</tr>
 			</c:forEach>
 		</table>
-	</form>
 	<c:import url="/WEB-INF/pages/footer.jsp"></c:import>
 </body>
 </html>

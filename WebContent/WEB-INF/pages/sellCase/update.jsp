@@ -10,16 +10,9 @@
 <c:import url="/WEB-INF/pages/header.jsp"/>
 <body>
 	<br/><br/>
-	
-	<c:forEach items="${requestScope.errors}" var="error">
-		<p style="color: red">${error}</p>
-	</c:forEach>
 
-
-	<form action="/jersey/SellCaseServlet" method="post" class="form-horizontal">
-    <input type="hidden" name="action" value="update">
-    <input type="hidden" name="page" value="${param.page}">
-    
+	<form action="/jersey/sellCase/${sellCase.sellCaseId}" method="post" class="form-horizontal">
+	<input type="hidden" name="_method" value="PUT">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">出貨編號：</label>
     	<div class="col-sm-10">

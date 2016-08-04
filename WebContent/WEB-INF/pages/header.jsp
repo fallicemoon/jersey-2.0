@@ -27,7 +27,7 @@
 </div>
 
 <div class="btn-group">
-  <a href="/jersey/PurchaseCaseServlet">
+  <a href="/jersey/purchaseCase/getAll">
   <button type="button" class="btn btn-primary dropdown-toggle">
     進貨 
   </button>
@@ -35,7 +35,7 @@
 </div>
 
 <div class="btn-group">
-  <a href="/jersey/SellCaseServlet">
+  <a href="/jersey/sellCase/getAll">
   <button type="button" class="btn btn-success dropdown-toggle">
     出貨
   </button>
@@ -43,7 +43,7 @@
 </div>
 
 <div class="btn-group">
-  <a href="/jersey/StoreServlet">
+  <a href="/jersey/store/getAll">
   <button type="button" class="btn btn-danger dropdown-toggle">
     商家
   </button>

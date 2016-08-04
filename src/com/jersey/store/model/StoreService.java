@@ -1,6 +1,8 @@
 package com.jersey.store.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,11 @@ public class StoreService {
 	
 	public List<StoreVO> getStoreListByType(StoreType type) {
 		return storeDAO.getStoreListByType(type);
+	}
+	
+	public Set<StoreVO> getStoreSetByType(StoreType type) {
+		List<StoreVO> storeList = storeDAO.getStoreListByType(type);
+		return new HashSet<StoreVO>(storeList);
 	}
 	
 	public void create(StoreVO vo) {

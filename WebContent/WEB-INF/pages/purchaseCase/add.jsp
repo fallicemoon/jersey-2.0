@@ -11,19 +11,11 @@
 <body>
 <c:import url="/WEB-INF/pages/header.jsp"/>
 	<br/><br/>
-	<c:forEach items="${requestScope.errors}" var="error">
-		<p style="color: red">${error}</p>
-	</c:forEach>
 	
-	<form action="/jersey/PurchaseCaseServlet" method="post" class="form-horizontal">
-	<input type="hidden" name="action" value="create">
-	
+	<form action="/jersey/purchaseCase" method="post" class="form-horizontal">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">商家名稱：</label>
     	<div class="col-sm-10">
-<%--     	<jsp:include page="/StoreServlet"> --%>
-<%--     		<jsp:param value="getStores" name="action"/> --%>
-<%--     	</jsp:include> --%>
     	<select name="store">
     		<c:forEach items="${applicationScope.store}" var="vo">
 				<option value="${vo.storeId}">${vo.name}</option>
@@ -71,9 +63,6 @@
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">託運公司：</label>
     	<div class="col-sm-10">
-<%--     	<jsp:include page="/StoreServlet"> --%>
-<%--     		<jsp:param value="getShippingCompanys" name="action"/> --%>
-<%--     	</jsp:include> --%>
     	<select name="shippingCompany">
     		<c:forEach items="${applicationScope.shippingCompany}" var="vo">
     			<option value="${vo.storeId}">${vo.name}</option>

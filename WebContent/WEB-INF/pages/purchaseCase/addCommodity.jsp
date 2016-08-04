@@ -11,20 +11,9 @@
 <body>
   <c:import url="/WEB-INF/pages/header.jsp"/>
   
-  <!-- commodityList1 -->
-<%--   <jsp:include page="/PurchaseCaseServlet"> --%>
-<%--   	<jsp:param name="action" value="getCommodityListByPurchaseCaseId"/> --%>
-<%--   	<jsp:param name="purchaseCaseId" value="${param.purchaseCaseId}"/> --%>
-<%--   </jsp:include> --%>
-  
-  <!-- commodityList2 -->
-<%--   <jsp:include page="/PurchaseCaseServlet"> --%>
-<%--   	<jsp:param name="action" value="getCommodityListByPurchaseCaseIdIsNull"/> --%>
-<%--   </jsp:include> --%>
-
-  <form action="/jersey/PurchaseCaseServlet" method="POST">
-  <input type="hidden" name="action" value="addPurchaseCaseId">
-  <input type="hidden" name="purchaseCaseId" value="${param.purchaseCaseId}">
+  <form action="/jersey/purchaseCase/addCommodity" method="POST">
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="purchaseCaseId" value="${requestScope.purchaseCaseId}">
   <table border=1 width="1500px" class="table table-hover">
     <thead>
     <tr>
@@ -79,9 +68,9 @@
   <br><br><br>
 
   <c:if test="${param.purchaseCaseId != 0}">
-  <form action="/jersey/PurchaseCaseServlet" method="POST">
-  <input type="hidden" name="action" value="deletePurchaseCaseId">
-  <input type="hidden" name="purchaseCaseId" value="${param.purchaseCaseId}">
+  <form action="/jersey/purchaseCase/removeCommodity" method="POST">
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="purchaseCaseId" value="${requestScope.purchaseCaseId}">
   <table border=1 width="1500px" class="table table-hover">
     <thead>
     <tr>
