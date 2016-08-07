@@ -55,4 +55,15 @@ public class PictureVO extends AbstractVo{
 	public void setPicture(Blob picture) {
 		this.picture = picture;
 	}
+
+	@Override
+	public String toString() {
+		return "PictureVO [pictureId=" + pictureId + ", commodityVO=" + commodityVO + ", sequenceId=" + sequenceId
+				+ ", fileName=" + fileName + ", getCreateTime()=" + getCreateTime() + ", getLastModifyTime()="
+				+ getLastModifyTime() + "]";
+	}
+
+
+	
+	
 }

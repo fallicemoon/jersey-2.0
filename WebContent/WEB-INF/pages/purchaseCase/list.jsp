@@ -14,6 +14,9 @@
     <c:import url="/WEB-INF/pages/header.jsp"/><span style="display: inline-block; width: 100px"></span>
     <script type="text/javascript">
     	$(function(){
+    		<%--把checkbox清空--%>
+    		$("input[name=purchaseCaseIds]:checked").prop("checked", false);
+    		
     		$("#getProgressNotComplete").click(function(){
     			var button = $(this).text();
     			$("tr").show();
@@ -44,7 +47,7 @@
     			if (confirm("確認刪除?")) {
     				$.ajax("/jersey/purchaseCase", {
     					type : "PUT",
-    					data : $("input[name=purchaseCaseIds]").serialize(),
+    					data : $("input[name=purchaseCaseIds]").serialize()+"&_method=PUT",
     					success : function() {
     						alert("刪除成功");
     					}
@@ -95,7 +98,7 @@
 	  <td>
 	  	<button type="button" name="importCommodity" value="${vo.purchaseCaseId}" class="btn btn-success" data-toggle="modal">匯入商品</button>
 	  </td>
-  	  <td><a href="/jersey/TripleServlet?action=purchaseCase&purchaseCaseId=${vo.purchaseCaseId}">${vo.purchaseCaseId} - <c:out value="${vo.store.name}" /></a></td>
+  	  <td><a href="/jersey/triple/purchaseCase/${vo.purchaseCaseId}">${vo.purchaseCaseId} - <c:out value="${vo.store.name}" /></a></td>
   	  <td><c:forEach items="${vo.commoditys}" var="commodity">${commodity.commodityId}-${commodity.itemName}<br></c:forEach></td>
   	  <td class="progress">${vo.progress}</td>
   	  <td><c:out value="${vo.shippingCompany.name}" /></td>
@@ -109,7 +112,7 @@
   	  <td>${vo.cost}</td>
   	  <td>${vo.agentCost}</td>
   	  <td><c:out value="${vo.description}" /></td>
-  	  <td><fmt:formatDate value="${vo.time}" pattern="yyyy/MM/dd hh:mm:ss"/></td>
+  	  <td><fmt:formatDate value="${vo.createTime}" pattern="yyyy/MM/dd hh:mm:ss"/></td>
   	</tr>
   	</c:forEach>
   </table>

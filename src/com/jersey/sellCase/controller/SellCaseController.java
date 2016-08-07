@@ -3,9 +3,11 @@ package com.jersey.sellCase.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +29,16 @@ public class SellCaseController {
 	@Autowired
 	private SellCaseService sellCaseService;
 	
+	//for update sellCase用
+	@ModelAttribute
+	public void getCommodity (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
+		Set<String> keySet = pathVariableMap.keySet();
+		if(keySet.contains("id")){
+			String storeId = pathVariableMap.get("id");
+			map.put("sellCase", sellCaseService.getOne(Integer.valueOf(storeId)));
+		}
+	}
+	
 	//取得全部
 	@RequestMapping(value="/getAll", method=RequestMethod.GET)
 	public String getAll(Map<String, Object> map){
@@ -43,7 +55,6 @@ public class SellCaseController {
 	//準備更新
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String getOne (@PathVariable("id") Integer id, Map<String, Object> map) {
-		map.put("sellCase", sellCaseService.getOne(id));
 		return UPDATE;
 	}
 	
@@ -59,7 +70,7 @@ public class SellCaseController {
 	
 	//修改
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public String update (@PathVariable("id") Integer id, SellCaseVO vo, Map<String, Object> map) {
+	public String update (@PathVariable("id") Integer id, @ModelAttribute("sellCase") SellCaseVO vo, Map<String, Object> map) {
 		sellCaseService.update(vo);
 		List<SellCaseWithBenefitVO> list = new ArrayList<>();
 		list.add(sellCaseService.getSellCaseWithBenefitVo(vo));

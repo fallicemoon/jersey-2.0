@@ -60,7 +60,7 @@
   	  <td>${vo.cost}</td>
   	  <td>${vo.agentCost}</td>
   	  <td><c:out value="${vo.description}" /></td>
-  	  <td>${vo.time}</td>
+  	  <td>${vo.createTime}</td>
   	</tr>
   	</c:forEach>
   </table>
@@ -96,17 +96,9 @@
   	  <td>
 		<input type="checkbox" name="purchaseCaseIds" value="${vo.purchaseCaseId}">
   	  </td>
-<%--   	  <jsp:include page="/StoreServlet"> --%>
-<%--   	  	<jsp:param value="getOne" name="action"/> --%>
-<%--   	  	<jsp:param value="${vo.store}" name="storeId"/> --%>
-<%--   	  </jsp:include> --%>
   	  <td>${vo.purchaseCaseId} - <c:out value="${vo.store.name}" /></td>
   	  <td><c:forEach items="${vo.commoditys}" var="commodity"> ${commodity.commodityId}-${commodity.itemName}<br></c:forEach></td>
   	  <td>${vo.progress}</td>
-<%--   	  <jsp:include page="/StoreServlet"> --%>
-<%--   	  	<jsp:param value="getOne" name="action"/> --%>
-<%--   	  	<jsp:param value="${vo.shippingCompany}" name="storeId"/> --%>
-<%--   	  </jsp:include> --%>
   	  <td><c:out value="${vo.store.name}" /></td>
   	  <c:if test="${!empty vo.trackingNumberLink}"><td><c:out value="${vo.trackingNumber}" /><a href="${vo.trackingNumberLink}" target="_blank"> 連結</a></c:if>
   	  <c:if test="${empty vo.trackingNumberLink}"><td><c:out value="${vo.trackingNumber}" /></td></c:if>
@@ -118,7 +110,7 @@
   	  <td>${vo.cost}</td>
   	  <td>${vo.agentCost}</td>
   	  <td><c:out value="${vo.description}" /></td>
-  	  <td>${vo.time}</td>
+  	  <td>${vo.createTime}</td>
   	</tr>
   	</c:forEach>
   </table>

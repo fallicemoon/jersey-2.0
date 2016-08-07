@@ -18,6 +18,9 @@
 		<c:import url="/WEB-INF/pages/header.jsp" />
 		<script type="text/javascript">
 			$(function(){
+	    		<%--把checkbox清空--%>
+	    		$("input[name=purchaseCaseIds]:checked").prop("checked", false);
+	    		
 				var page = "before";
 				var listType = "getAll";
 				var closeListTypeButton = function(){
@@ -99,7 +102,7 @@
 	    			if (confirm("確認刪除?")) {
 	    				$.ajax("/jersey/sellCase", {
 	    					type : "PUT",
-	    					data : $("input[name=sellCaseIds]").serialize(),
+	    					data : $("input[name=sellCaseIds]").serialize()+"&_method=PUT",
 	    					success : function() {
 	    						alert("刪除成功");
 	    					}
@@ -115,7 +118,7 @@
 				
 			});
 		</script>
-<!-- 		<span style="display: inline-block; width: 100px"></span> 		 -->
+		<span style="display: inline-block; width: 100px"></span> 		
 		<button id="create" type="button" class="btn btn-success" data-toggle="modal">新增</button>
 		<button id="delete" type="button" class="btn btn-danger" data-toggle="modal">刪除</button>
 
@@ -163,7 +166,7 @@
 						<td><button name="update" type="button" class="btn btn-warning" data-toggle="modal">修改</button></td>
 						<td><button type="button" name="importPurchaseCase" value="${vo.sellCaseId}" class="btn btn-success" data-toggle="modal">匯入進貨</button></td>
 						<td class="before"><a
-							href="/jersey/TripleServlet?action=sellCase&sellCaseId=${vo.sellCaseId}">${vo.sellCaseId}
+							href="/jersey/triple/sellCase/${vo.sellCaseId}">${vo.sellCaseId}
 								- <c:out value="${vo.addressee}" />
 						</a></td>
 						<td class="before">${vo.income}</td>
@@ -184,7 +187,7 @@
 							</c:if>
 						</td>
 						<td class="after"><c:forEach items="${vo.purchaseCases}" var="purchaseCase">
-							<a href="/jersey/TripleServlet?action=purchaseCase&purchaseCaseId=${purchaseCase.purchaseCaseId}">${purchaseCase.purchaseCaseId}-${purchaseCase.store.name}</a>
+							<a href="/jersey/triple/purchaseCase/${purchaseCase.purchaseCaseId}">${purchaseCase.purchaseCaseId}-${purchaseCase.store.name}</a>
 							<br>
 						</c:forEach></td>
 						<td class="after">${vo.transportMethod}</td>

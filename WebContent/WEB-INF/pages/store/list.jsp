@@ -13,6 +13,9 @@
     <c:import url="/WEB-INF/pages/header.jsp"/><span style="display: inline-block; width: 100px"></span>
   	<script type="text/javascript">
     	$(function(){
+    		<%--把checkbox清空--%>
+    		$("input[name=commodityIds]:checked").prop("checked", false);
+    		
     		<%--新增--%>
     		$("#create").click(function(){
     			location.href = "/jersey/store";
@@ -28,7 +31,7 @@
     			if (confirm("確認刪除?")) {
     				$.ajax("/jersey/store", {
     					type : "PUT",
-    					data : $("input[name=storeIds]").serialize(),
+    					data : $("input[name=storeIds]").serialize()+"&_method=PUT",
     					success : function() {
     						alert("刪除成功");
     					}

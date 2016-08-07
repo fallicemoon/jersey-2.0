@@ -28,13 +28,13 @@ public class CommodityController {
 	@Autowired
 	private CommodityService commodityService;
 	
-	//for update store用
+	//for update commodity用
 	@ModelAttribute
 	public void getCommodity (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
 		Set<String> keySet = pathVariableMap.keySet();
 		if(keySet.contains("id")){
 			String storeId = pathVariableMap.get("id");
-			map.put("commodityVO", commodityService.getOne(Integer.valueOf(storeId)));
+			map.put("commodity", commodityService.getOne(Integer.valueOf(storeId)));
 		}
 	}
 	
@@ -54,7 +54,6 @@ public class CommodityController {
 	//準備更新
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public String getOne (@PathVariable("id") Integer id, Map<String, Object> map) {
-		map.put("commodity", commodityService.getOne(id));
 		return UPDATE;
 	}
 	
@@ -71,7 +70,7 @@ public class CommodityController {
 	
 	//修改
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public String update (@PathVariable("id") Integer id, CommodityVO vo, Map<String, Object> map) {
+	public String update (@PathVariable("id") Integer id, @ModelAttribute(value="commodity") CommodityVO vo, Map<String, Object> map, @RequestParam Map<String, Object> map2) {
 		commodityService.update(vo);
 		List<CommodityWithPicCountVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityWithPicCountVO(vo));
@@ -81,8 +80,7 @@ public class CommodityController {
 	
 	//刪除多筆
 	@RequestMapping(value="", method=RequestMethod.PUT)
-	public String delete (Map<String, Object> map, @RequestParam String[] commodityIds) {
-		System.out.println("put");
+	public String delete (Map<String, Object> map, @RequestParam(value="commodityIds") String[] commodityIds) {
 		Integer[] ids = new Integer[commodityIds.length];
 		for (int i = 0; i < commodityIds.length; i++) {
 			ids[i] = Integer.valueOf(commodityIds[i]);
@@ -93,7 +91,7 @@ public class CommodityController {
 	
 	//複製
 	@RequestMapping(value="/clone", method=RequestMethod.POST)
-	public String clone (@RequestParam(value="commodityId", required=true) Integer id) {
+	public String clone (@RequestParam(value="commodityIds", required=true) Integer id) {
 		commodityService.create(commodityService.getOne(id));
 		return REDIRECT_LIST;
 	}

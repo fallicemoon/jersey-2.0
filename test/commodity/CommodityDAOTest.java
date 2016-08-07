@@ -33,5 +33,10 @@ public class CommodityDAOTest {
 		list = commodityDAO.getByPurchaseCaseIdIsNull();
 		System.out.println(list);
 	}
+	
+	@Test
+	public void getOne () {
+		System.out.println(commodityDAO.getOne(85));
+	} 
 
 }

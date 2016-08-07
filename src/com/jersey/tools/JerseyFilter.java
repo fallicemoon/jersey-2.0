@@ -26,7 +26,7 @@ public class JerseyFilter implements Filter {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		System.out.println(new Date() + " from " + httpServletRequest.getRemoteAddr());
-		httpServletRequest = new EncodingWrapper(httpServletRequest, this.ENCODING);
+		httpServletRequest = new JerseyWrapper(httpServletRequest, this.ENCODING);
 
 		HttpSession session = httpServletRequest.getSession();
 		System.out.println(session.getAttribute("login"));

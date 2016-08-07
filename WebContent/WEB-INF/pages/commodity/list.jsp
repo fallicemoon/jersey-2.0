@@ -43,6 +43,9 @@
 	}
 
 	$(function(){
+		<%--把checkbox清空--%>
+		$("input[name=commodityIds]:checked").prop("checked", false);
+		
 		<%--生成篩選條件的下拉式選單內容--%>
 		var commodity = ["itemName", "player", "team", "style", "brand",
 		          			"size", "condition", "owner", "sellPlatform"];
@@ -73,9 +76,12 @@
 		});
 		
 		<%--篩選條件發生變化時進行篩選--%>
-		$("input[name]").change(function(){
+		$("table tr:first").on("change", "[name!=commodityIds]", function(){
 			filter();
 		});
+// 		$("input[name!=commodityIds]").change(function(){
+// 			filter();
+// 		});
 		
 		<%--新增--%>
 		$("#create").click(function(){
@@ -91,10 +97,11 @@
 		$("#delete").click(function() {
 			if (confirm("確認刪除?")) {
 				$.ajax("/jersey/commodity", {
-					type : "PUT",
-					data : $("input[name=commodityIds]").serialize(),
+					type : "POST",
+					data : $("input[name=commodityIds]").serialize()+"&_method=PUT",
 					success : function() {
 						alert("刪除成功");
+						location.reload();
 					}
 				});
 			}
@@ -107,14 +114,14 @@
 				data : $("input[name=commodityIds]:checked").eq(0),
 				success : function(){
 					alert("複製成功");
+					location.reload();
 				}
 			});
 		});
 
 	});
 		</script>
-		<span style="display: inline-block; width: 100px"></span> 
-
+		<span style="display: inline-block; width: 100px"></span>
 		<button id="create" type="button" class="btn btn-success" data-toggle="modal">新增</button>
 		<button id="delete" type="button" class="btn btn-danger" data-toggle="modal">刪除</button>
 		<button id="clone" type="button" class="btn btn-warning" data-toggle="modal">複製</button>
@@ -269,16 +276,16 @@
 					</td>
 					<c:if test="${vo.pictureCount!=0}">
 						<td><a
-							href="/jersey/PictureServlet?commodityId=${vo.commodityId}"><button
+							href="/jersey/picture/${vo.commodityId}"><button
 									type="button" class="btn btn-success" data-toggle="modal">${vo.pictureCount}</button></a></td>
 					</c:if>
 					<c:if test="${vo.pictureCount==0}">
 						<td><a
-							href="/jersey/PictureServlet?commodityId=${vo.commodityId}"><button
+							href="/jersey/picture/${vo.commodityId}"><button
 									type="button" class="btn btn-danger" data-toggle="modal">0</button></a></td>
 					</c:if>
 
-					<td><a href="/jersey/TripleServlet?action=commodity&commodityId=${vo.commodityId}">
+					<td><a href="/jersey/triple/commodity/${vo.commodityId}">
 						<div class="itemName"><c:out value="${vo.itemName}" /></div></a>
 					<c:if test="${!empty vo.link}">
 							<a href="${vo.link}" target="_blank"> 連結</a>

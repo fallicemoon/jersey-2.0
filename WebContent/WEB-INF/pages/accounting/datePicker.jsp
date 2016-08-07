@@ -4,22 +4,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="lib/bootstrap/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link href="/jersey/lib/bootstrap/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <title>請選擇時間</title>
 </head>
 <body>
 	<c:import url="/WEB-INF/pages/header.jsp"/>
-	<script type="text/javascript" src="lib/moment-with-locales.min.js"></script>
-	<script src="lib/bootstrap/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="/jersey/lib/moment-with-locales.min.js"></script>
+	<script src="/jersey/lib/bootstrap/bootstrap-datetimepicker.min.js"></script>
 	<br><br><br>
 	<c:forEach items="${requestScope.errors}" var="error">
 		<p style="color: red">${error}</p><br>
 	</c:forEach>
 
 	
-	<form action="/jersey/AccountingServlet" method="POST">
+	<form action="/jersey/accounting" method="GET">
 	<div style="length:100%; bottom:9px; text-align:center;">
 	<div class="container">
 	    <div class='col-md-5'>

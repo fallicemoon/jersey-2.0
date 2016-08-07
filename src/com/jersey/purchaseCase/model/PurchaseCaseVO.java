@@ -1,6 +1,5 @@
 package com.jersey.purchaseCase.model;
 
-import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -28,7 +27,6 @@ public class PurchaseCaseVO extends AbstractVo {
 	private Integer cost;
 	private Integer agentCost;
 	private String description;
-	private Date time;
 	private Set<CommodityVO> commoditys = new LinkedHashSet<CommodityVO>();
 
 	public Set<CommodityVO> getCommoditys() {
@@ -37,14 +35,6 @@ public class PurchaseCaseVO extends AbstractVo {
 
 	public void setCommoditys(Set<CommodityVO> commoditys) {
 		this.commoditys = commoditys;
-	}
-
-	public Date getTime() {
-		return this.time;
-	}
-
-	public void setTime(Date time) {
-		this.time = time;
 	}
 
 	public String getAgentTrackingNumberLink() {
@@ -166,7 +156,7 @@ public class PurchaseCaseVO extends AbstractVo {
 				+ trackingNumber + ", trackingNumberLink=" + trackingNumberLink + ", agent=" + agent
 				+ ", agentTrackingNumber=" + agentTrackingNumber + ", agentTrackingNumberLink="
 				+ agentTrackingNumberLink + ", isAbroad=" + isAbroad + ", cost=" + cost + ", agentCost=" + agentCost
-				+ ", description=" + description + ", time=" + time + "]";
+				+ ", description=" + description + "]";
 	}
 
 	@Override

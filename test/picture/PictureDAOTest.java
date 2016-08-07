@@ -44,5 +44,9 @@ public class PictureDAOTest {
 		System.out.println(count);
 	}
 	
+	@Test
+	public void getOne () {
+		System.out.println(pictureDAO.getOne(200));
+	} 
 
 }

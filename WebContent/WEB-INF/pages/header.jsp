@@ -51,7 +51,7 @@
 </div>
 
 <div class="btn-group">
-  <a href="/jersey/AccountingServlet">
+  <a href="/jersey/accounting/datePicker">
   <button type="button" class="btn btn-warning dropdown-toggle">
     會計
   </button>

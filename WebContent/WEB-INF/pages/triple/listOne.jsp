@@ -14,8 +14,7 @@
   <br>
   <h1>${requestScope.title}</h1>
 	<h3>商品</h3>
-	<form action="/jersey/CommodityServlet" method="POST">
-	<input type="hidden" name="listOne" value="true">
+	<form action="/jersey/commodity" method="POST">
   	<table border=1 width="1500px" class="table table-hover">
     <thead>
     <tr>
@@ -47,10 +46,10 @@
 		<input type="checkbox" name="commodityIds" value="${vo.commodityId}">
   	  </td>
   	  <td>
-		<a href="/jersey/CommodityServlet?action=getOne&commodityId=${vo.commodityId}&listOne=true"><button type="button" class="btn btn-warning">修改</button></a>
+		<a href="/jersey/commodity/${vo.commodityId}"><button type="button" class="btn btn-warning">修改</button></a>
   	  </td>
-  	  <c:if test="${requestScope.commodityIdPictureCount != 0}"><td><a href="/jersey/PictureServlet?commodityId=${vo.commodityId}"><button type="button" class="btn btn-success" data-toggle="modal">${vo.pictureCount}</button></a></td></c:if> 
-  	  <c:if test="${requestScope.commodityIdPictureCount == 0}"><td><a href="/jersey/PictureServlet?commodityId=${vo.commodityId}"><button type="button" class="btn btn-danger" data-toggle="modal">0</button></a></td></c:if>
+  	  <c:if test="${requestScope.commodityIdPictureCount != 0}"><td><a href="/jersey/picture/${vo.commodityId}"><button type="button" class="btn btn-success" data-toggle="modal">${vo.pictureCount}</button></a></td></c:if> 
+  	  <c:if test="${requestScope.commodityIdPictureCount == 0}"><td><a href="/jersey/picture/${vo.commodityId}"><button type="button" class="btn btn-danger" data-toggle="modal">0</button></a></td></c:if>
   	  
   	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" />
   	  		<c:if test="${!empty vo.link}"><a href="${vo.link}" target="_blank"> 連結</a></c:if>
@@ -74,12 +73,11 @@
   	</tr>
   	</c:forEach>
   </table>
-  	<button type="submit" name="action" value="delete" class="btn btn-danger" data-toggle="modal" onclick="return confirm('確認刪除?')">刪除</button>
+  	<button type="submit" name="_method" value="PUT" class="btn btn-danger" data-toggle="modal" onclick="return confirm('確認刪除?')">刪除</button>
   </form>
 
 <h3>進貨</h3>
-  <form action="/jersey/PurchaseCaseServlet" method="POST">
-  <input type="hidden" name="listOne" value="true">
+  <form action="/jersey/purchaseCase" method="POST">
   <table border=1 width="1500px" class="table table-hover">
     <thead>
     <tr>
@@ -107,10 +105,10 @@
   	    <input type="checkbox" name="purchaseCaseIds" value="${vo.purchaseCaseId}">
   	  </td>
   	  <td>
-		<a href="/jersey/PurchaseCaseServlet?action=getOne&purchaseCaseId=${vo.purchaseCaseId}&listOne=true"><button type="button" class="btn btn-warning">修改</button></a>
+		<a href="/jersey/purchaseCase/${vo.purchaseCaseId}"><button type="button" class="btn btn-warning">修改</button></a>
   	  </td>
   	  <td>
-	    <a href="/jersey/PurchaseCaseServlet?action=getCommodityList&purchaseCaseId=${vo.purchaseCaseId}"><button type="button" class="btn btn-success">匯入商品</button></a>
+	    <a href="/jersey/purchaseCase/getCommodityList/${vo.purchaseCaseId}"><button type="button" class="btn btn-success">匯入商品</button></a>
 	  </td>
   	  <td>${vo.purchaseCaseId} - <c:out value="${vo.store.name}" /></td>
   	  <td><c:forEach items="${vo.commoditys}" var="commodity">${commodity.commodityId}-${commodity.itemName}<br></c:forEach></td>
@@ -126,16 +124,15 @@
   	  <td>${vo.cost}</td>
   	  <td>${vo.agentCost}</td>
   	  <td><c:out value="${vo.description}" /></td>
-  	  <td>${vo.time}</td>
+  	  <td>${vo.createTime}</td>
   	</tr>
   	</c:forEach>
   </table>
-  	<button type="submit" name="action" value="delete" class="btn btn-danger" data-toggle="modal" onclick="return confirm('確認刪除?')">刪除</button>
+  	<button type="submit" name="_method" value="PUT" class="btn btn-danger" data-toggle="modal" onclick="return confirm('確認刪除?')">刪除</button>
   </form>	
 
   <h3>出貨</h3>
-  <form action="/jersey/SellCaseServlet" method="POST">
-  <input type="hidden" name="listOne" value="true">
+  <form action="/jersey/sellCase" method="POST">
   <table border=1 width="1500px" class="table table-hover">
     <thead>
     <tr>
@@ -167,9 +164,9 @@
   	  	<input type="checkbox" name="sellCaseIds" value="${vo.sellCaseId}">
   	  </td>
   	  <td>
-  	  	<a href="/jersey/SellCaseServlet?action=getOne&sellCaseId=${vo.sellCaseId}&listOne=true"><button type="button" class="btn btn-warning">修改</button></a>
+  	  	<a href="/jersey/sellCase/${vo.sellCaseId}"><button type="button" class="btn btn-warning">修改</button></a>
   	  </td>
-  	  <td><a href="/jersey/SellCaseServlet?action=getPurchaseCaseList&sellCaseId=${vo.sellCaseId}"><button type="button" class="btn btn-success">匯入進貨</button></a></td>
+  	  <td><a href="/jersey/sellCase/getPurchaseCaseList/${vo.sellCaseId}"><button type="button" class="btn btn-success">匯入進貨</button></a></td>
   	  <td>${vo.sellCaseId} - <c:out value="${vo.addressee}" /></td>
   	  <td>${vo.income}</td>
   	  <c:if test="${vo.isShipping}"><td>是</td></c:if>
@@ -200,7 +197,7 @@
   	</tr>
   	</c:forEach>
   </table>
-  	<button type="submit" name="action" value="delete" class="btn btn-danger" data-toggle="modal" onclick="return confirm('確認刪除?')">刪除</button>
+  	<button type="submit" name="_method" value="PUT" class="btn btn-danger" data-toggle="modal" onclick="return confirm('確認刪除?')">刪除</button>
   </form>
 
 <c:import url="/WEB-INF/pages/footer.jsp"></c:import>
