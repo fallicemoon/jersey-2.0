@@ -102,18 +102,18 @@
 						return;
 					}
 					var commodityIds = checked.map(function(){
+						console.log($(this).val());
 						return $(this).val();
-					});
+					}).get();
+					console.log(commodityIds);
 					$.ajax("/jersey/commodity", {
 						type : "PUT",
 						data : JSON.stringify(commodityIds),
 						success : function(data) {
-							console.log(data);
 							var result = $.parseJSON(data);
-							console.log(result);
 							if (result.result=="success") {
 								alertify.success("刪除成功");
-								checked.parent().remove();
+								checked.parent().parent().remove();
 							} else {
 								alertify.error("刪除失敗");
 							}
@@ -139,7 +139,7 @@
 				type : "POST",
 				data : checked.eq(0),
 				success : function(){
-					alert("複製成功");
+					alertify.success("複製成功");
 					location.reload();
 				},
 				error : function(){

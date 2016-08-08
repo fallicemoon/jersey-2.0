@@ -7,9 +7,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title></title>
 <link href="/jersey/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="/jersey/lib/jquery-alertify/alertify.bootstrap.css">
-<link href="/jersey/lib/jquery-alertify/alertify.core.css">
-<link href="/jersey/lib/jquery-alertify/alertify.default.css">
+<link href="/jersey/lib/jquery-alertify/alertify.bootstrap.css" rel="stylesheet">
+<link href="/jersey/lib/jquery-alertify/alertify.core.css" rel="stylesheet">
+<link href="/jersey/lib/jquery-alertify/alertify.default.css" rel="stylesheet">
 
 <script src="/jersey/lib/jquery-2.1.3.min.js"></script>
 <script src="/jersey/lib/bootstrap/js/bootstrap.min.js"></script>

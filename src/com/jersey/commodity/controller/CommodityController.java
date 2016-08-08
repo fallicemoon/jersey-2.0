@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -84,10 +85,12 @@ public class CommodityController {
 	//刪除多筆
 	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.PUT)
-	public String delete (Map<String, Object> map, @RequestBody String[] commodityIds) {
-		Integer[] ids = new Integer[commodityIds.length];
-		for (int i = 0; i < commodityIds.length; i++) {
-			ids[i] = Integer.valueOf(commodityIds[i]);
+	public String delete (Map<String, Object> map, @RequestBody String json) {
+		JSONArray jsonArray = new JSONArray(json);
+		List<Object> commodityIds = jsonArray.toList();
+		Integer[] ids = new Integer[commodityIds.size()];
+		for (int i = 0; i < commodityIds.size(); i++) {
+			ids[i] = Integer.valueOf(commodityIds.get(i).toString());
 		}
 		commodityService.delete(ids);
 		return Tools.getSuccessJson().toString();
