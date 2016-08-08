@@ -95,26 +95,55 @@
 		
 		<%--刪除--%>
 		$("#delete").click(function() {
-			if (confirm("確認刪除?")) {
-				$.ajax("/jersey/commodity", {
-					type : "POST",
-					data : $("input[name=commodityIds]").serialize()+"&_method=PUT",
-					success : function() {
-						alert("刪除成功");
-						location.reload();
+			alertify.confirm("確定要刪除?", function(confirm){
+				if(confirm){
+					var checked = $("input[name=commodityIds]:checked");
+					if (checked.size==0) {
+						return;
 					}
-				});
-			}
+					var commodityIds = checked.map(function(){
+						return $(this).val();
+					});
+					$.ajax("/jersey/commodity", {
+						type : "PUT",
+						data : JSON.stringify(commodityIds),
+						success : function(data) {
+							console.log(data);
+							var result = $.parseJSON(data);
+							console.log(result);
+							if (result.result=="success") {
+								alertify.success("刪除成功");
+								checked.parent().remove();
+							} else {
+								alertify.error("刪除失敗");
+							}
+						},
+						error : function(){
+							alertify.error("刪除失敗");
+						}
+					});
+				}
+			});
 		});
 		
 		<%--複製(ㄧ次只能複製一筆)--%>
 		$("#clone").click(function(){
+			var checked = $("input[name=commodityIds]:checked");
+			if (checked.size()==0) {
+				return;
+			} else if (checked.size()!=1) {
+				alertify.error("幹你媽的只能勾一筆啦");
+				return;
+			}
 			$.ajax("/jersey/commodity/clone", {
 				type : "POST",
-				data : $("input[name=commodityIds]:checked").eq(0),
+				data : checked.eq(0),
 				success : function(){
 					alert("複製成功");
 					location.reload();
+				},
+				error : function(){
+					alertify.error("複製失敗");
 				}
 			});
 		});

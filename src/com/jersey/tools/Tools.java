@@ -1,11 +1,11 @@
 package com.jersey.tools;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
+import org.json.JSONObject;
 
 public class Tools {
 
@@ -21,7 +21,7 @@ public class Tools {
 		Field[] oldFields = old.getClass().getDeclaredFields();
 		Set<String> notCopyFieldSet = new HashSet<>();
 		Collections.addAll(notCopyFieldSet, notCopyFields);
-		notCopyFieldSet.add("serialVersionUID");
+		notCopyFieldSet.add(serialVersionUID);
 		
 		for (Field field : oldFields) {
 			if (notCopyFieldSet.contains(field.getName()))
@@ -36,6 +36,12 @@ public class Tools {
 			}
 		}
 
+	}
+	
+	public static JSONObject getSuccessJson () {
+		JSONObject json = new JSONObject();
+		json.put("result", "success");
+		return json;
 	}
 	
 	

@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.commodity.model.CommodityWithPicCountVO;
+import com.jersey.tools.Tools;
 
 @Controller
 @RequestMapping(value="/commodity")
@@ -79,14 +82,15 @@ public class CommodityController {
 	}
 	
 	//刪除多筆
+	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.PUT)
-	public String delete (Map<String, Object> map, @RequestParam(value="commodityIds") String[] commodityIds) {
+	public String delete (Map<String, Object> map, @RequestBody String[] commodityIds) {
 		Integer[] ids = new Integer[commodityIds.length];
 		for (int i = 0; i < commodityIds.length; i++) {
 			ids[i] = Integer.valueOf(commodityIds[i]);
 		}
 		commodityService.delete(ids);
-		return LIST;
+		return Tools.getSuccessJson().toString();
 	}
 	
 	//複製
