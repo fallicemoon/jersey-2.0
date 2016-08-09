@@ -102,10 +102,9 @@
 						return;
 					}
 					var commodityIds = checked.map(function(){
-						console.log($(this).val());
 						return $(this).val();
 					}).get();
-					console.log(commodityIds);
+
 					$.ajax("/jersey/commodity", {
 						type : "PUT",
 						data : JSON.stringify(commodityIds),

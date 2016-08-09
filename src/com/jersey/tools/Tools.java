@@ -44,6 +44,12 @@ public class Tools {
 		return json;
 	}
 	
+	public static JSONObject getFailJson () {
+		JSONObject json = new JSONObject();
+		json.put("result", "fail");
+		return json;
+	}
+	
 	
 	
 	

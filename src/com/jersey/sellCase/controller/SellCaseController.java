@@ -5,17 +5,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseVO;
 import com.jersey.sellCase.model.SellCaseWithBenefitVO;
+import com.jersey.tools.Tools;
 
 @Controller
 @RequestMapping(value="/sellCase")
@@ -79,14 +84,25 @@ public class SellCaseController {
 	}
 	
 	//刪除多筆
+	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.PUT)
-	public String delete (Map<String, Object> map, @RequestParam String[] sellCaseIds) {
-		Integer[] ids = new Integer[sellCaseIds.length];
-		for (int i = 0; i < sellCaseIds.length; i++) {
-			ids[i] = Integer.valueOf(sellCaseIds[i]);
+	public String delete (@RequestBody String json) {
+		try {
+			JSONArray jsonArray = new JSONArray(json);
+			List<Object> sellCaseIds = jsonArray.toList();
+			Integer[] ids = new Integer[sellCaseIds.size()];
+			for (int i = 0; i < sellCaseIds.size(); i++) {
+				ids[i] = Integer.valueOf(sellCaseIds.get(i).toString());
+			}
+			sellCaseService.delete(ids);
+			return Tools.getSuccessJson().toString();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Tools.getFailJson().toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return Tools.getFailJson().toString();			
 		}
-		sellCaseService.delete(ids);
-		return LIST;
 	}
 	
 	//取得可以新增到出貨的進貨

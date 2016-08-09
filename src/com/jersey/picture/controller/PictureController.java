@@ -2,6 +2,7 @@ package com.jersey.picture.controller;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -9,19 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.picture.model.PictureService;
+import com.jersey.tools.Tools;
 
 @Controller
-@RequestMapping("/picture")
+@RequestMapping("/picture/{commodityId}")
 public class PictureController {
 	private final static String COMMODITY_ID = "{commodityId}";
 	private final static String PICTURE_CONTENT_TYPE = "image/*";
@@ -34,7 +40,7 @@ public class PictureController {
 	@Autowired
 	private CommodityService commodityService;
 
-	@RequestMapping(value = "/{commodityId}/{pictureId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{pictureId}", method = RequestMethod.GET)
 	public void getPicture(@PathVariable("pictureId") Integer pictureId, HttpServletResponse response) {
 		response.setContentType(PICTURE_CONTENT_TYPE);
 		try {
@@ -44,7 +50,7 @@ public class PictureController {
 		}
 	}
 	
-	@RequestMapping(value = "/{commodityId}", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String getAll(@PathVariable("commodityId") Integer commodityId, Map<String, Object> map) {
 		Set<Integer> pictureIds = pictureService.getPictureIds(commodityId);
 		map.put("pictureIds", pictureIds);
@@ -52,7 +58,7 @@ public class PictureController {
 		return UPLOAD_PICTURE;
 	}
 
-	@RequestMapping(value = "/{commodityId}/uploadPicture", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadPicture", method = RequestMethod.POST)
 	public String uploadPicture(@PathVariable("commodityId") Integer commodityId, HttpServletRequest request,
 			Map<String, Object> map) {
 		if (request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
@@ -78,14 +84,30 @@ public class PictureController {
 		return UPLOAD_PICTURE;
 	}
 	
-	@RequestMapping(value = "/{commodityId}", method = RequestMethod.PUT)
-	public String deletePicture (@PathVariable("commodityId") String commodityId, @RequestParam(value = "pictureId") String[] pictureIds) {
-		pictureService.deletePictures(pictureIds);
-		return REDIRECT_PICTURE.replace(COMMODITY_ID, commodityId);
+	//刪除多筆
+	@ResponseBody
+	@RequestMapping(value="", method=RequestMethod.PUT)
+	public String delete (@RequestBody String json) {
+		try {
+			JSONArray jsonArray = new JSONArray(json);
+			List<Object> storeIds = jsonArray.toList();
+			Integer[] ids = new Integer[storeIds.size()];
+			for (int i = 0; i < storeIds.size(); i++) {
+				ids[i] = Integer.valueOf(storeIds.get(i).toString());
+			}
+			pictureService.deletePictures(ids);
+			return Tools.getSuccessJson().toString();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Tools.getFailJson().toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return Tools.getFailJson().toString();			
+		}
 	}
 	
-	@RequestMapping(value = "/{commodityId}/download", method = RequestMethod.GET)
-	public void download (@PathVariable("commodityId") Integer commodityId, @RequestParam("pictureId") String[] pictureIds, HttpServletResponse response) {
+	@RequestMapping(value = "/download", method = RequestMethod.GET)
+	public void download (@PathVariable("commodityId") Integer commodityId, @RequestParam("pictureIds") String[] pictureIds, HttpServletResponse response) {
 		response.setHeader("Content-disposition", "attachment; filename=" + commodityId + ".zip");
 		try {
 			pictureService.getPicturesZip(pictureIds, response.getOutputStream());
@@ -95,7 +117,7 @@ public class PictureController {
 		}
 	}
 	
-	@RequestMapping(value = "/{commodityId}/downloadAll", method = RequestMethod.GET)
+	@RequestMapping(value = "/downloadAll", method = RequestMethod.GET)
 	public void downloadAll (@PathVariable("commodityId") Integer commodityId, HttpServletResponse response) {
 		response.setHeader("Content-disposition", "attachment; filename=" + commodityId + ".zip");
 		try {

@@ -99,15 +99,34 @@
 	    		
 	    		<%--刪除--%>
 	    		$("#delete").click(function() {
-	    			if (confirm("確認刪除?")) {
-	    				$.ajax("/jersey/sellCase", {
-	    					type : "PUT",
-	    					data : $("input[name=sellCaseIds]").serialize()+"&_method=PUT",
-	    					success : function() {
-	    						alert("刪除成功");
+	    			alertify.confirm("確定要刪除?", function(confirm){
+	    				if(confirm){
+	    					var checked = $("input[name=sellCaseIds]:checked");
+	    					if (checked.size==0) {
+	    						return;
 	    					}
-	    				});
-	    			}
+	    					var sellCaseIds = checked.map(function(){
+	    						return $(this).val();
+	    					}).get();
+
+	    					$.ajax("/jersey/sellCase", {
+	    						type : "PUT",
+	    						data : JSON.stringify(sellCaseIds),
+	    						success : function(data) {
+	    							var result = $.parseJSON(data);
+	    							if (result.result=="success") {
+	    								alertify.success("刪除成功");
+	    								checked.parent().parent().remove();
+	    							} else {
+	    								alertify.error("刪除失敗");
+	    							}
+	    						},
+	    						error : function(){
+	    							alertify.error("刪除失敗");
+	    						}
+	    					});
+	    				}
+	    			});
 	    		});
 	    		
 	    		<%--匯入進貨--%>

@@ -44,15 +44,34 @@
     		
     		<%--刪除--%>
     		$("#delete").click(function() {
-    			if (confirm("確認刪除?")) {
-    				$.ajax("/jersey/purchaseCase", {
-    					type : "PUT",
-    					data : $("input[name=purchaseCaseIds]").serialize()+"&_method=PUT",
-    					success : function() {
-    						alert("刪除成功");
+    			alertify.confirm("確定要刪除?", function(confirm){
+    				if(confirm){
+    					var checked = $("input[name=purchaseCaseIds]:checked");
+    					if (checked.size==0) {
+    						return;
     					}
-    				});
-    			}
+    					var purchaseCaseIds = checked.map(function(){
+    						return $(this).val();
+    					}).get();
+
+    					$.ajax("/jersey/purchaseCase", {
+    						type : "PUT",
+    						data : JSON.stringify(purchaseCaseIds),
+    						success : function(data) {
+    							var result = $.parseJSON(data);
+    							if (result.result=="success") {
+    								alertify.success("刪除成功");
+    								checked.parent().parent().remove();
+    							} else {
+    								alertify.error("刪除失敗");
+    							}
+    						},
+    						error : function(){
+    							alertify.error("刪除失敗");
+    						}
+    					});
+    				}
+    			});
     		});
     		
     		<%--匯入商品--%>

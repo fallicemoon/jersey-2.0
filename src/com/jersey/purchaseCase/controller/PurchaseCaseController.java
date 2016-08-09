@@ -5,16 +5,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.purchaseCase.model.PurchaseCaseService;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
+import com.jersey.tools.Tools;
 
 @Controller
 @RequestMapping(value="/purchaseCase")
@@ -78,14 +83,25 @@ public class PurchaseCaseController {
 	}
 	
 	//刪除多筆
+	@ResponseBody
 	@RequestMapping(value="", method=RequestMethod.PUT)
-	public String delete (Map<String, Object> map, @RequestParam String[] purchaseCaseIds) {
-		Integer[] ids = new Integer[purchaseCaseIds.length];
-		for (int i = 0; i < purchaseCaseIds.length; i++) {
-			ids[i] = Integer.valueOf(purchaseCaseIds[i]);
+	public String delete (@RequestBody String json) {
+		try {
+			JSONArray jsonArray = new JSONArray(json);
+			List<Object> purchaseCaseIds = jsonArray.toList();
+			Integer[] ids = new Integer[purchaseCaseIds.size()];
+			for (int i = 0; i < purchaseCaseIds.size(); i++) {
+				ids[i] = Integer.valueOf(purchaseCaseIds.get(i).toString());
+			}
+			purchaseCaseService.delete(ids);
+			return Tools.getSuccessJson().toString();
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return Tools.getFailJson().toString();
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return Tools.getFailJson().toString();			
 		}
-		purchaseCaseService.delete(ids);
-		return LIST;
 	}
 	
 	//取得可以新增到進貨的商品

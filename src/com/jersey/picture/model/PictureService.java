@@ -196,12 +196,8 @@ public class PictureService {
 		os.close();
 	}
 
-	public void deletePictures(String[] pictureIds) {
-		Integer[] ids = new Integer[pictureIds.length];
-		for (int i = 0; i < ids.length; i++) {
-			ids[i] = Integer.valueOf(pictureIds[i]);
-		}
-		pictureDAO.delete(ids);
+	public void deletePictures(Integer[] pictureIds) {
+		pictureDAO.delete(pictureIds);
 	}
 
 	private List<PictureVO> parseFormToPictureVO(List<FileItem> fileItems) throws FileUploadException, IOException {

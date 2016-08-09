@@ -46,12 +46,38 @@ span {
 			}
 		});
 		
-		<%--刪除確認視窗--%>
-		$("#delete").click(function(){
-			confirm("確認要刪除?");
-			var form = $(this).parent();
-			form.attr("action", form.attr("action")+"?_method=PUT").submit();
+		<%--刪除--%>
+		$("#delete").click(function() {
+			alertify.confirm("確定要刪除?", function(confirm){
+				if(confirm){
+					var checked = $("input[name=pictureIds]:checked");
+					if (checked.size==0) {
+						return;
+					}
+					var pictureIds = checked.map(function(){
+						return $(this).val();
+					}).get();
+
+					$.ajax("/jersey/picture/${requestScope.commodity.commodityId}", {
+						type : "PUT",
+						data : JSON.stringify(pictureIds),
+						success : function(data) {
+							var result = $.parseJSON(data);
+							if (result.result=="success") {
+								alertify.success("刪除成功");
+								checked.parent().parent().remove();
+							} else {
+								alertify.error("刪除失敗");
+							}
+						},
+						error : function(){
+							alertify.error("刪除失敗");
+						}
+					});
+				}
+			});
 		});
+
 		
 		<%--下載圖片--%>
 		$("#download").click(function(){
@@ -154,7 +180,7 @@ span {
 		<c:forEach items="${requestScope.pictureIds}" var="pictureId" varStatus="status">
 			<c:if test="${status.index%4 == 0}"><tr></c:if>
 			<td>
-			<input type="checkbox" name="pictureId" value="${pictureId}" id="${pictureId}" style="margin-left:200px"><br>
+			<input type="checkbox" name="pictureIds" value="${pictureId}" id="${pictureId}" style="margin-left:200px"><br>
 			<a href="/jersey/picture/${requestScope.commodity.commodityId}/${pictureId}" class="lightbox">
 				<img src="/jersey/picture/${requestScope.commodity.commodityId}/${pictureId}" class="picture">
 			</a>
