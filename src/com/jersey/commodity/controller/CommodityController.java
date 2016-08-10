@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,48 +21,48 @@ import com.jersey.commodity.model.CommodityWithPicCountVO;
 import com.jersey.tools.Tools;
 
 @Controller
-@RequestMapping(value="/commodity")
+@RequestMapping(value = "/commodity")
 public class CommodityController {
 	private static final String LIST = "commodity/list";
 	private static final String ADD = "commodity/add";
 	private static final String UPDATE = "commodity/update";
 	private static final String REDIRECT_LIST = "redirect:getAll";
-	
+
 	@Autowired
 	private CommodityService commodityService;
-	
-	//for update commodity用
+
+	// for update commodity用
 	@ModelAttribute
-	public void getCommodity (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
+	public void getCommodity(Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
 		Set<String> keySet = pathVariableMap.keySet();
-		if(keySet.contains("id")){
+		if (keySet.contains("id")) {
 			String storeId = pathVariableMap.get("id");
 			map.put("commodity", commodityService.getOne(Integer.valueOf(storeId)));
 		}
 	}
-	
-	//取得全部
-	@RequestMapping(value="/getAll", method=RequestMethod.GET)
-	public String getAll(Map<String, Object> map){
+
+	// 取得全部
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public String getAll(Map<String, Object> map) {
 		map.put("commodityList", commodityService.getAll());
 		return LIST;
 	}
-	
-	//準備新增
-	@RequestMapping(value="", method=RequestMethod.GET)
-	public String get(Map<String, Object> map){
+
+	// 準備新增
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String get(Map<String, Object> map) {
 		return ADD;
 	}
-	
-	//準備更新
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public String getOne (@PathVariable("id") Integer id, Map<String, Object> map) {
+
+	// 準備更新
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String getOne(@PathVariable("id") Integer id, Map<String, Object> map) {
 		return UPDATE;
 	}
-	
-	//新增
-	@RequestMapping(value="", method=RequestMethod.POST)
-	public String create (CommodityVO vo, Map<String, Object> map) {
+
+	// 新增
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public String create(CommodityVO vo, Map<String, Object> map) {
 		vo.setIsStored(true);
 		commodityService.create(vo);
 		List<CommodityWithPicCountVO> list = new ArrayList<>();
@@ -72,46 +70,40 @@ public class CommodityController {
 		map.put("commodityList", list);
 		return LIST;
 	}
-	
-	//修改
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public String update (@PathVariable("id") Integer id, @ModelAttribute(value="commodity") CommodityVO vo, Map<String, Object> map, @RequestParam Map<String, Object> map2) {
+
+	// 修改
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public String update(@PathVariable("id") Integer id, @ModelAttribute(value = "commodity") CommodityVO vo,
+			Map<String, Object> map, @RequestParam Map<String, Object> map2) {
 		commodityService.update(vo);
 		List<CommodityWithPicCountVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityWithPicCountVO(vo));
 		map.put("commodityList", list);
 		return LIST;
 	}
-	
-	//刪除多筆
+
+	// 刪除多筆
 	@ResponseBody
-	@RequestMapping(value="", method=RequestMethod.PUT)
-	public String delete (@RequestBody String json) {
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public String delete(@RequestBody String[] commodityIds) {
 		try {
-			JSONArray jsonArray = new JSONArray(json);
-			List<Object> commodityIds = jsonArray.toList();
-			Integer[] ids = new Integer[commodityIds.size()];
-			for (int i = 0; i < commodityIds.size(); i++) {
-				ids[i] = Integer.valueOf(commodityIds.get(i).toString());
+			Integer[] ids = new Integer[commodityIds.length];
+			for (int i = 0; i < commodityIds.length; i++) {
+				ids[i] = Integer.valueOf(commodityIds[i]);
 			}
 			commodityService.delete(ids);
 			return Tools.getSuccessJson().toString();
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return Tools.getFailJson().toString();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return Tools.getFailJson().toString();			
 		}
 	}
-	
-	//複製
-	@RequestMapping(value="/clone", method=RequestMethod.POST)
-	public String clone (@RequestParam(value="commodityIds", required=true) Integer id) {
+
+	// 複製
+	@RequestMapping(value = "/clone", method = RequestMethod.POST)
+	public String clone(@RequestParam(value = "commodityIds", required = true) Integer id) {
 		commodityService.create(commodityService.getOne(id));
 		return REDIRECT_LIST;
 	}
-	
-	
 
 }

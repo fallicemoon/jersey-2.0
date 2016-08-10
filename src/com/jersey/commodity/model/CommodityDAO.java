@@ -1,11 +1,9 @@
 package com.jersey.commodity.model;
 
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -40,18 +38,18 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	// return vo;
 	// }
 
-	public List<CommodityVO> getByRule(Map<String, Object> rule) {
-		Criterion[] criterions = new Criterion[rule.size()];
-		int i = 0;
-		for (String key : rule.keySet()) {
-			if (i < rule.size()) {
-				Object value = rule.get(key);
-				criterions[i] = Restrictions.eq(key, value);
-				i++;
-			}
-		}
-		return getHelper(criterions);
-	}
+//	public List<CommodityVO> getByRule(Map<String, Object> rule) {
+//		Criterion[] criterions = new Criterion[rule.size()];
+//		int i = 0;
+//		for (String key : rule.keySet()) {
+//			if (i < rule.size()) {
+//				Object value = rule.get(key);
+//				criterions[i] = Restrictions.eq(key, value);
+//				i++;
+//			}
+//		}
+//		return getHelper(criterions);
+//	}
 
 	// public Integer create(CommodityVO vo) {
 	// session =

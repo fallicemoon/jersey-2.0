@@ -30,13 +30,14 @@ public class JerseyFilter implements Filter {
 
 		HttpSession session = httpServletRequest.getSession();
 		System.out.println(session.getAttribute("login"));
-//		// 判斷是否登入
+		// 判斷是否登入
 //		if (!ok.equals(session.getAttribute("login"))) {
 //			httpServletResponse.sendRedirect(sendRedirectUrl);
 //			return;
 //		}
 
 		chain.doFilter(httpServletRequest, httpServletResponse);
+		
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {

@@ -77,9 +77,9 @@ public class CommodityService {
 		return map;
 	}
 
-	public List<CommodityWithPicCountVO> getByRule(Map<String, Object> rule) {
-		return getCommodityWithPicCountList(dao.getByRule(rule));
-	}
+//	public List<CommodityWithPicCountVO> getByRule(Map<String, Object> rule) {
+//		return getCommodityWithPicCountList(dao.getByRule(rule));
+//	}
 
 	public Map<Integer, Integer> getCommodityIdPictureCountMap() {
 		PictureDAO pictureDAO = new PictureDAO();

@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -83,25 +81,20 @@ public class SellCaseController {
 		return LIST;
 	}
 	
-	//刪除多筆
+	// 刪除多筆
 	@ResponseBody
-	@RequestMapping(value="", method=RequestMethod.PUT)
-	public String delete (@RequestBody String json) {
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public String delete(@RequestBody String[] sellCaseIds) {
 		try {
-			JSONArray jsonArray = new JSONArray(json);
-			List<Object> sellCaseIds = jsonArray.toList();
-			Integer[] ids = new Integer[sellCaseIds.size()];
-			for (int i = 0; i < sellCaseIds.size(); i++) {
-				ids[i] = Integer.valueOf(sellCaseIds.get(i).toString());
+			Integer[] ids = new Integer[sellCaseIds.length];
+			for (int i = 0; i < sellCaseIds.length; i++) {
+				ids[i] = Integer.valueOf(sellCaseIds[i]);
 			}
 			sellCaseService.delete(ids);
 			return Tools.getSuccessJson().toString();
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return Tools.getFailJson().toString();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return Tools.getFailJson().toString();			
 		}
 	}
 	

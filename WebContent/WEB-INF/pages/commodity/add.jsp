@@ -160,14 +160,14 @@
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">成本：</label>
     	<div class="col-sm-10">
-    	<input type="text" name="cost" value="${commodity.cost}"> 請輸入數字!
+    	<input type="number" name="cost" value="${commodity.cost}"> 請輸入數字!
     	</div>
     </div>
     
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">售價：</label>
     	<div class="col-sm-10">
-    	<input type="text" name="sellPrice" value="${commodity.sellPrice}"> 請輸入數字!
+    	<input type="number" name="sellPrice" value="${commodity.sellPrice}"> 請輸入數字!
     	</div>
     </div>
                 

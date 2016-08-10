@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -31,7 +32,14 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		session.getTransaction().begin();
 		List<E> list;
 		try {
-			list = session.createQuery("from " + voType.getName()).list();
+			Query query = session.createQuery("from " + voType.getName());
+			//分頁
+			Integer quantity = 10;
+			Integer page = 1;
+			Integer firstResult = quantity*(page-1);
+			query.setFirstResult(firstResult);
+			query.setMaxResults(quantity);
+			list = query.list();
 			session.getTransaction().commit();
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();

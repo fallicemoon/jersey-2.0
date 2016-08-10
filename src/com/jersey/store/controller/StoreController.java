@@ -7,8 +7,6 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -98,25 +96,20 @@ public class StoreController {
 		return LIST;
 	}
 	
-	//刪除多筆
+	// 刪除多筆
 	@ResponseBody
-	@RequestMapping(value="", method=RequestMethod.PUT)
-	public String delete (@RequestBody String json) {
+	@RequestMapping(value = "", method = RequestMethod.PUT)
+	public String delete(@RequestBody String[] storeIds) {
 		try {
-			JSONArray jsonArray = new JSONArray(json);
-			List<Object> storeIds = jsonArray.toList();
-			Integer[] ids = new Integer[storeIds.size()];
-			for (int i = 0; i < storeIds.size(); i++) {
-				ids[i] = Integer.valueOf(storeIds.get(i).toString());
+			Integer[] ids = new Integer[storeIds.length];
+			for (int i = 0; i < storeIds.length; i++) {
+				ids[i] = Integer.valueOf(storeIds[i]);
 			}
 			storeService.delete(ids);
 			return Tools.getSuccessJson().toString();
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return Tools.getFailJson().toString();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return Tools.getFailJson().toString();			
 		}
 	}
 

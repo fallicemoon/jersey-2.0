@@ -1,7 +1,5 @@
 package com.jersey.commodity.model;
 
-import java.util.Date;
-
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.AbstractVo;
 

@@ -84,21 +84,21 @@
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">運費：</label>
     	<div class="col-sm-10">
-    	<input type="text" name="transportCost" value="${sellCase.transportCost}">請輸入數字!
+    	<input type="number" name="transportCost" value="${sellCase.transportCost}">請輸入數字!
     	</div>
     </div>
     
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">總價：</label>
     	<div class="col-sm-10">
-    	<input type="text" name="income" value="${sellCase.income}">請輸入數字!
+    	<input type="number" name="income" value="${sellCase.income}">請輸入數字!
     	</div>
     </div>
     
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">已收額：</label>
     	<div class="col-sm-10">
-    	<input type="text" name="collected" value="${sellCase.collected}">請輸入數字!
+    	<input type="number" name="collected" value="${sellCase.collected}">請輸入數字!
     	</div>
     </div>
     

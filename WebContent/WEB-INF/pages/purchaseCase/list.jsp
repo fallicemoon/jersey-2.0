@@ -57,9 +57,10 @@
     					$.ajax("/jersey/purchaseCase", {
     						type : "PUT",
     						data : JSON.stringify(purchaseCaseIds),
+    						contentType : "application/json",
+    						dataType : "json",
     						success : function(data) {
-    							var result = $.parseJSON(data);
-    							if (result.result=="success") {
+    							if (data.result=="success") {
     								alertify.success("刪除成功");
     								checked.parent().parent().remove();
     							} else {

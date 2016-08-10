@@ -55,13 +55,6 @@
 	<filter-mapping>
 		<filter-name>JerseyFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-<!-- 		<url-pattern>/commodity</url-pattern> -->
-<!-- 		<url-pattern>/purchaseCase</url-pattern> -->
-<!-- 		<url-pattern>/sellCase</url-pattern> -->
-<!-- 		<url-pattern>/store</url-pattern> -->
-<!-- 		<url-pattern>/PictureServlet</url-pattern> -->
-<!-- 		<url-pattern>/AccountingServlet</url-pattern> -->
-<!-- 		<url-pattern>/TripleServlet</url-pattern> -->
 	</filter-mapping>
 
 	<servlet>

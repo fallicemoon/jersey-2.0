@@ -1,8 +1,6 @@
 package commodity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,14 +16,6 @@ public class CommodityDAOTest {
 	@Before
 	public void init () {
 		commodityDAO = new CommodityDAO();
-	}
-	
-	@Test
-	public void getByRule () {
-		Map<String, Object> rule = new HashMap<>();
-		rule.put("style", "Road");
-		list = commodityDAO.getByRule(rule);
-		System.out.println(list);
 	}
 	
 	@Test
