@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.jersey.userConfig.model.userConfigVO" table="user_config" >
+        
+        <id name="userConfigId" column="user_config_id">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="userConfig" column="config" />
+        <property name="createTime" column="create_time" />
+        <property name="lastModifyTime" column="last_modify_time" />
+    </class>
+</hibernate-mapping>
+

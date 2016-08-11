@@ -31,7 +31,7 @@ public class Tools {
 				Object value = field.get(old);
 				field.set(target, value);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
+				//新物件沒有這個屬性
 				continue;
 			}
 		}

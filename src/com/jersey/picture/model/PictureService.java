@@ -227,7 +227,6 @@ public class PictureService {
 			String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
 			if ((!extensionName.equalsIgnoreCase("jpg")) && (!extensionName.equalsIgnoreCase("gif")) && (!extensionName.equalsIgnoreCase("png")))
 				throw new FileUploadException("副檔名須為jpg, gif, png 三者其中之一");
-			// TODO need test
 			Blob blob = Hibernate.getLobCreator(HibernateSessionFactory.getSession()).createBlob(picture.get());
 			pictureVO.setPicture(blob);
 			pictureVO.setFileName(fileName);
