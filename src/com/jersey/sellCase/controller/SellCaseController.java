@@ -19,6 +19,7 @@ import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseVO;
 import com.jersey.sellCase.model.SellCaseWithBenefitVO;
 import com.jersey.tools.Tools;
+import com.jersey.userConfig.model.UserConfigService;
 
 @Controller
 @RequestMapping(value="/sellCase")
@@ -26,11 +27,14 @@ public class SellCaseController {
 	private static final String LIST = "sellCase/list";
 	private static final String ADD = "sellCase/add";
 	private static final String UPDATE = "sellCase/update";
-	private static final String ADD_PURCHASE_CASE = "sellCase/addCommodity";
+	private static final String ADD_PURCHASE_CASE = "sellCase/addPurchaseCase";
 	private static final String REDIRECT_ADD_PURCHASE_CASE = "redirect:getPurchaseCaseList/{id}";
 	
 	@Autowired
 	private SellCaseService sellCaseService;
+	
+	@Autowired
+	private UserConfigService userConfigService;
 	
 	//for update sellCase用
 	@ModelAttribute
@@ -43,9 +47,15 @@ public class SellCaseController {
 	}
 	
 	//取得全部
-	@RequestMapping(value="/getAll", method=RequestMethod.GET)
-	public String getAll(Map<String, Object> map){
-		map.put("sellCaseList", sellCaseService.getAll());
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public String getAll(Map<String, Object> map,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+		map.put("sellCaseList", sellCaseService.getAll(userConfigService.getSellCasePageSize(), page));
+		Long count = sellCaseService.getTotalCount()/userConfigService.getSellCasePageSize();
+		if (sellCaseService.getTotalCount()%userConfigService.getSellCasePageSize()!=0) {
+			count++;
+		}
+		map.put("pages", count);
 		return LIST;
 	}
 	

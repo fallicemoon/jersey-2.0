@@ -16,8 +16,8 @@ public class PurchaseCaseService {
 	@Autowired
 	private PurchaseCaseDAO dao;
 
-	public List<PurchaseCaseVO> getAll() {
-		return dao.getAll();
+	public List<PurchaseCaseVO> getAll(Integer pageSize, Integer page) {
+		return dao.getAll(pageSize, page);
 	}
 
 	public List<PurchaseCaseVO> getAllOfNotComplete() {
@@ -61,6 +61,10 @@ public class PurchaseCaseService {
 	public void deletePurchasCaseIdFromCommoditys(Integer[] commodityIds) {
 		CommodityDAO commodityDAO = new CommodityDAO();
 		commodityDAO.deletePurchaseCaseId(commodityIds);
+	}
+
+	public Long getTotalCount() {
+		return dao.getTotalCount();
 	}
 }
 

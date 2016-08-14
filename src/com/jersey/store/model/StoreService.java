@@ -16,8 +16,8 @@ public class StoreService {
 	private StoreDAO storeDAO;
 	
 	
-	public List<StoreVO> getAll() {
-		return storeDAO.getAll();
+	public List<StoreVO> getAll(Integer pageSize, Integer page) {
+		return storeDAO.getAll(pageSize, page);
 	}
 	
 	public StoreVO getOne(Integer id) {
@@ -43,6 +43,10 @@ public class StoreService {
 	
 	public void delete(Integer... ids) {
 		storeDAO.delete(ids);
+	}
+
+	public Long getTotalCount() {
+		return storeDAO.getTotalCount();
 	}
 	
 	

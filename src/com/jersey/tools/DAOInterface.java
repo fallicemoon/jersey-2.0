@@ -6,8 +6,10 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 
 public interface DAOInterface<E extends AbstractVo> {
-	
-	public List<E> getAll();
+
+	public List<E> getAll(Integer pageSize, Integer page);
+
+	public Long getTotalCount();
 
 	public E getOne(Integer id);
 
@@ -18,13 +20,13 @@ public interface DAOInterface<E extends AbstractVo> {
 	public boolean delete(E vo);
 
 	public boolean delete(Integer[] ids);
-	
+
 	public List<E> getHelper(String[] columnNames, Order order, Criterion... criterions);
-	
+
 	public List<E> getHelper(Criterion... criterions);
-	
+
 	public List<E> getHelper(String[] columnNames);
-	
+
 	public List<E> getHelper(String[] columnNames, Criterion... criterions);
-	
+
 }

@@ -27,7 +27,7 @@ public class StoreDAOTest {
 	
 	@After
 	public void destroy () {
-		System.out.println("picture".hashCode());
+		System.out.println(StoreType.valueOf("store"));
 	} 
 
 }

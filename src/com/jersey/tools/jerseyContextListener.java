@@ -9,6 +9,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jersey.store.model.StoreService;
 import com.jersey.tools.JerseyEnum.StoreType;
+import com.jersey.userConfig.model.UserConfigService;
 
 /**
  * Application Lifecycle Listener implementation class jerseyContextListener
@@ -19,6 +20,7 @@ public class jerseyContextListener implements ServletContextListener {
 	private ApplicationContext applicationContext;
 	
 	private StoreService storeService;
+	private UserConfigService userConfigService;
 
 	/**
 	 * Default constructor.
@@ -40,10 +42,20 @@ public class jerseyContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContextEvent.getServletContext());
 		storeService = (StoreService)applicationContext.getBean("storeService");
+		userConfigService = (UserConfigService)applicationContext.getBean("userConfigService");
+		
 		// 塞入商店和託運公司
 		ServletContext servletContext = servletContextEvent.getServletContext();
 		servletContext.setAttribute(StoreType.store.toString(), storeService.getStoreSetByType(StoreType.store));
 		servletContext.setAttribute(StoreType.shippingCompany.toString(), storeService.getStoreSetByType(StoreType.shippingCompany));
+	
+		// 塞入使用者設定
+//		UserConfigWithJsonVO userConfigWithJsonVO = userConfigService.getAll().get(0);
+//		servletContext.setAttribute(UserConfig.commodityPageSize.toString(), userConfigWithJsonVO.getCommodityPageSize());
+//		servletContext.setAttribute(UserConfig.purchaseCasePageSize.toString(), userConfigWithJsonVO.getPurchaseCasePageSize());
+//		servletContext.setAttribute(UserConfig.sellCasePageSize.toString(), userConfigWithJsonVO.getSellCasePageSize());
+//		servletContext.setAttribute(UserConfig.storePageSize.toString(), userConfigWithJsonVO.getStorePageSize());
+//		servletContext.setAttribute(UserConfig.commodityAttrJson.toString(), userConfigWithJsonVO.getCommodityAttrJson());
 	}
 
 }

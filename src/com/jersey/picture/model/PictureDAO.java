@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.AbstractDAO;
-import com.jersey.tools.HibernateSessionFactory;
+import com.jersey.tools.HibernateTools;
 
 @Repository
 public class PictureDAO extends AbstractDAO<PictureVO> {
@@ -149,7 +149,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	}
 
 	public Map<Integer, Integer> getCommodityIdPictureCountMap() {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		session.beginTransaction();
 		List<Map<String, Object>> result;
 		try {
@@ -173,7 +173,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	}
 
 	public Integer getCommodityIdPictureCount(Integer commodityId) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		session.beginTransaction();
 
 		Integer count;
@@ -202,7 +202,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	}
 	
 	private Integer getSequenceId (CommodityVO commodityVO) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		session.beginTransaction();
 		try {
 			Integer sequenceId = (Integer)session.createQuery(GET_NEXT_SEQUENCE_ID).setParameter("commodityVO", commodityVO).uniqueResult();

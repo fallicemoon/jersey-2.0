@@ -21,7 +21,7 @@
 	    		<%--把checkbox清空--%>
 	    		$("input[name=purchaseCaseIds]:checked").prop("checked", false);
 	    		
-				var page = "before";
+				var display = "before";
 				var listType = "getAll";
 				var closeListTypeButton = function(){
 					$(".listType").css("color", "");
@@ -80,11 +80,11 @@
 				$("#changePage").click(function(){
 					$("th").show();
 					$("td").show();
-					$("."+page).each(function(){
+					$("."+display).each(function(){
 						$(this).hide();
 					});					
-					page = page=="before"?"after":"before";
-					$(this).text(page=="before"?"到第二頁":"到第一頁");
+					display = display=="before"?"after":"before";
+					$(this).text(display=="before"?"到第二頁":"到第一頁");
 				});
 				
 	    		<%--新增--%>
@@ -135,7 +135,18 @@
 	    			location.href = "/jersey/sellCase/getPurchaseCaseList/"+$(this).val();
 	    		});
 
-				
+	    		<%--標示出分頁標籤的當前分頁--%>
+	    		var pagePos = location.search.indexOf("page=")+"page=".length;
+	    		var page = location.search.substr(pagePos);
+	    		if(location.search==""){
+	    			$(".page-item").eq(0).addClass("active");
+	    		}
+	    		$(".page-item").each(function(){
+	    			if($(this).val()==page) {
+	    				$(this).addClass("active");
+	    			}
+	    		});
+	    		
 			});
 		</script>
 		<span style="display: inline-block; width: 100px"></span> 		
@@ -226,7 +237,13 @@
 			</table>
 	</form>
 
-	<c:import url="/WEB-INF/pages/footer.jsp"></c:import>
+	<div align="center">
+		<ul class="pagination">
+			<c:forEach begin="1" end="${requestScope.pages}" var="page">
+				<li class="page-item" value="${page}"><a class="page-link" href="?page=${page}">${page}</a></li>
+			</c:forEach>
+		</ul>
+	</div>
 
 
 </body>

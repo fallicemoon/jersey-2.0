@@ -27,18 +27,17 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 	}
 
 	@Override
-	public List<E> getAll() {
-		Session session = HibernateSessionFactory.getSession();
+	public List<E> getAll(Integer pageSize, Integer page) {
+		Session session = HibernateTools.getSession();
 		session.getTransaction().begin();
 		List<E> list;
 		try {
 			Query query = session.createQuery("from " + voType.getName());
 			//分頁
-			Integer quantity = 10;
-			Integer page = 1;
-			Integer firstResult = quantity*(page-1);
+			Integer firstResult = pageSize*(page-1);
 			query.setFirstResult(firstResult);
-			query.setMaxResults(quantity);
+			query.setMaxResults(pageSize);
+			
 			list = query.list();
 			session.getTransaction().commit();
 		} catch (HibernateException e) {
@@ -48,10 +47,24 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		}
 		return list;
 	}
+	
+	@Override
+	public Long getTotalCount () {
+		Session session = HibernateTools.getSession();
+		session.beginTransaction();
+		try {
+			Long count = (Long)session.createCriteria(voType).setProjection(Projections.rowCount()).uniqueResult();
+			session.getTransaction().commit();
+			return count;
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			return null;
+		}
+	} 
 
 	@Override
 	public E getOne(Integer id) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		session.getTransaction().begin();
 		E vo = null;
 		try {
@@ -74,7 +87,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 
 	@Override
 	public E create(E vo) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		try {
 			Date now = new Date();
 			vo.setLastModifyTime(now);
@@ -92,7 +105,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 
 	@Override
 	public E update(E vo) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		try {
 			vo.setLastModifyTime(new Date());
 			session.beginTransaction();
@@ -108,7 +121,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 
 	@Override
 	public boolean delete(E vo) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		try {
 			session.beginTransaction();
 			session.delete(vo);
@@ -123,7 +136,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 
 	@Override
 	public boolean delete(Integer[] ids) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		try {
 			session.beginTransaction();
 			session.createQuery("delete from " + voType.getSimpleName() + " vo where vo." + pk + " in (:ids)")
@@ -139,7 +152,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 
 	@Override
 	public List<E> getHelper(String[] columnNames, Order order, Criterion... criterions) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		session.beginTransaction();
 		List<E> list;
 		try {

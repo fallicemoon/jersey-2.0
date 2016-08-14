@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.store.model.StoreService;
 import com.jersey.store.model.StoreVO;
+import com.jersey.tools.JerseyEnum.StoreType;
 import com.jersey.tools.Tools;
+import com.jersey.userConfig.model.UserConfigService;
 
 @Controller
 @RequestMapping(value="/store")
@@ -33,6 +36,9 @@ public class StoreController {
 	@Autowired
 	private StoreService storeService;
 	
+	@Autowired
+	private UserConfigService userConfigService;
+	
 	//for update store用
 	@ModelAttribute
 	public void getStore (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
@@ -44,9 +50,15 @@ public class StoreController {
 	}
 	
 	//取得全部
-	@RequestMapping(value="/getAll", method=RequestMethod.GET)
-	public String getAll(Map<String, Object> map){
-		map.put("storeList", storeService.getAll());
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
+	public String getAll(Map<String, Object> map,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+		map.put("storeList", storeService.getAll(userConfigService.getStorePageSize(), page));
+		Long count = storeService.getTotalCount()/userConfigService.getStorePageSize();
+		if (storeService.getTotalCount()%userConfigService.getStorePageSize()!=0) {
+			count++;
+		}
+		map.put("pages", count);
 		return LIST;
 	}
 	
@@ -106,6 +118,8 @@ public class StoreController {
 				ids[i] = Integer.valueOf(storeIds[i]);
 			}
 			storeService.delete(ids);
+			servletContext.setAttribute(StoreType.store.toString(), storeService.getStoreSetByType(StoreType.store));
+			servletContext.setAttribute(StoreType.shippingCompany.toString(), storeService.getStoreSetByType(StoreType.shippingCompany));
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

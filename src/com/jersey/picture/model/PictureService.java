@@ -24,12 +24,11 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jersey.commodity.model.CommodityVO;
-import com.jersey.tools.HibernateSessionFactory;
+import com.jersey.tools.HibernateTools;
 
 @Service
 public class PictureService {
@@ -227,7 +226,7 @@ public class PictureService {
 			String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
 			if ((!extensionName.equalsIgnoreCase("jpg")) && (!extensionName.equalsIgnoreCase("gif")) && (!extensionName.equalsIgnoreCase("png")))
 				throw new FileUploadException("副檔名須為jpg, gif, png 三者其中之一");
-			Blob blob = Hibernate.getLobCreator(HibernateSessionFactory.getSession()).createBlob(picture.get());
+			Blob blob = HibernateTools.getBlob(picture.get());
 			pictureVO.setPicture(blob);
 			pictureVO.setFileName(fileName);
 

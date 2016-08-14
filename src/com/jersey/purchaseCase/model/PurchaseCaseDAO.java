@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jersey.sellCase.model.SellCaseVO;
 import com.jersey.tools.AbstractDAO;
-import com.jersey.tools.HibernateSessionFactory;
+import com.jersey.tools.HibernateTools;
 
 @Repository
 public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
@@ -151,7 +151,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 	}
 
 	public boolean updateSellCaseId(Integer sellCaseId, Integer[] purchaseCaseIds) {
-		Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+		Session session = HibernateTools.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
 			SellCaseVO sellCaseVO = new SellCaseVO();
@@ -180,7 +180,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 	}
 
 	public boolean deleteSellCaseId(Integer[] purchaseCaseIds) {
-		Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
+		Session session = HibernateTools.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
 
@@ -209,7 +209,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 	//先刪掉商品再刪進貨
 	@Override
 	public boolean delete(Integer[] ids) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		try {
 			session.beginTransaction();
 			session.createQuery("delete from CommodityVO vo where vo.purchaseCaseVO.purchaseCaseId in (:ids)").setParameterList("ids", ids).executeUpdate();

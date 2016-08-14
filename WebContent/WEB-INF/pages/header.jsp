@@ -19,11 +19,15 @@
 <body>
 
 <div class="btn-group">
-  <a href="/jersey/commodity/getAll">
-  <button type="button" class="btn btn-info dropdown-toggle">
-    商品
-  </button>
-  </a>
+<div class="btn-group">
+ <div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">商品
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="/jersey/commodity/getAll">球衣</a></li>
+  </ul>
+</div>
+</div>
 </div>
 
 <div class="btn-group">
@@ -56,6 +60,17 @@
     會計
   </button>
   </a>
+</div>
+
+<div class="btn-group">
+ <div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">設定
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="/jersey/userConfig/commodityAttr">商品種類與商品屬性</a></li>
+    <li><a href="/jersey/userConfig/systemParam">系統參數</a></li>
+  </ul>
+</div>
 </div>
 
 <a href="/jersey/MemberServlet?action=logout">登出</a>

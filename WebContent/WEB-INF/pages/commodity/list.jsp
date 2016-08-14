@@ -7,13 +7,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <style type="text/css">
-	.checkboxDiv{
-		position: absolute;
-		display: none;
-		background-color: #00A800;
-		border: solid;
-		min-width: 90px;
-	}
+.checkboxDiv {
+	position: absolute;
+	display: none;
+	background-color: #00A800;
+	border: solid;
+	min-width: 90px;
+}
+
 </style>
 <title>商品</title>
 </head>
@@ -146,6 +147,18 @@
 					alertify.error("複製失敗");
 				}
 			});
+		});
+		
+		<%--標示出分頁標籤的當前分頁--%>
+		var pagePos = location.search.indexOf("page=")+"page=".length;
+		var page = location.search.substr(pagePos);
+		if(location.search==""){
+			$(".page-item").eq(0).addClass("active");
+		}
+		$(".page-item").each(function(){
+			if($(this).val()==page) {
+				$(this).addClass("active");
+			}
 		});
 
 	});
@@ -341,6 +354,13 @@
 				</tr>
 			</c:forEach>
 		</table>
-	<c:import url="/WEB-INF/pages/footer.jsp"></c:import>
+
+	<div align="center">
+		<ul class="pagination">
+			<c:forEach begin="1" end="${requestScope.pages}" var="page">
+				<li class="page-item" value="${page}"><a class="page-link" href="?page=${page}">${page}</a></li>
+			</c:forEach>
+		</ul>
+	</div>
 </body>
 </html>

@@ -16,13 +16,17 @@ import com.jersey.tools.Tools;
 
 @Service
 public class CommodityService {
-	
+
 	@Autowired
 	private CommodityDAO dao;
 
-	public List<CommodityWithPicCountVO> getAll() {
-		return getCommodityWithPicCountList(dao.getAll());
+	public List<CommodityWithPicCountVO> getAll(Integer pageSize, Integer page) {
+		return getCommodityWithPicCountList(dao.getAll(pageSize, page));
 	}
+	
+	public Long getTotalCount () {
+		return dao.getTotalCount();
+	} 
 
 	public CommodityVO getOne(Integer id) {
 		return this.dao.getOne(id);

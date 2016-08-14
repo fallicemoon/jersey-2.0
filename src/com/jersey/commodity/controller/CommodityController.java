@@ -19,6 +19,7 @@ import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.commodity.model.CommodityWithPicCountVO;
 import com.jersey.tools.Tools;
+import com.jersey.userConfig.model.UserConfigService;
 
 @Controller
 @RequestMapping(value = "/commodity")
@@ -30,6 +31,8 @@ public class CommodityController {
 
 	@Autowired
 	private CommodityService commodityService;
+	@Autowired
+	private UserConfigService userConfigService;
 
 	// for update commodity用
 	@ModelAttribute
@@ -43,8 +46,14 @@ public class CommodityController {
 
 	// 取得全部
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public String getAll(Map<String, Object> map) {
-		map.put("commodityList", commodityService.getAll());
+	public String getAll(Map<String, Object> map,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+		map.put("commodityList", commodityService.getAll(userConfigService.getCommodityPageSize(), page));
+		Long count = commodityService.getTotalCount()/userConfigService.getCommodityPageSize();
+		if (commodityService.getTotalCount()%userConfigService.getCommodityPageSize()!=0) {
+			count++;
+		}
+		map.put("pages", count);
 		return LIST;
 	}
 

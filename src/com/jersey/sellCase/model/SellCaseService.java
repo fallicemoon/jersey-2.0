@@ -20,8 +20,8 @@ public class SellCaseService {
 	@Autowired
 	private SellCaseDAO dao;
 
-	public List<SellCaseWithBenefitVO> getAll() {
-		return getSellCaseWithBenefitVOList(dao.getAll());
+	public List<SellCaseWithBenefitVO> getAll(Integer pageSize, Integer page) {
+		return getSellCaseWithBenefitVOList(dao.getAll(pageSize, page));
 	}
 
 	public SellCaseVO getOne(Integer id) {
@@ -165,6 +165,10 @@ public class SellCaseService {
 			totalBenefit+=sellCaseWithBenefitVO.getBenefit();
 		}
 		return totalBenefit;
+	}
+
+	public Long getTotalCount() {
+		return dao.getTotalCount();
 	}
 	
 	

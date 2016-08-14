@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.AbstractDAO;
-import com.jersey.tools.HibernateSessionFactory;
+import com.jersey.tools.HibernateTools;
 
 @Repository
 public class CommodityDAO extends AbstractDAO<CommodityVO> {
@@ -132,7 +132,7 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	}
 
 	public void updatePurchaseCaseId(PurchaseCaseVO purchaseCaseVO, Integer[] commodityIds) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		session.getTransaction().begin();
 		try {
 			for (Integer commodityId : commodityIds) {
@@ -155,7 +155,7 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	}
 
 	public void deletePurchaseCaseId(Integer[] commodityIds) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		session.getTransaction().begin();
 		try {
 			for (Integer commodityId : commodityIds) {
@@ -180,7 +180,7 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	//先刪掉圖片再刪商品
 	@Override
 	public boolean delete(Integer[] ids) {
-		Session session = HibernateSessionFactory.getSession();
+		Session session = HibernateTools.getSession();
 		try {
 			session.beginTransaction();
 			session.createQuery("delete from PictureVO vo where vo.commodityVO.commodityId in (:ids)").setParameterList("ids", ids).executeUpdate();
