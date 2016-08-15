@@ -40,5 +40,11 @@ public class CommodityAttrVO extends AbstractVo{
 		this.commodityAttrAuthority = commodityAttrAuthority;
 	}
 	
+	@Override
+	public String toString() {
+		return "CommodityAttrVO [commodityAttrId=" + commodityAttrId + ", commodityType=" + commodityType
+				+ ", commodityAttr=" + commodityAttr + ", commodityAttrAuthority=" + commodityAttrAuthority + "]";
+	}
+	
 	
 }

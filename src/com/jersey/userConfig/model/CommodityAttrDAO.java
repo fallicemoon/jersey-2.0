@@ -12,12 +12,12 @@ import com.jersey.tools.HibernateTools;
 @Repository
 public class CommodityAttrDAO extends AbstractDAO<CommodityAttrVO> {
 
-	public CommodityAttrDAO(Class<CommodityAttrVO> type, String pk) {
+	public CommodityAttrDAO() {
 		super(CommodityAttrVO.class, "commodityAttrId");
 	}
 	
 	public List<String> getCommodityTypeList () {
-		String hql = "select distinct c.commodityType from CommodityAttr c";
+		String hql = "select distinct c.commodityType from CommodityAttrVO c";
 		Session session = HibernateTools.getSession();
 		session.beginTransaction();
 		try {

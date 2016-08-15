@@ -1,7 +1,5 @@
 package com.jersey.userConfig.model;
 
-import java.sql.Clob;
-
 import com.jersey.tools.AbstractVo;
 
 public class UserConfigVO extends AbstractVo{
@@ -16,7 +14,6 @@ public class UserConfigVO extends AbstractVo{
 	private Integer purchaseCasePageSize;
 	private Integer sellCasePageSize;
 	private Integer storePageSize;
-	private Clob commodityAttr;
 	
 	public Integer getUserConfigId() {
 		return userConfigId;
@@ -48,15 +45,13 @@ public class UserConfigVO extends AbstractVo{
 	public void setStorePageSize(Integer storePageSize) {
 		this.storePageSize = storePageSize;
 	}
-	public Clob getCommodityAttr() {
-		return commodityAttr;
-	}
-	public void setCommodityAttr(Clob commodityAttr) {
-		this.commodityAttr = commodityAttr;
-	}
 	
+	@Override
+	public String toString() {
+		return "UserConfigVO [userConfigId=" + userConfigId + ", commodityPageSize=" + commodityPageSize
+				+ ", purchaseCasePageSize=" + purchaseCasePageSize + ", sellCasePageSize=" + sellCasePageSize
+				+ ", storePageSize=" + storePageSize + "]";
+	}
 
-	
-	
 
 }

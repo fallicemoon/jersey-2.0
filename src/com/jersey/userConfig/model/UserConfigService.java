@@ -34,7 +34,6 @@ public class UserConfigService {
 		//目前設定檔只有一筆, PK為1
 		userConfigVO = userConfigDAO.getOne(1);
 		commodityAttrMap = getCommodityAttrMap();
-//		commodityAttr = parseCommodityAttrJsonToMap();
 	}
 
 	//-----------------------get config-----------------------
@@ -54,6 +53,7 @@ public class UserConfigService {
 		return userConfigVO.getStorePageSize();
 	}
 	
+	//取得key為商品類別, value為List<CommodityAttrVO>的map
 	public Map<String, List<CommodityAttrVO>> getCommodityAttr () {
 		return commodityAttrMap;
 	}

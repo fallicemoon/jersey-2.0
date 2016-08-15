@@ -52,7 +52,7 @@
 			${requestScope.commodityPageSize}
 		</div>
 		<div class="col-sm-1">
-			<input type="number" max="100" min="0" max="100" min="0" name="commodityPageSize" value="${requestScope.commodityPageSize}">
+			<input type="number" max="100" min="0" name="commodityPageSize" value="${requestScope.commodityPageSize}">
 		</div>
 		<div class="col-sm-1">
 			<button type="button" class="btn btn-warning">更新</button>
