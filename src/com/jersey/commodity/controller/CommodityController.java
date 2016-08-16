@@ -75,7 +75,7 @@ public class CommodityController {
 		vo.setIsStored(true);
 		commodityService.create(vo);
 		List<CommodityDisplayVO> list = new ArrayList<>();
-		list.add(commodityService.getCommodityWithPicCountVO(vo));
+		list.add(commodityService.getCommodityDisplayVO(vo));
 		map.put("commodityList", list);
 		return LIST;
 	}
@@ -86,14 +86,14 @@ public class CommodityController {
 			Map<String, Object> map, @RequestParam Map<String, Object> map2) {
 		commodityService.update(vo);
 		List<CommodityDisplayVO> list = new ArrayList<>();
-		list.add(commodityService.getCommodityWithPicCountVO(vo));
+		list.add(commodityService.getCommodityDisplayVO(vo));
 		map.put("commodityList", list);
 		return LIST;
 	}
 
 	// 刪除多筆
 	@ResponseBody
-	@RequestMapping(value = "", method = RequestMethod.PUT)
+	@RequestMapping(value = "", method = RequestMethod.PUT, produces="application/json;charset=UTF-8")
 	public String delete(@RequestBody String[] commodityIds) {
 		try {
 			Integer[] ids = new Integer[commodityIds.length];

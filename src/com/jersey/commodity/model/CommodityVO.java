@@ -11,6 +11,7 @@ public class CommodityVO extends AbstractVo{
 	private Integer commodityId;
 	private PurchaseCaseVO purchaseCaseVO;
 	private String itemName;
+	private String commodityType;
 	
 //	private Integer qty;
 //	private String link;
@@ -90,6 +91,14 @@ public class CommodityVO extends AbstractVo{
 		this.itemName = itemName;
 	}
 
+	public String getCommodityType() {
+		return commodityType;
+	}
+
+	public void setCommodityType(String commodityType) {
+		this.commodityType = commodityType;
+	}
+	
 //	public Integer getQty() {
 //		return qty;
 //	}
@@ -217,6 +226,8 @@ public class CommodityVO extends AbstractVo{
 //	public void setOwner(String owner) {
 //		this.owner = owner;
 //	}
+
+
 
 	@Override
 	public int hashCode() {

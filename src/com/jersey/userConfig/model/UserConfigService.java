@@ -33,7 +33,7 @@ public class UserConfigService {
 	public void init () throws SQLException, IOException {
 		//目前設定檔只有一筆, PK為1
 		userConfigVO = userConfigDAO.getOne(1);
-		commodityAttrMap = generateCommodityAttrMap();
+		generateCommodityAttrMap();
 	}
 
 	//-----------------------get config-----------------------
@@ -67,26 +67,25 @@ public class UserConfigService {
 	
 	public void createCommodityAttr (CommodityAttrVO commodityAttrVO) {
 		commodityAttrDAO.create(commodityAttrVO);
-		commodityAttrMap = generateCommodityAttrMap();
+		generateCommodityAttrMap();
 	} 
 	
 	public void removeCommodityAttr (Integer[] ids) {
 		commodityAttrDAO.delete(ids);
-		commodityAttrMap = generateCommodityAttrMap();
+		generateCommodityAttrMap();
 	}
 	
 	public void updateCommodityAttrAuthority (CommodityAttrVO commodityAttrVO) {
 		commodityAttrDAO.update(commodityAttrVO);
-		commodityAttrMap = generateCommodityAttrMap();
+		generateCommodityAttrMap();
 	}
 	
 	//-----------------------commodity attr-----------------------
-	private Map<String, List<CommodityAttrVO>> generateCommodityAttrMap () {
-		Map<String, List<CommodityAttrVO>> map = new LinkedHashMap<>();
+	private void generateCommodityAttrMap () {
+		commodityAttrMap = new LinkedHashMap<>();
 		for (String commodityType : commodityAttrDAO.getCommodityTypeList()) {
-			map.put(commodityType, commodityAttrDAO.getCommodityAttrList(commodityType));
+			commodityAttrMap.put(commodityType, commodityAttrDAO.getCommodityAttrList(commodityType));
 		}
-		return map;
 	}
 
 }

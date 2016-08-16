@@ -79,7 +79,7 @@
 		</div>
 		<div class="col-sm-1">
 			<select>
-				<c:forEach items="commodityAttrAuthorityList" var="commodityAttrAuthority">
+				<c:forEach items="${commodityAttrAuthorityList}" var="commodityAttrAuthority">
 					<option value="${commodityAttrAuthority}">${commodityAttrAuthority.showName}</option>
 				</c:forEach>
 			</select>
@@ -103,7 +103,7 @@
 		</div>
 		<div class="col-sm-1">
 			<select>
-				<c:forEach items="commodityAttrAuthorityList" var="commodityAttrAuthority">
+				<c:forEach items="${commodityAttrAuthorityList}" var="commodityAttrAuthority">
 					<option value="${commodityAttrAuthority}">${commodityAttrAuthority.showName}</option>
 				</c:forEach>
 			</select>
@@ -130,8 +130,8 @@
 					<td>${commodityAttrVO.commodityType}</td>
 					<td>${commodityAttrVO.commodityAttr}</td>
 					<td><select>
-						<c:forEach items="commodityAttrAuthorityList" var="commodityAttrAuthority">
-							<option value="${commodityAttrAuthority}" ${commodityAttrVO.commodityAttrAuthority==commodityAttrAuthority}?"selected":"">${commodityAttrAuthority.showName}</option>
+						<c:forEach items="${requestScope.commodityAttrAuthorityList}" var="commodityAttrAuthority">
+							<option value="${commodityAttrAuthority}" ${commodityAttrVO.commodityAttrAuthority==commodityAttrAuthority?"selected":""}>${commodityAttrAuthority.showName}</option>
 						</c:forEach>
 					</select></td>
 					<td>${commodityAttrVO.commodityAttrAuthority}</td>

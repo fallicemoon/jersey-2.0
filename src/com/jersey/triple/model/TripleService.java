@@ -25,7 +25,7 @@ public class TripleService {
 
 	public void generateTriple(CommodityVO commodityVO, List<CommodityDisplayVO> commodityVOList,
 			List<PurchaseCaseVO> purchaseCaseVOList, List<SellCaseWithBenefitVO> sellCaseWithBenefitVOList) {
-		commodityVOList.add(cs.getCommodityWithPicCountVO(commodityVO));
+		commodityVOList.add(cs.getCommodityDisplayVO(commodityVO));
 		purchaseCaseVOList.add(commodityVO.getPurchaseCaseVO());
 		if (commodityVO.getPurchaseCaseVO() != null && commodityVO.getPurchaseCaseVO().getSellCaseVO() != null) {
 			sellCaseWithBenefitVOList
@@ -36,7 +36,7 @@ public class TripleService {
 	public void generateTriple(PurchaseCaseVO purchaseCaseVO, Set<CommodityDisplayVO> commodityVOSet,
 			List<PurchaseCaseVO> purchaseCaseVOList, List<SellCaseWithBenefitVO> sellCaseWithBenefitVOList) {
 		Set<CommodityVO> commodityVOs = purchaseCaseVO.getCommoditys();
-		commodityVOSet.addAll(cs.getCommodityWithPicCountList(commodityVOs));
+		commodityVOSet.addAll(cs.getCommodityDisplayVOList(commodityVOs));
 		purchaseCaseVOList.add(purchaseCaseVO);
 		sellCaseWithBenefitVOList.add(scs.getSellCaseWithBenefitVo(purchaseCaseVO.getSellCaseVO()));
 	}
@@ -48,7 +48,7 @@ public class TripleService {
 		purchaseCaseVOSet.addAll(sellCaseWithBenefitVO.getPurchaseCases());
 		for (PurchaseCaseVO purchaseCaseVO : purchaseCaseVOSet) {
 			Set<CommodityVO> commodityVOs = purchaseCaseVO.getCommoditys();
-			commodityVOSet.addAll(cs.getCommodityWithPicCountList(commodityVOs));
+			commodityVOSet.addAll(cs.getCommodityDisplayVOList(commodityVOs));
 		}
 
 	}

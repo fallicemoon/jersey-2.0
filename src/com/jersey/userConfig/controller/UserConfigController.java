@@ -40,7 +40,7 @@ public class UserConfigController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/systemParam/pageSize/{type}", method=RequestMethod.PUT)
+	@RequestMapping(value = "/systemParam/pageSize/{type}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
 	public String updateSystemParam (@PathVariable("type") String type, @RequestBody String[] values) throws InterruptedException {
 		try {
 			UserConfig userConfig = UserConfig.valueOf(type);
@@ -58,13 +58,14 @@ public class UserConfigController {
 	
 	@RequestMapping(value="/commodityAttr", method=RequestMethod.GET)
 	public String getCommodityAttr (Map<String, Object> map) {
+		CommodityAttrAuthority.admin.getShowName();
 		map.put("commodityAttrAuthorityList", CommodityAttrAuthority.values());
 		map.put("commodityAttrMap", userConfigService.getCommodityAttrMap());
 		return COMMODITY_ATTR;
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/commodityAttr", method=RequestMethod.POST)
+	@RequestMapping(value="/commodityAttr", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String createCommodityType (@RequestBody CommodityAttrVO commodityAttrVO) {
 		try {
 			if (userConfigService.getCommodityAttrMap().keySet().contains(commodityAttrVO.getCommodityType())) {
@@ -95,7 +96,7 @@ public class UserConfigController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/commodityAttr/{commodityType}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/commodityAttr/{commodityType}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
 	public String removeCommodityAttr (@RequestBody String request, @PathParam("commodityType") String commodityType, Map<String, Object> map) {
 		
 		return Tools.getSuccessJson().toString();

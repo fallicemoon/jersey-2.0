@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class JerseyFilter implements Filter {
-	private String ENCODING;
+	private String encoding;
 	private final String sendRedirectUrl = "/jersey/MemberServlet";
 	private final String ok = "ok";
 
@@ -26,7 +26,7 @@ public class JerseyFilter implements Filter {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		System.out.println(new Date() + " from " + httpServletRequest.getRemoteAddr());
-		httpServletRequest = new JerseyWrapper(httpServletRequest, this.ENCODING);
+		httpServletRequest = new JerseyWrapper(httpServletRequest, encoding);
 
 		HttpSession session = httpServletRequest.getSession();
 		System.out.println(session.getAttribute("login"));
@@ -37,10 +37,10 @@ public class JerseyFilter implements Filter {
 //		}
 
 		chain.doFilter(httpServletRequest, httpServletResponse);
-		
+		httpServletResponse.setCharacterEncoding(encoding);
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
-		this.ENCODING = fConfig.getInitParameter("encoding");
+		this.encoding = fConfig.getInitParameter("encoding");
 	}
 }

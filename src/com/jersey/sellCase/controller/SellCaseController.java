@@ -93,7 +93,7 @@ public class SellCaseController {
 	
 	// 刪除多筆
 	@ResponseBody
-	@RequestMapping(value = "", method = RequestMethod.PUT)
+	@RequestMapping(value = "", method = RequestMethod.PUT, produces="application/json;charset=UTF-8")
 	public String delete(@RequestBody String[] sellCaseIds) {
 		try {
 			Integer[] ids = new Integer[sellCaseIds.length];

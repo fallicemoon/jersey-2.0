@@ -25,13 +25,20 @@ public class JerseyEnum {
 			this.showName = showName;
 		}
 		
-		public List<CommodityAttrAuthority> getByAuthority () {
-			
+		public static List<CommodityAttrAuthority> getByAuthority (Authority authority) {
+			List<CommodityAttrAuthority> list = new ArrayList<>();
+			for (CommodityAttrAuthority commodityAttrAuthority : CommodityAttrAuthority.values()) {
+				if (commodityAttrAuthority.authority == authority) {
+					list.add(commodityAttrAuthority);
+				}
+			}
+			return list;
 		}
 		
 		public String getShowName() {
 			return showName;
 		}
+		
 	}
 	
 	public enum UserConfigType {
