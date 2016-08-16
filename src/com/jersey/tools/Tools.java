@@ -44,14 +44,12 @@ public class Tools {
 		return json;
 	}
 	
-	public static JSONObject getFailJson () {
+	public static JSONObject getFailJson (String msg) {
 		JSONObject json = new JSONObject();
 		json.put("result", "fail");
+		json.put("msg", msg);
 		return json;
 	}
-	
-	
-	
 	
 	
 	

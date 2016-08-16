@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
-import com.jersey.commodity.model.CommodityWithPicCountVO;
+import com.jersey.commodity.model.CommodityDisplayVO;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.UserConfigService;
 
@@ -74,7 +74,7 @@ public class CommodityController {
 	public String create(CommodityVO vo, Map<String, Object> map) {
 		vo.setIsStored(true);
 		commodityService.create(vo);
-		List<CommodityWithPicCountVO> list = new ArrayList<>();
+		List<CommodityDisplayVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityWithPicCountVO(vo));
 		map.put("commodityList", list);
 		return LIST;
@@ -85,7 +85,7 @@ public class CommodityController {
 	public String update(@PathVariable("id") Integer id, @ModelAttribute(value = "commodity") CommodityVO vo,
 			Map<String, Object> map, @RequestParam Map<String, Object> map2) {
 		commodityService.update(vo);
-		List<CommodityWithPicCountVO> list = new ArrayList<>();
+		List<CommodityDisplayVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityWithPicCountVO(vo));
 		map.put("commodityList", list);
 		return LIST;
@@ -104,7 +104,7 @@ public class CommodityController {
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson().toString();
+			return Tools.getFailJson("刪除失敗").toString();
 		}
 	}
 

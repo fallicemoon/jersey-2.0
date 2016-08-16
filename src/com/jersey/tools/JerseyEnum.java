@@ -9,8 +9,29 @@ public class JerseyEnum {
 		store, shippingCompany;
 	}
 	
+	public enum Authority {
+		admin, customer
+	}
+	
 	public enum CommodityAttrAuthority {
-		all, customer, customerHidden, admin, adminHidden;
+		admin(Authority.admin, "管理員"), 
+		adminHidden(Authority.admin, "管理員(隱藏)"), 
+		customer(Authority.customer, "顧客");
+		
+		private Authority authority;
+		private String showName;
+		private CommodityAttrAuthority (Authority authority, String showName) {
+			this.authority = authority;
+			this.showName = showName;
+		}
+		
+		public List<CommodityAttrAuthority> getByAuthority () {
+			
+		}
+		
+		public String getShowName() {
+			return showName;
+		}
 	}
 	
 	public enum UserConfigType {

@@ -2,6 +2,8 @@ package com.jersey.userConfig.controller;
 
 import java.util.Map;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.JerseyEnum.UserConfig;
 import com.jersey.tools.Tools;
+import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.UserConfigService;
 
 @Controller
@@ -43,21 +46,59 @@ public class UserConfigController {
 			UserConfig userConfig = UserConfig.valueOf(type);
 			Integer value = Integer.valueOf(values[0]);
 			if (value<=0 || value>100) {
-				throw new Exception("分頁筆數不得小於0或大於100");
+				return Tools.getFailJson("分頁筆數不得小於0或大於100").toString();
 			}
 			userConfigService.updateUserConfig(userConfig, value);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson().toString();
+			return Tools.getFailJson("修改參數失敗").toString();
 		}
 	}
 	
 	@RequestMapping(value="/commodityAttr", method=RequestMethod.GET)
 	public String getCommodityAttr (Map<String, Object> map) {
-		map.put("commodityAttrAuthority", CommodityAttrAuthority.values());
-		map.put("commodityAttrMap", userConfigService.getCommodityAttr());
+		map.put("commodityAttrAuthorityList", CommodityAttrAuthority.values());
+		map.put("commodityAttrMap", userConfigService.getCommodityAttrMap());
 		return COMMODITY_ATTR;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/commodityAttr", method=RequestMethod.POST)
+	public String createCommodityType (@RequestBody CommodityAttrVO commodityAttrVO) {
+		try {
+			if (userConfigService.getCommodityAttrMap().keySet().contains(commodityAttrVO.getCommodityType())) {
+				return Tools.getFailJson("已經有此商品類別").toString();
+			}
+			userConfigService.createCommodityAttr(commodityAttrVO);
+			return Tools.getSuccessJson().toString();
+		} catch (Exception e) {
+			return Tools.getFailJson("新增商品類別失敗").toString();
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/commodityAttr/{commodityType}", method=RequestMethod.POST)
+	public String createCommodityAttr (@RequestBody CommodityAttrVO commodityAttrVO, @PathParam("commodityType") String commodityType) {
+		try {
+			if (!commodityType.equals(commodityAttrVO.getCommodityAttr())) {
+				return Tools.getFailJson("別亂來!").toString();
+			}
+			if (userConfigService.getCommodityAttrMap().keySet().contains(commodityType)) {
+				return Tools.getFailJson("已經有此商品類別").toString();
+			}
+			userConfigService.createCommodityAttr(commodityAttrVO);
+			return Tools.getSuccessJson().toString();
+		} catch (Exception e) {
+			return Tools.getFailJson("新增商品屬性失敗").toString();
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/commodityAttr/{commodityType}", method=RequestMethod.DELETE)
+	public String removeCommodityAttr (@RequestBody String request, @PathParam("commodityType") String commodityType, Map<String, Object> map) {
+		
+		return Tools.getSuccessJson().toString();
 	}
 
 }

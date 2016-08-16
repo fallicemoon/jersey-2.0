@@ -45,6 +45,7 @@
 		<mapping resource="com/jersey/picture/model/PictureVO.hbm.xml" />
 		<mapping resource="com/jersey/userConfig/model/UserConfigVO.hbm.xml" />
 		<mapping resource="com/jersey/userConfig/model/CommodityAttrVO.hbm.xml" />
+		<mapping resource="com/jersey/commodity/model/CommodityAttrMappingVO.hbm.xml" />
 
 
 

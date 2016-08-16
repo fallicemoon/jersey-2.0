@@ -20,7 +20,7 @@ public class CommodityService {
 	@Autowired
 	private CommodityDAO dao;
 
-	public List<CommodityWithPicCountVO> getAll(Integer pageSize, Integer page) {
+	public List<CommodityDisplayVO> getAll(Integer pageSize, Integer page) {
 		return getCommodityWithPicCountList(dao.getAll(pageSize, page));
 	}
 	
@@ -95,8 +95,8 @@ public class CommodityService {
 		return pictureDAO.getCommodityIdPictureCount(commodityId);
 	}
 	
-	public CommodityWithPicCountVO getCommodityWithPicCountVO (CommodityVO commodityVO) {
-		CommodityWithPicCountVO commodityWithPicCountVO = new CommodityWithPicCountVO();
+	public CommodityDisplayVO getCommodityWithPicCountVO (CommodityVO commodityVO) {
+		CommodityDisplayVO commodityWithPicCountVO = new CommodityDisplayVO();
 		if (commodityVO!=null) {
 			Tools.copyBeanProperties(commodityVO, commodityWithPicCountVO);
 			commodityWithPicCountVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
@@ -104,11 +104,11 @@ public class CommodityService {
 		return commodityWithPicCountVO;
 	}
 	
-	public List<CommodityWithPicCountVO> getCommodityWithPicCountList (Collection<CommodityVO> commodityList) {
+	public List<CommodityDisplayVO> getCommodityWithPicCountList (Collection<CommodityVO> commodityList) {
 		Map<Integer, Integer> pictureCountMap = getCommodityIdPictureCountMap();
-		List<CommodityWithPicCountVO> newList = new ArrayList<>();
+		List<CommodityDisplayVO> newList = new ArrayList<>();
 		for (CommodityVO commodityVO : commodityList) {
-			CommodityWithPicCountVO commodityWithPicCountVO = new CommodityWithPicCountVO();
+			CommodityDisplayVO commodityWithPicCountVO = new CommodityDisplayVO();
 			Tools.copyBeanProperties(commodityVO, commodityWithPicCountVO);
 			Integer count = pictureCountMap.get(commodityWithPicCountVO.getCommodityId());
 			commodityWithPicCountVO.setPictureCount(count==null ? 0:count);

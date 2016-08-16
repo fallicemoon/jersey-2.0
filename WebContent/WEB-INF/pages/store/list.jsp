@@ -48,7 +48,7 @@
     								alertify.success("刪除成功");
     								checked.parent().parent().remove();
     							} else {
-    								alertify.error("刪除失敗");
+    								alertify.error(data.msg);
     							}
     						},
     						error : function(){

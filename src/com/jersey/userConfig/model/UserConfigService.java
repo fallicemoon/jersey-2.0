@@ -33,7 +33,7 @@ public class UserConfigService {
 	public void init () throws SQLException, IOException {
 		//目前設定檔只有一筆, PK為1
 		userConfigVO = userConfigDAO.getOne(1);
-		commodityAttrMap = getCommodityAttrMap();
+		commodityAttrMap = generateCommodityAttrMap();
 	}
 
 	//-----------------------get config-----------------------
@@ -54,7 +54,7 @@ public class UserConfigService {
 	}
 	
 	//取得key為商品類別, value為List<CommodityAttrVO>的map
-	public Map<String, List<CommodityAttrVO>> getCommodityAttr () {
+	public Map<String, List<CommodityAttrVO>> getCommodityAttrMap () {
 		return commodityAttrMap;
 	}
 	
@@ -67,21 +67,21 @@ public class UserConfigService {
 	
 	public void createCommodityAttr (CommodityAttrVO commodityAttrVO) {
 		commodityAttrDAO.create(commodityAttrVO);
-		commodityAttrMap = getCommodityAttrMap();
+		commodityAttrMap = generateCommodityAttrMap();
 	} 
 	
 	public void removeCommodityAttr (Integer[] ids) {
 		commodityAttrDAO.delete(ids);
-		commodityAttrMap = getCommodityAttrMap();
+		commodityAttrMap = generateCommodityAttrMap();
 	}
 	
 	public void updateCommodityAttrAuthority (CommodityAttrVO commodityAttrVO) {
 		commodityAttrDAO.update(commodityAttrVO);
-		commodityAttrMap = getCommodityAttrMap();
+		commodityAttrMap = generateCommodityAttrMap();
 	}
 	
 	//-----------------------commodity attr-----------------------
-	private Map<String, List<CommodityAttrVO>> getCommodityAttrMap () {
+	private Map<String, List<CommodityAttrVO>> generateCommodityAttrMap () {
 		Map<String, List<CommodityAttrVO>> map = new LinkedHashMap<>();
 		for (String commodityType : commodityAttrDAO.getCommodityTypeList()) {
 			map.put(commodityType, commodityAttrDAO.getCommodityAttrList(commodityType));

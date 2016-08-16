@@ -12,25 +12,22 @@ public class CommodityVO extends AbstractVo{
 	private PurchaseCaseVO purchaseCaseVO;
 	private String itemName;
 	
-	private Integer qty;
-	private String link;
-	private String player;
-	private String number;
-	private String season;
-	private String team;
-	private String style;
-	private String color;
-	private String brand;
-	private String size;
-	private String level;
-	private String condition;
-	private String tag;
-	private String patchAndCertificate;
-	private String serial;
-	private String owner;
-
-//	private String commodityType;
-//	private Clob commodityAttribute;
+//	private Integer qty;
+//	private String link;
+//	private String player;
+//	private String number;
+//	private String season;
+//	private String team;
+//	private String style;
+//	private String color;
+//	private String brand;
+//	private String size;
+//	private String level;
+//	private String condition;
+//	private String tag;
+//	private String patchAndCertificate;
+//	private String serial;
+//	private String owner;
 	
 	private Integer cost;
 	private Integer sellPrice;
@@ -93,149 +90,133 @@ public class CommodityVO extends AbstractVo{
 		this.itemName = itemName;
 	}
 
-//	public String getCommodityType() {
-//		return commodityType;
+//	public Integer getQty() {
+//		return qty;
 //	}
 //
-//	public void setCommodityType(String commodityType) {
-//		this.commodityType = commodityType;
+//	public void setQty(Integer qty) {
+//		this.qty = qty;
 //	}
 //
-//	public Clob getCommodityAttribute() {
-//		return commodityAttribute;
+//	public String getLink() {
+//		return link;
 //	}
 //
-//	public void setCommodityAttribute(Clob commodityAttribute) {
-//		this.commodityAttribute = commodityAttribute;
+//	public void setLink(String link) {
+//		this.link = link;
 //	}
-
-	public Integer getQty() {
-		return qty;
-	}
-
-	public void setQty(Integer qty) {
-		this.qty = qty;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
-
-	public String getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(String player) {
-		this.player = player;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public String getSeason() {
-		return season;
-	}
-
-	public void setSeason(String season) {
-		this.season = season;
-	}
-
-	public String getTeam() {
-		return team;
-	}
-
-	public void setTeam(String team) {
-		this.team = team;
-	}
-
-	public String getStyle() {
-		return style;
-	}
-
-	public void setStyle(String style) {
-		this.style = style;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
-	public String getLevel() {
-		return level;
-	}
-
-	public void setLevel(String level) {
-		this.level = level;
-	}
-
-	public String getCondition() {
-		return condition;
-	}
-
-	public void setCondition(String condition) {
-		this.condition = condition;
-	}
-
-	public String getTag() {
-		return tag;
-	}
-
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
-
-	public String getPatchAndCertificate() {
-		return patchAndCertificate;
-	}
-
-	public void setPatchAndCertificate(String patchAndCertificate) {
-		this.patchAndCertificate = patchAndCertificate;
-	}
-
-	public String getSerial() {
-		return serial;
-	}
-
-	public void setSerial(String serial) {
-		this.serial = serial;
-	}
-
-	public String getOwner() {
-		return owner;
-	}
-
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
+//
+//	public String getPlayer() {
+//		return player;
+//	}
+//
+//	public void setPlayer(String player) {
+//		this.player = player;
+//	}
+//
+//	public String getNumber() {
+//		return number;
+//	}
+//
+//	public void setNumber(String number) {
+//		this.number = number;
+//	}
+//
+//	public String getSeason() {
+//		return season;
+//	}
+//
+//	public void setSeason(String season) {
+//		this.season = season;
+//	}
+//
+//	public String getTeam() {
+//		return team;
+//	}
+//
+//	public void setTeam(String team) {
+//		this.team = team;
+//	}
+//
+//	public String getStyle() {
+//		return style;
+//	}
+//
+//	public void setStyle(String style) {
+//		this.style = style;
+//	}
+//
+//	public String getColor() {
+//		return color;
+//	}
+//
+//	public void setColor(String color) {
+//		this.color = color;
+//	}
+//
+//	public String getBrand() {
+//		return brand;
+//	}
+//
+//	public void setBrand(String brand) {
+//		this.brand = brand;
+//	}
+//
+//	public String getSize() {
+//		return size;
+//	}
+//
+//	public void setSize(String size) {
+//		this.size = size;
+//	}
+//
+//	public String getLevel() {
+//		return level;
+//	}
+//
+//	public void setLevel(String level) {
+//		this.level = level;
+//	}
+//
+//	public String getCondition() {
+//		return condition;
+//	}
+//
+//	public void setCondition(String condition) {
+//		this.condition = condition;
+//	}
+//
+//	public String getTag() {
+//		return tag;
+//	}
+//
+//	public void setTag(String tag) {
+//		this.tag = tag;
+//	}
+//
+//	public String getPatchAndCertificate() {
+//		return patchAndCertificate;
+//	}
+//
+//	public void setPatchAndCertificate(String patchAndCertificate) {
+//		this.patchAndCertificate = patchAndCertificate;
+//	}
+//
+//	public String getSerial() {
+//		return serial;
+//	}
+//
+//	public void setSerial(String serial) {
+//		this.serial = serial;
+//	}
+//
+//	public String getOwner() {
+//		return owner;
+//	}
+//
+//	public void setOwner(String owner) {
+//		this.owner = owner;
+//	}
 
 	@Override
 	public int hashCode() {
@@ -262,19 +243,14 @@ public class CommodityVO extends AbstractVo{
 		return true;
 	}
 
-
-
-
 	@Override
 	public String toString() {
 		return "CommodityVO [commodityId=" + commodityId + ", purchaseCaseVO=" + purchaseCaseVO + ", itemName="
-				+ itemName + ", qty=" + qty + ", link=" + link + ", player=" + player + ", number=" + number
-				+ ", season=" + season + ", team=" + team + ", style=" + style + ", color=" + color + ", brand=" + brand
-				+ ", size=" + size + ", level=" + level + ", condition=" + condition + ", tag=" + tag
-				+ ", patchAndCertificate=" + patchAndCertificate + ", serial=" + serial + ", owner=" + owner
-				+ ", createTime=" + getCreateTime() + ", lastModifyTime=" + getLastModifyTime() + ", cost=" + cost
-				+ ", sellPrice=" + sellPrice + ", sellPlatform=" + sellPlatform + ", isStored=" + isStored + "]";
+				+ itemName + ", cost=" + cost + ", sellPrice=" + sellPrice + ", sellPlatform=" + sellPlatform
+				+ ", isStored=" + isStored + "]";
 	}
+
+
 
 
 	

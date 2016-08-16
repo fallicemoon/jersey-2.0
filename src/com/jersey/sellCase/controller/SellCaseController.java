@@ -104,7 +104,7 @@ public class SellCaseController {
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson().toString();
+			return Tools.getFailJson("刪除失敗").toString();
 		}
 	}
 	

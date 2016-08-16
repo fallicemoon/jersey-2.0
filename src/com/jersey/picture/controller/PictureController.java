@@ -99,10 +99,10 @@ public class PictureController {
 			return Tools.getSuccessJson().toString();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			return Tools.getFailJson().toString();
+			return Tools.getFailJson("刪除失敗").toString();
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return Tools.getFailJson().toString();			
+			return Tools.getFailJson("刪除失敗").toString();			
 		}
 	}
 	

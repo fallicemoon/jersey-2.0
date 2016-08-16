@@ -31,7 +31,7 @@
 							self.parent().prev().prev().text(value[0]);
 							self.prop("disabled", false).text("更新");
 						} else {
-							alertify.error("更新失敗");
+							alertify.error(data.msg);
 							self.prop("disabled", false).text("更新");
 						}
 					},
