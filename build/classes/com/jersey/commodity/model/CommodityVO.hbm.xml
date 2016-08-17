@@ -13,7 +13,6 @@
         	<column name="purchase_case_id"></column>
         </many-to-one>
         <property name="itemName" column="item_name" />
-        <property name="commodityType" column="commodity_type" />
 <!--         <property name="qty" column="qty" /> -->
 <!--         <property name="link" column="link" /> -->
 <!--         <property name="player" column="player" /> -->

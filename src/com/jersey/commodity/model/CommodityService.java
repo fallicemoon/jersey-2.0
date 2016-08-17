@@ -87,27 +87,27 @@ public class CommodityService {
 		return newList;
 	}
 	
-	public List<CommodityDisplayVO> getCommodityDisplayVOList (String commodityType, Collection<CommodityVO> commodityList) {
-		Map<Integer, Integer> pictureCountMap = getCommodityIdPictureCountMap();
-		List<CommodityAttrVO> commodityAttrList = userConfigService.getCommodityAttrMap().get(commodityType);
-		List<CommodityDisplayVO> newList = new ArrayList<>();
-		for (CommodityVO commodityVO : commodityList) {
-			CommodityDisplayVO commodityDisplayVO = new CommodityDisplayVO();
-			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
-			//pictureCount
-			Integer count = pictureCountMap.get(commodityDisplayVO.getCommodityId());
-			commodityDisplayVO.setPictureCount(count==null ? 0:count);
-			//commodityAttr
-			Map<String, String> commodityAttrValueMap = new LinkedHashMap<>();
-			List<CommodityAttrMappingVO> commodityAttrMappingList = commodityAttrMappingDAO.getByCommodityVO(commodityVO);
-			for (CommodityAttrVO commodityAttrVO : commodityAttrList) {
-				commodityAttrValueMap.put(commodityAttrVO.getCommodityAttr());
-			}
-			commodityDisplayVO.setCommodityAttrValueMap(commodityAttrValueMap);
-			newList.add(commodityDisplayVO);
-		}
-		return newList;
-	}
+//	public List<CommodityDisplayVO> getCommodityDisplayVOList (String commodityType, Collection<CommodityVO> commodityList) {
+//		Map<Integer, Integer> pictureCountMap = getCommodityIdPictureCountMap();
+//		List<CommodityAttrVO> commodityAttrList = userConfigService.getCommodityAttrMap().get(commodityType);
+//		List<CommodityDisplayVO> newList = new ArrayList<>();
+//		for (CommodityVO commodityVO : commodityList) {
+//			CommodityDisplayVO commodityDisplayVO = new CommodityDisplayVO();
+//			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
+//			//pictureCount
+//			Integer count = pictureCountMap.get(commodityDisplayVO.getCommodityId());
+//			commodityDisplayVO.setPictureCount(count==null ? 0:count);
+//			//commodityAttr
+//			Map<String, String> commodityAttrValueMap = new LinkedHashMap<>();
+//			List<CommodityAttrMappingVO> commodityAttrMappingList = commodityAttrMappingDAO.getByCommodityVO(commodityVO);
+//			for (CommodityAttrVO commodityAttrVO : commodityAttrList) {
+//				commodityAttrValueMap.put(commodityAttrVO.getCommodityAttr());
+//			}
+//			commodityDisplayVO.setCommodityAttrValueMap(commodityAttrValueMap);
+//			newList.add(commodityDisplayVO);
+//		}
+//		return newList;
+//	}
 	
 	
 	

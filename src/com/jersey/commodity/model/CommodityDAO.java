@@ -1,10 +1,15 @@
 package com.jersey.commodity.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.ResultTransformer;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
@@ -16,6 +21,26 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 
 	public CommodityDAO() {
 		super(CommodityVO.class, "commodityId");
+	}
+	
+	public List<Object> getCommodityAttrValue (Integer commodityId) {
+		String hql = "select ca.commodityAttr, cam.commodityAttrValue, ca.commodityAttrAuthority from CommodityVO c "
+				+ "left join c.commodityId as cam left outer join cam.commodityAttrVO as ca "
+				+ "where c.commodityVO=:commodityVO";
+		List<Object> list;
+		Session session = HibernateTools.getSession();
+		session.beginTransaction();
+		try {
+			CommodityVO commodityVO = new CommodityVO();
+			commodityVO.setCommodityId(commodityId);
+			Query query = session.createQuery(hql).setParameter("commodityVO", commodityVO);
+			list = query.list();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			list = new ArrayList<>();
+		}
+		return list;
 	}
 
 	// public List<CommodityVO> getAll() {

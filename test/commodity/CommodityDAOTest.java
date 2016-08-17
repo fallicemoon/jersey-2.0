@@ -8,6 +8,8 @@ import org.junit.Test;
 import com.jersey.commodity.model.CommodityDAO;
 import com.jersey.commodity.model.CommodityVO;
 
+import sun.net.www.content.text.plain;
+
 public class CommodityDAOTest {
 	
 	private CommodityDAO commodityDAO;
@@ -27,6 +29,11 @@ public class CommodityDAOTest {
 	@Test
 	public void getOne () {
 		System.out.println(commodityDAO.getOne(85));
+	}
+	
+	@Test
+	public void getCommodityAttrValue () {
+		System.out.println(commodityDAO.getCommodityAttrValue(19));
 	} 
 
 }

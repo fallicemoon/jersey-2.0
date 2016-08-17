@@ -1,7 +1,5 @@
 package com.jersey.commodity.model;
 
-import java.util.Map;
-
 public class CommodityDisplayVO extends CommodityVO {
 
 	/**
@@ -10,7 +8,7 @@ public class CommodityDisplayVO extends CommodityVO {
 	private static final long serialVersionUID = 4286339903266668677L;
 	
 	private Integer pictureCount;
-	private Map<String, String> commodityAttrValueMap;
+	private CommodityAttrValueVO commodityAttrValueVO;
 	
 
 	public Integer getPictureCount() {
@@ -21,13 +19,15 @@ public class CommodityDisplayVO extends CommodityVO {
 		this.pictureCount = pictureCount;
 	}
 
-	public Map<String, String> getCommodityAttrValueMap() {
-		return commodityAttrValueMap;
+	public CommodityAttrValueVO getCommodityAttrValueVO() {
+		return commodityAttrValueVO;
 	}
 
-	public void setCommodityAttrValueMap(Map<String, String> commodityAttrValueMap) {
-		this.commodityAttrValueMap = commodityAttrValueMap;
+	public void setCommodityAttrValueVO(CommodityAttrValueVO commodityAttrValueVO) {
+		this.commodityAttrValueVO = commodityAttrValueVO;
 	}
+
+
 	
 
 }
