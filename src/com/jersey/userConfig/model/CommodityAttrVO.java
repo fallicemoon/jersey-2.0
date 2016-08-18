@@ -11,7 +11,6 @@ public class CommodityAttrVO extends AbstractVo{
 	private static final long serialVersionUID = 7656268428089108516L;
 
 	private Integer commodityAttrId;
-	private String commodityType;
 	private String commodityAttr;
 	private CommodityAttrAuthority commodityAttrAuthority;
 	
@@ -20,12 +19,6 @@ public class CommodityAttrVO extends AbstractVo{
 	}
 	public void setCommodityAttrId(Integer commodityAttrId) {
 		this.commodityAttrId = commodityAttrId;
-	}
-	public String getCommodityType() {
-		return commodityType;
-	}
-	public void setCommodityType(String commodityType) {
-		this.commodityType = commodityType;
 	}
 	public String getCommodityAttr() {
 		return commodityAttr;
@@ -42,8 +35,8 @@ public class CommodityAttrVO extends AbstractVo{
 	
 	@Override
 	public String toString() {
-		return "CommodityAttrVO [commodityAttrId=" + commodityAttrId + ", commodityType=" + commodityType
-				+ ", commodityAttr=" + commodityAttr + ", commodityAttrAuthority=" + commodityAttrAuthority + "]";
+		return "CommodityAttrVO [commodityAttrId=" + commodityAttrId + ", commodityAttr=" + commodityAttr
+				+ ", commodityAttrAuthority=" + commodityAttrAuthority + "]";
 	}
 	
 	

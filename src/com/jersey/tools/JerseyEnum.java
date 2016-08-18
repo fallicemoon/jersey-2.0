@@ -10,18 +10,24 @@ public class JerseyEnum {
 	}
 	
 	public enum Authority {
-		admin, customer
+		admin, customer;
+	}
+	
+	public enum CommodityAttrStatus {
+		show, hidden;
 	}
 	
 	public enum CommodityAttrAuthority {
-		admin(Authority.admin, "管理員"), 
-		adminHidden(Authority.admin, "管理員(隱藏)"), 
-		customer(Authority.customer, "顧客");
+		admin(Authority.admin, CommodityAttrStatus.show, "管理員"), 
+		adminHidden(Authority.admin, CommodityAttrStatus.hidden,"管理員(隱藏)"), 
+		customer(Authority.customer, CommodityAttrStatus.show, "顧客");
 		
 		private Authority authority;
+		private CommodityAttrStatus commodityAttrStatus;
 		private String showName;
-		private CommodityAttrAuthority (Authority authority, String showName) {
+		private CommodityAttrAuthority (Authority authority, CommodityAttrStatus commodityAttrStatus, String showName) {
 			this.authority = authority;
+			this.commodityAttrStatus = commodityAttrStatus;
 			this.showName = showName;
 		}
 		
@@ -37,6 +43,10 @@ public class JerseyEnum {
 		
 		public String getShowName() {
 			return showName;
+		}
+		
+		public CommodityAttrStatus getCommodityAttrStatus() {
+			return commodityAttrStatus;
 		}
 		
 	}

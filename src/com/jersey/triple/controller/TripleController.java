@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
-import com.jersey.commodity.model.CommodityDisplayVO;
+import com.jersey.commodity.model.CommodityDisplay;
 import com.jersey.purchaseCase.model.PurchaseCaseService;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.sellCase.model.SellCaseService;
@@ -43,7 +43,7 @@ public class TripleController {
 	
 	@RequestMapping(value = "/commodity/{id}", method = RequestMethod.GET)
 	public String commodity (@PathVariable("id") Integer commodityId, Map<String, Object> map) {
-		List<CommodityDisplayVO> commodityList = new ArrayList<>();
+		List<CommodityDisplay> commodityList = new ArrayList<>();
 		List<PurchaseCaseVO> purchaseCaseList = new ArrayList<>();
 		List<SellCaseWithBenefitVO> sellCaseWithBenefitList = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class TripleController {
 	
 	@RequestMapping(value = "/purchaseCase/{id}", method = RequestMethod.GET)
 	public String purchaseCase (@PathVariable("id") Integer purchaseCaseId, Map<String, Object> map) {
-		Set<CommodityDisplayVO> commoditys = new LinkedHashSet<>();
+		Set<CommodityDisplay> commoditys = new LinkedHashSet<>();
 		List<PurchaseCaseVO> purchaseCaseList = new ArrayList<>();
 		List<SellCaseWithBenefitVO> sellCaseList = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class TripleController {
 	
 	@RequestMapping(value = "/sellCase/{id}", method = RequestMethod.GET)
 	public String sellCase (@PathVariable("id") Integer sellCaseId, Map<String, Object> map) {
-		Set<CommodityDisplayVO> commoditys = new LinkedHashSet<>();
+		Set<CommodityDisplay> commoditys = new LinkedHashSet<>();
 		Set<PurchaseCaseVO> purchaseCases = new LinkedHashSet<>();
 		List<SellCaseWithBenefitVO> sellCaseList = new ArrayList<>();
 		SellCaseVO sellCaseVO = SellCaseService.getOne(sellCaseId);

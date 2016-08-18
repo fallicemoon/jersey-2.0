@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
-import com.jersey.commodity.model.CommodityDisplayVO;
+import com.jersey.commodity.model.CommodityDisplay;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseVO;
@@ -23,7 +23,7 @@ public class TripleService {
 	@Autowired
 	private SellCaseService scs;
 
-	public void generateTriple(CommodityVO commodityVO, List<CommodityDisplayVO> commodityVOList,
+	public void generateTriple(CommodityVO commodityVO, List<CommodityDisplay> commodityVOList,
 			List<PurchaseCaseVO> purchaseCaseVOList, List<SellCaseWithBenefitVO> sellCaseWithBenefitVOList) {
 		commodityVOList.add(cs.getCommodityDisplayVO(commodityVO));
 		purchaseCaseVOList.add(commodityVO.getPurchaseCaseVO());
@@ -33,7 +33,7 @@ public class TripleService {
 		}
 	}
 
-	public void generateTriple(PurchaseCaseVO purchaseCaseVO, Set<CommodityDisplayVO> commodityVOSet,
+	public void generateTriple(PurchaseCaseVO purchaseCaseVO, Set<CommodityDisplay> commodityVOSet,
 			List<PurchaseCaseVO> purchaseCaseVOList, List<SellCaseWithBenefitVO> sellCaseWithBenefitVOList) {
 		Set<CommodityVO> commodityVOs = purchaseCaseVO.getCommoditys();
 		commodityVOSet.addAll(cs.getCommodityDisplayVOList(commodityVOs));
@@ -41,7 +41,7 @@ public class TripleService {
 		sellCaseWithBenefitVOList.add(scs.getSellCaseWithBenefitVo(purchaseCaseVO.getSellCaseVO()));
 	}
 
-	public void generateTriple(SellCaseVO sellCaseVO, Set<CommodityDisplayVO> commodityVOSet,
+	public void generateTriple(SellCaseVO sellCaseVO, Set<CommodityDisplay> commodityVOSet,
 			Set<PurchaseCaseVO> purchaseCaseVOSet, List<SellCaseWithBenefitVO> sellCaseWithBenefitVOList) {
 		SellCaseWithBenefitVO sellCaseWithBenefitVO = scs.getSellCaseWithBenefitVo(sellCaseVO);
 		sellCaseWithBenefitVOList.add(sellCaseWithBenefitVO);

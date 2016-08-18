@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.AbstractDAO;
 import com.jersey.tools.HibernateTools;
+import com.jersey.tools.JerseyEnum.Authority;
+import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 
 @Repository
 public class CommodityDAO extends AbstractDAO<CommodityVO> {
@@ -23,17 +25,20 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		super(CommodityVO.class, "commodityId");
 	}
 	
-	public List<Object> getCommodityAttrValue (Integer commodityId) {
+	public List<CommodityAttrValue> getCommodityAttrValue (Integer commodityId, Authority authority) {
+		//TODO 加authority判斷
+		List<CommodityAttrAuthority> commodityAttrAuthorityList = CommodityAttrAuthority.getByAuthority(authority);
 		String hql = "select ca.commodityAttr, cam.commodityAttrValue, ca.commodityAttrAuthority from CommodityVO c "
 				+ "left join c.commodityId as cam left outer join cam.commodityAttrVO as ca "
-				+ "where c.commodityVO=:commodityVO";
-		List<Object> list;
+				+ "where c.commodityVO=:commodityVO and ca.commodityAttrAuthority in :commodityAttrAuthorityList";
+		List<CommodityAttrValue> list;
 		Session session = HibernateTools.getSession();
 		session.beginTransaction();
 		try {
 			CommodityVO commodityVO = new CommodityVO();
 			commodityVO.setCommodityId(commodityId);
-			Query query = session.createQuery(hql).setParameter("commodityVO", commodityVO);
+			Query query = session.createQuery(hql).setParameter("commodityVO", commodityVO)
+					.setParameterList("commodityAttrAuthorityList", commodityAttrAuthorityList);
 			list = query.list();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -41,6 +46,12 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 			list = new ArrayList<>();
 		}
 		return list;
+	}
+	
+	@Deprecated
+	public CommodityAttrValue getCommodityAttrValueList () {
+		//TODO 感覺效能很恐怖, 要做嗎?
+		return null;
 	}
 
 	// public List<CommodityVO> getAll() {

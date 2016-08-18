@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
-import com.jersey.commodity.model.CommodityDisplayVO;
+import com.jersey.commodity.model.CommodityDisplay;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.UserConfigService;
 
@@ -48,12 +48,8 @@ public class CommodityController {
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		map.put("commodityList", commodityService.getAll(userConfigService.getCommodityPageSize(), page));
-		Long count = commodityService.getTotalCount()/userConfigService.getCommodityPageSize();
-		if (commodityService.getTotalCount()%userConfigService.getCommodityPageSize()!=0) {
-			count++;
-		}
-		map.put("pages", count);
+		map.put("commodityList", commodityService.getAll(userConfigService.getCommodityPageSize(), page, userConfigService.getAuthority()));
+		map.put("pages", commodityService.getPages());
 		return LIST;
 	}
 
@@ -74,7 +70,7 @@ public class CommodityController {
 	public String create(CommodityVO vo, Map<String, Object> map) {
 		vo.setIsStored(true);
 		commodityService.create(vo);
-		List<CommodityDisplayVO> list = new ArrayList<>();
+		List<CommodityDisplay> list = new ArrayList<>();
 		list.add(commodityService.getCommodityDisplayVO(vo));
 		map.put("commodityList", list);
 		return LIST;
@@ -85,7 +81,7 @@ public class CommodityController {
 	public String update(@PathVariable("id") Integer id, @ModelAttribute(value = "commodity") CommodityVO vo,
 			Map<String, Object> map, @RequestParam Map<String, Object> map2) {
 		commodityService.update(vo);
-		List<CommodityDisplayVO> list = new ArrayList<>();
+		List<CommodityDisplay> list = new ArrayList<>();
 		list.add(commodityService.getCommodityDisplayVO(vo));
 		map.put("commodityList", list);
 		return LIST;

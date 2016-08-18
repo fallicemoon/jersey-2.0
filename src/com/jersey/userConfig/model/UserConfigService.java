@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.UserConfig;
 
 @Service
@@ -37,6 +38,12 @@ public class UserConfigService {
 	}
 
 	//-----------------------get config-----------------------
+	public Authority getAuthority () {
+		//TODO
+		return Authority.admin;
+		//return userConfigVO.getAuthority();
+	}
+	
 	public Integer getCommodityPageSize () {
 		return userConfigVO.getCommodityPageSize();
 	}

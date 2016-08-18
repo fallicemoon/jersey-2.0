@@ -1,5 +1,7 @@
 package com.jersey.commodity.model;
 
+import java.util.Set;
+
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.AbstractVo;
 
@@ -11,6 +13,9 @@ public class CommodityVO extends AbstractVo{
 	private Integer commodityId;
 	private PurchaseCaseVO purchaseCaseVO;
 	private String itemName;
+	
+	private CommodityTypeVO commodityTypeVO;
+	private Set<CommodityAttrMappingVO> commodityAttrMappings;
 	
 //	private Integer qty;
 //	private String link;
@@ -89,6 +94,7 @@ public class CommodityVO extends AbstractVo{
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
+	
 	
 //	public Integer getQty() {
 //		return qty;
@@ -219,6 +225,22 @@ public class CommodityVO extends AbstractVo{
 //	}
 
 
+
+	public CommodityTypeVO getCommodityTypeVO() {
+		return commodityTypeVO;
+	}
+
+	public void setCommodityTypeVO(CommodityTypeVO commodityTypeVO) {
+		this.commodityTypeVO = commodityTypeVO;
+	}
+
+	public Set<CommodityAttrMappingVO> getCommodityAttrMappings() {
+		return commodityAttrMappings;
+	}
+
+	public void setCommodityAttrMappings(Set<CommodityAttrMappingVO> commodityAttrMappings) {
+		this.commodityAttrMappings = commodityAttrMappings;
+	}
 
 	@Override
 	public int hashCode() {

@@ -13,6 +13,15 @@
         	<column name="purchase_case_id"></column>
         </many-to-one>
         <property name="itemName" column="item_name" />
+        
+        <many-to-one name="commodityTypeVO" class="com.jersey.commodity.model.CommodityTypeVO" lazy="false">
+        	<column name="commodity_type_id"></column>
+        </many-to-one>
+        
+        <set name="commodityAttrs" table="commodity_attr" lazy="false" order-by="commodityAttrId asc">
+        	<key><column name="commodity_attr_id"></column></key>
+        	<one-to-many class="com.jersey.userConfig.model.CommodityAttrVO" />
+        </set>
 <!--         <property name="qty" column="qty" /> -->
 <!--         <property name="link" column="link" /> -->
 <!--         <property name="player" column="player" /> -->

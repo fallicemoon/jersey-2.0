@@ -9,6 +9,8 @@
 			<generator class="identity" />
 		</id>
 
+		<property name="userName" column="user_name" />
+		<property name="authority" column="authority" />
 		<property name="commodityPageSize" column="commodity_page_size" />
 		<property name="purchaseCasePageSize" column="purchase_case_page_size" />
 		<property name="sellCasePageSize" column="sell_case_page_size" />
