@@ -18,15 +18,15 @@ public class JerseyEnum {
 	}
 	
 	public enum CommodityAttrAuthority {
-		admin(Authority.admin, CommodityAttrStatus.show, "管理員"), 
-		adminHidden(Authority.admin, CommodityAttrStatus.hidden,"管理員(隱藏)"), 
-		customer(Authority.customer, CommodityAttrStatus.show, "顧客");
+		admin(CommodityAttrStatus.show, "管理員", Authority.admin), 
+		adminHidden(CommodityAttrStatus.hidden,"管理員(隱藏)", Authority.admin), 
+		customer(CommodityAttrStatus.show, "顧客", Authority.admin, Authority.customer);
 		
-		private Authority authority;
+		private Authority[] authoritys;
 		private CommodityAttrStatus commodityAttrStatus;
 		private String showName;
-		private CommodityAttrAuthority (Authority authority, CommodityAttrStatus commodityAttrStatus, String showName) {
-			this.authority = authority;
+		private CommodityAttrAuthority (CommodityAttrStatus commodityAttrStatus, String showName, Authority... authoritys) {
+			this.authoritys = authoritys;
 			this.commodityAttrStatus = commodityAttrStatus;
 			this.showName = showName;
 		}
@@ -34,8 +34,10 @@ public class JerseyEnum {
 		public static List<CommodityAttrAuthority> getByAuthority (Authority authority) {
 			List<CommodityAttrAuthority> list = new ArrayList<>();
 			for (CommodityAttrAuthority commodityAttrAuthority : CommodityAttrAuthority.values()) {
-				if (commodityAttrAuthority.authority == authority) {
-					list.add(commodityAttrAuthority);
+				for (Authority oldAuthority : commodityAttrAuthority.authoritys) {
+					if (oldAuthority==authority) {
+						list.add(commodityAttrAuthority);
+					}
 				}
 			}
 			return list;

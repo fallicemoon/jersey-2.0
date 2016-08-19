@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jersey.commodity.model.CommodityDisplay;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
-import com.jersey.commodity.model.CommodityDisplay;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.UserConfigService;
 
@@ -45,11 +45,11 @@ public class CommodityController {
 	}
 
 	// 取得全部
-	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public String getAll(Map<String, Object> map,
+	@RequestMapping(value = "/{commodityType}/getAll", method = RequestMethod.GET)
+	public String getAll(Map<String, Object> map, @PathVariable(value="commodityType") String commodityType,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		map.put("commodityList", commodityService.getAll(userConfigService.getCommodityPageSize(), page, userConfigService.getAuthority()));
-		map.put("pages", commodityService.getPages());
+		map.put("commodityList", commodityService.getAll(commodityType, page));
+		map.put("pages", commodityService.getPages(commodityType));
 		return LIST;
 	}
 

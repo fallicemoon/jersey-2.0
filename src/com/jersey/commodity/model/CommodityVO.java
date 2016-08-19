@@ -4,6 +4,8 @@ import java.util.Set;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.AbstractVo;
+import com.jersey.tools.JerseyEnum.Authority;
+import com.jersey.userConfig.model.CommodityTypeVO;
 
 public class CommodityVO extends AbstractVo{
 	/**
@@ -36,7 +38,7 @@ public class CommodityVO extends AbstractVo{
 	
 	private Integer cost;
 	private Integer sellPrice;
-	private String sellPlatform;
+	private Authority authority;
 	private Boolean isStored;
 
 	public Integer getCost() {
@@ -71,12 +73,12 @@ public class CommodityVO extends AbstractVo{
 		this.isStored = isStored;
 	}
 
-	public String getSellPlatform() {
-		return this.sellPlatform;
+	public Authority getAuthority() {
+		return authority;
 	}
 
-	public void setSellPlatform(String sellPlatform) {
-		this.sellPlatform = sellPlatform;
+	public void setAuthority(Authority authority) {
+		this.authority = authority;
 	}
 
 	public Integer getCommodityId() {
@@ -270,9 +272,12 @@ public class CommodityVO extends AbstractVo{
 	@Override
 	public String toString() {
 		return "CommodityVO [commodityId=" + commodityId + ", purchaseCaseVO=" + purchaseCaseVO + ", itemName="
-				+ itemName + ", cost=" + cost + ", sellPrice=" + sellPrice + ", sellPlatform=" + sellPlatform
-				+ ", isStored=" + isStored + "]";
+				+ itemName + ", commodityTypeVO=" + commodityTypeVO + ", commodityAttrMappings=" + commodityAttrMappings
+				+ ", cost=" + cost + ", sellPrice=" + sellPrice + ", authority=" + authority + ", isStored=" + isStored
+				+ "]";
 	}
+
+
 
 
 

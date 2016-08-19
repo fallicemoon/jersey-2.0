@@ -18,9 +18,9 @@
         	<column name="commodity_type_id"></column>
         </many-to-one>
         
-        <set name="commodityAttrs" table="commodity_attr" lazy="false" order-by="commodityAttrId asc">
-        	<key><column name="commodity_attr_id"></column></key>
-        	<one-to-many class="com.jersey.userConfig.model.CommodityAttrVO" />
+        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" order-by="commodityAttrMappingId asc">
+        	<key><column name="commodity_attr_mapping_id"></column></key>
+        	<one-to-many class="com.jersey.commodity.model.CommodityAttrMappingVO" />
         </set>
 <!--         <property name="qty" column="qty" /> -->
 <!--         <property name="link" column="link" /> -->
@@ -40,7 +40,13 @@
 <!--         <property name="owner" column="owner" /> -->
         <property name="cost" column="cost" />
         <property name="sellPrice" column="sell_price" />
-        <property name="sellPlatform" column="sell_platform" />
+        
+		<property name="authority">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">com.jersey.tools.JerseyEnum$Authority</param>
+			</type>
+		</property>
+        
         <property name="isStored" column="is_stored" />
     	<property name="createTime" column="create_time" />
     	<property name="lastModifyTime" column="last_modify_time" />

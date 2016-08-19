@@ -25,6 +25,23 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		this.voType = type;
 		this.pk = pk;
 	}
+	
+	@Override
+	public List<E> getAll() {
+		Session session = HibernateTools.getSession();
+		session.getTransaction().begin();
+		List<E> list;
+		try {
+			Query query = session.createQuery("from " + voType.getName());
+			list = query.list();
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			list = new ArrayList<>();
+		}
+		return list;
+	}
 
 	@Override
 	public List<E> getAll(Integer pageSize, Integer page) {

@@ -1,6 +1,7 @@
 package com.jersey.userConfig.model;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.tools.AbstractDAO;
@@ -12,6 +13,10 @@ public class UserConfigDAO extends AbstractDAO<UserConfigVO> {
 
 	public UserConfigDAO() {
 		super(UserConfigVO.class, "userConfigId");
+	}
+	
+	public UserConfigVO getByUserName (String userName) {
+		return getHelper(Restrictions.eq("userName", userName)).get(0);
 	}
 	
 	public void updateUserConfig (UserConfig userConfig, Object value) {

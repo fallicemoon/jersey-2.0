@@ -23,25 +23,24 @@ public class UserConfigService {
 	//private static final String[] CLOB_FIELDS = new String[]{"commodityAttr"};
 	
 	private UserConfigVO userConfigVO;
-	private Map<String, List<CommodityAttrVO>> commodityAttrMap;
+	private Map<CommodityTypeVO, List<CommodityAttrVO>> commodityAttrMap;
 	
 	@Autowired
 	private UserConfigDAO userConfigDAO;
+	@Autowired
+	private CommodityTypeDAO commodityTypeDAO;
 	@Autowired
 	private CommodityAttrDAO commodityAttrDAO;
 	
 	@PostConstruct
 	public void init () throws SQLException, IOException {
-		//目前設定檔只有一筆, PK為1
-		userConfigVO = userConfigDAO.getOne(1);
+		userConfigVO = userConfigDAO.getByUserName("jersey");
 		generateCommodityAttrMap();
 	}
 
 	//-----------------------get config-----------------------
 	public Authority getAuthority () {
-		//TODO
-		return Authority.admin;
-		//return userConfigVO.getAuthority();
+		return userConfigVO.getAuthority();
 	}
 	
 	public Integer getCommodityPageSize () {
@@ -61,7 +60,7 @@ public class UserConfigService {
 	}
 	
 	//取得key為商品類別, value為List<CommodityAttrVO>的map
-	public Map<String, List<CommodityAttrVO>> getCommodityAttrMap () {
+	public Map<CommodityTypeVO, List<CommodityAttrVO>> getCommodityAttrMap () {
 		return commodityAttrMap;
 	}
 	
@@ -72,10 +71,25 @@ public class UserConfigService {
 		init();
 	}
 	
+	public void createCommodityType (CommodityTypeVO commodityTypeVO) {
+		commodityTypeDAO.create(commodityTypeVO);
+		generateCommodityAttrMap();
+	}
+	
+	public void removeCommodityType (Integer[] ids) {
+		commodityTypeDAO.delete(ids);
+		generateCommodityAttrMap();
+	}
+	
+	public void updateCommodityType (CommodityTypeVO commodityTypeVO) {
+		commodityTypeDAO.update(commodityTypeVO);
+		generateCommodityAttrMap();
+	}
+	
 	public void createCommodityAttr (CommodityAttrVO commodityAttrVO) {
 		commodityAttrDAO.create(commodityAttrVO);
 		generateCommodityAttrMap();
-	} 
+	}
 	
 	public void removeCommodityAttr (Integer[] ids) {
 		commodityAttrDAO.delete(ids);
@@ -90,8 +104,9 @@ public class UserConfigService {
 	//-----------------------commodity attr-----------------------
 	private void generateCommodityAttrMap () {
 		commodityAttrMap = new LinkedHashMap<>();
-		for (String commodityType : commodityAttrDAO.getCommodityTypeList()) {
-			commodityAttrMap.put(commodityType, commodityAttrDAO.getCommodityAttrList(commodityType));
+		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll()) {
+			List<CommodityAttrVO> commodityAttrList = commodityAttrDAO.getCommodityAttrByCommodityType(getAuthority(), commodityTypeVO);
+			commodityAttrMap.put(commodityTypeVO, commodityAttrList);
 		}
 	}
 

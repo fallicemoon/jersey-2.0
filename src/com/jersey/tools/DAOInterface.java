@@ -6,7 +6,9 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 
 public interface DAOInterface<E extends AbstractVo> {
-
+	
+	public List<E> getAll();
+	
 	public List<E> getAll(Integer pageSize, Integer page);
 
 	public Long getTotalCount();

@@ -1,9 +1,9 @@
-package com.jersey.commodity.model;
+package com.jersey.userConfig.model;
 
 import java.util.Set;
 
+import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.AbstractVo;
-import com.jersey.userConfig.model.CommodityAttrVO;
 
 public class CommodityTypeVO extends AbstractVo {
 

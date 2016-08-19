@@ -1,22 +1,16 @@
 package com.jersey.commodity.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.ResultTransformer;
-import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.AbstractDAO;
 import com.jersey.tools.HibernateTools;
 import com.jersey.tools.JerseyEnum.Authority;
-import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 
 @Repository
 public class CommodityDAO extends AbstractDAO<CommodityVO> {
@@ -25,34 +19,31 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		super(CommodityVO.class, "commodityId");
 	}
 	
-	public List<CommodityAttrValue> getCommodityAttrValue (Integer commodityId, Authority authority) {
-		//TODO 加authority判斷
-		List<CommodityAttrAuthority> commodityAttrAuthorityList = CommodityAttrAuthority.getByAuthority(authority);
-		String hql = "select ca.commodityAttr, cam.commodityAttrValue, ca.commodityAttrAuthority from CommodityVO c "
-				+ "left join c.commodityId as cam left outer join cam.commodityAttrVO as ca "
-				+ "where c.commodityVO=:commodityVO and ca.commodityAttrAuthority in :commodityAttrAuthorityList";
-		List<CommodityAttrValue> list;
-		Session session = HibernateTools.getSession();
-		session.beginTransaction();
-		try {
-			CommodityVO commodityVO = new CommodityVO();
-			commodityVO.setCommodityId(commodityId);
-			Query query = session.createQuery(hql).setParameter("commodityVO", commodityVO)
-					.setParameterList("commodityAttrAuthorityList", commodityAttrAuthorityList);
-			list = query.list();
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			list = new ArrayList<>();
-		}
-		return list;
-	}
-	
-	@Deprecated
-	public CommodityAttrValue getCommodityAttrValueList () {
-		//TODO 感覺效能很恐怖, 要做嗎?
+	public List<CommodityDisplay> getAll (Authority authority, String commodityType, Integer pageSize, Integer page) {
+		//TODO Authority為admin就不要加
 		return null;
 	}
+	
+	public CommodityDisplay getOne (Authority authority, Integer commodityId) {
+		//TODO
+		return null;
+	}
+	
+	public List<String> getCommodityType (Authority authority) {
+		//TODO
+		return null;
+	}
+	
+	public List<String> getCommodityAttr (Authority authority, String commodityType) {
+		//TODO
+		return null;
+	}
+	
+	public Long getTotalCount (Authority authority, String commodityType) {
+		//TODO
+		return null;
+	}
+
 
 	// public List<CommodityVO> getAll() {
 	// session =

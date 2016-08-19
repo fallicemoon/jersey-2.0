@@ -1,7 +1,5 @@
 package com.jersey.commodity.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.jersey.picture.model.PictureDAO;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.UserConfigService;
-import com.jersey.tools.JerseyEnum.Authority;
 
 @Service
 public class CommodityService {
@@ -23,24 +20,27 @@ public class CommodityService {
 	private UserConfigService userConfigService;
 
 
-	public List<CommodityDisplay> getAll(Integer pageSize, Integer page, Authority authority) {
-		return getCommodityDisplayVOList(commodityDAO.getAll(pageSize, page), authority);
+	//取得所有商品
+	public List<CommodityDisplay> getAll(String commodityType, Integer page) {
+		return commodityDAO.getAll(userConfigService.getAuthority(), commodityType, userConfigService.getCommodityPageSize(), page);
 	}
 	
-	public Long getPages () {
-		Long pages = getTotalCount()/userConfigService.getCommodityPageSize();
-		if (getTotalCount()%userConfigService.getCommodityPageSize()!=0) {
+	//取得總分頁數
+	public Long getPages (String commodityType) {
+		Long pages = getTotalCount(commodityType)/userConfigService.getCommodityPageSize();
+		if (getTotalCount(commodityType)%userConfigService.getCommodityPageSize()!=0) {
 			pages++;
 		}
 		return pages;
-	} 
+	}
 	
-	public Long getTotalCount () {
-		return commodityDAO.getTotalCount();
-	} 
+	//取得資料總筆數
+	public Long getTotalCount (String commodityType) {
+		return commodityDAO.getTotalCount(userConfigService.getAuthority(), commodityType);
+	}
 
-	public CommodityVO getOne(Integer id) {
-		return this.commodityDAO.getOne(id);
+	public CommodityVO getOne(Integer commodityId) {
+		return this.commodityDAO.getOne(userConfigService.getAuthority(), commodityId);
 	}
 
 	public CommodityVO create(CommodityVO vo) {
@@ -76,22 +76,7 @@ public class CommodityService {
 		return commodityWithPicCountVO;
 	}
 	
-	public List<CommodityDisplay> getCommodityDisplayVOList (Collection<CommodityVO> commodityList, Authority authority) {
-		Map<Integer, Integer> pictureCountMap = getCommodityIdPictureCountMap();
-		List<CommodityDisplay> newList = new ArrayList<>();
-		for (CommodityVO commodityVO : commodityList) {
-			CommodityDisplay commodityDisplayVO = new CommodityDisplay();
-			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
-			//pictureCount
-			Integer count = pictureCountMap.get(commodityDisplayVO.getCommodityId());
-			commodityDisplayVO.setPictureCount(count==null ? 0:count);
-			//commodityAttrValue
-			//TODO cache
-			commodityDisplayVO.setCommodityAttrValueList(commodityDAO.getCommodityAttrValue(commodityDisplayVO.getCommodityId(), authority));
-			newList.add(commodityDisplayVO);
-		}
-		return newList;
-	}
+
 	
 //	public List<CommodityDisplayVO> getCommodityDisplayVOList (String commodityType, Collection<CommodityVO> commodityList) {
 //		Map<Integer, Integer> pictureCountMap = getCommodityIdPictureCountMap();

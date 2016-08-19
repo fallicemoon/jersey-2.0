@@ -68,7 +68,7 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityAttr", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String createCommodityType (@RequestBody CommodityAttrVO commodityAttrVO) {
 		try {
-			if (userConfigService.getCommodityAttrMap().keySet().contains(commodityAttrVO.getCommodityType())) {
+			if (userConfigService.getCommodityAttrMap().keySet().contains(commodityAttrVO.getCommodityTypeVO().getCommodityType())) {
 				return Tools.getFailJson("已經有此商品類別").toString();
 			}
 			userConfigService.createCommodityAttr(commodityAttrVO);
@@ -82,7 +82,7 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityAttr/{commodityType}", method=RequestMethod.POST)
 	public String createCommodityAttr (@RequestBody CommodityAttrVO commodityAttrVO, @PathParam("commodityType") String commodityType) {
 		try {
-			if (!commodityType.equals(commodityAttrVO.getCommodityAttr())) {
+			if (!commodityType.equals(commodityAttrVO.getCommodityTypeVO().getCommodityType())) {
 				return Tools.getFailJson("別亂來!").toString();
 			}
 			if (userConfigService.getCommodityAttrMap().keySet().contains(commodityType)) {
