@@ -2,6 +2,7 @@ package com.jersey.userConfig.model;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,8 @@ public class UserConfigService {
 	//private static final String[] CLOB_FIELDS = new String[]{"commodityAttr"};
 	
 	private UserConfigVO userConfigVO;
-	private Map<CommodityTypeVO, List<CommodityAttrVO>> commodityAttrMap;
+	private Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap;
+	private Map<String, List<String>> commodityTypeAttrStringMap;
 	
 	@Autowired
 	private UserConfigDAO userConfigDAO;
@@ -60,9 +62,14 @@ public class UserConfigService {
 	}
 	
 	//取得key為商品類別, value為List<CommodityAttrVO>的map
-	public Map<CommodityTypeVO, List<CommodityAttrVO>> getCommodityAttrMap () {
-		return commodityAttrMap;
+	public Map<CommodityTypeVO, List<CommodityAttrVO>> getCommodityTypeAttrMap () {
+		return commodityTypeAttrMap;
 	}
+	
+	//方便用來檢查新增的商品種類和商品屬性是否有重複
+	public Map<String, List<String>> getCommodityTypeAttrStringMap () {
+		return commodityTypeAttrStringMap;
+	} 
 	
 	
 	//-----------------------update config-----------------------
@@ -91,8 +98,10 @@ public class UserConfigService {
 		generateCommodityAttrMap();
 	}
 	
-	public void removeCommodityAttr (Integer[] ids) {
-		commodityAttrDAO.delete(ids);
+	public void removeCommodityAttr (Integer id) {
+		CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
+		commodityAttrVO.setCommodityAttrId(id);
+		commodityAttrDAO.delete(commodityAttrVO);
 		generateCommodityAttrMap();
 	}
 	
@@ -102,11 +111,24 @@ public class UserConfigService {
 	}
 	
 	//-----------------------commodity attr-----------------------
+	public CommodityTypeVO getCommodityTypeVOByCommodityType(String commodityType){
+		return commodityTypeDAO.getByCommodityType(commodityType);
+	}
+	public CommodityAttrVO getCommodityAttrVOByCommodityAttr(String commodityAttr){
+		return commodityAttrDAO.getByCommodityAttrName(commodityAttr);
+	}
+	
 	private void generateCommodityAttrMap () {
-		commodityAttrMap = new LinkedHashMap<>();
+		commodityTypeAttrMap = new LinkedHashMap<>();
+		commodityTypeAttrStringMap = new LinkedHashMap<>();
 		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll()) {
 			List<CommodityAttrVO> commodityAttrList = commodityAttrDAO.getCommodityAttrByCommodityType(getAuthority(), commodityTypeVO);
-			commodityAttrMap.put(commodityTypeVO, commodityAttrList);
+			commodityTypeAttrMap.put(commodityTypeVO, commodityAttrList);
+			List<String> commodityAttrStringList = new ArrayList<>();
+			for (CommodityAttrVO commodityAttrVO : commodityAttrList) {
+				commodityAttrStringList.add(commodityAttrVO.getCommodityAttr());
+			}
+			commodityTypeAttrStringMap.put(commodityTypeVO.getCommodityType(), commodityAttrStringList);
 		}
 	}
 

@@ -14,7 +14,7 @@
         </many-to-one>
         <property name="itemName" column="item_name" />
         
-        <many-to-one name="commodityTypeVO" class="com.jersey.commodity.model.CommodityTypeVO" lazy="false">
+        <many-to-one name="commodityTypeVO" class="com.jersey.userConfig.model.CommodityTypeVO" lazy="false">
         	<column name="commodity_type_id"></column>
         </many-to-one>
         

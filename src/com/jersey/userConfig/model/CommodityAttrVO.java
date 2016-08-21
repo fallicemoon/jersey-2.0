@@ -15,6 +15,7 @@ public class CommodityAttrVO extends AbstractVo{
 
 	private Integer commodityAttrId;
 	private CommodityTypeVO commodityTypeVO;
+	private String commodityAttr;
 	private Set<CommodityAttrMappingVO> commodityAttrMappings;
 	private CommodityAttrAuthority commodityAttrAuthority;
 	
@@ -29,6 +30,12 @@ public class CommodityAttrVO extends AbstractVo{
 	}
 	public void setCommodityTypeVO(CommodityTypeVO commodityTypeVO) {
 		this.commodityTypeVO = commodityTypeVO;
+	}
+	public String getCommodityAttr() {
+		return commodityAttr;
+	}
+	public void setCommodityAttr(String commodityAttr) {
+		this.commodityAttr = commodityAttr;
 	}
 	public Set<CommodityAttrMappingVO> getCommodityAttrMappings() {
 		return commodityAttrMappings;

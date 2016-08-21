@@ -25,5 +25,14 @@ public class CommodityAttrDAO extends AbstractDAO<CommodityAttrVO> {
 		}
 	}
 	
+	public CommodityAttrVO getByCommodityAttrName (String commodityAttr) {
+		List<CommodityAttrVO> list = getHelper(Restrictions.eq("commodityAttr", commodityAttr));
+		if (list!=null && list.size()!=0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+	}
+	
 	
 }

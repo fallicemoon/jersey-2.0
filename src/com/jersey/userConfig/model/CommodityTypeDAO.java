@@ -6,11 +6,11 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.tools.AbstractDAO;
 import com.jersey.tools.HibernateTools;
-import com.jersey.tools.JerseyEnum.Authority;
 
 @Repository
 public class CommodityTypeDAO extends AbstractDAO<CommodityTypeVO> {
@@ -35,6 +35,15 @@ public class CommodityTypeDAO extends AbstractDAO<CommodityTypeVO> {
 			list = new ArrayList<>();
 		}
 		return list;
+	} 
+	
+	public CommodityTypeVO getByCommodityType (String commodityType) {
+		List<CommodityTypeVO> list = getHelper(Restrictions.eq("commodityType", commodityType));
+		if (list!=null && list.size()!=0) {
+			return list.get(0);
+		} else {
+			return null;
+		}
 	} 
 
 }

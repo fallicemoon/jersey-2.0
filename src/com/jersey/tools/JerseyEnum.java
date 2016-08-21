@@ -10,7 +10,14 @@ public class JerseyEnum {
 	}
 	
 	public enum Authority {
-		admin, customer;
+		admin("管理員"), customer("顧客");
+		private String showName;
+		private Authority (String showName) {
+			this.showName = showName;
+		}
+		public String getShowName() {
+			return showName;
+		}
 	}
 	
 	public enum CommodityAttrStatus {

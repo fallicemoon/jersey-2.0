@@ -9,9 +9,11 @@
             <generator class="identity"/>
         </id>
                 
-        <many-to-one name="commodityTypeVO" class="com.jersey.commodity.model.CommodityTypeVO" lazy="false">
+        <many-to-one name="commodityTypeVO" class="com.jersey.userConfig.model.CommodityTypeVO" lazy="false">
         	<column name="commodity_type_id"></column>
         </many-to-one>
+        
+        <property name="commodityAttr" column="commodity_attr" />
         
         <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" order-by="commodityAttrMappingId asc">
         	<key><column name="commodity_attr_mapping_id"></column></key>

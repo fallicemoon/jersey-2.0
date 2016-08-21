@@ -17,8 +17,7 @@
 				var row = $(this).parents(".row");
 				var commodityAttrVO = {
 						commodityType : row.find("input[name=commodityType]").val(), 
-						commodityAttr : row.find("input[name=commodityAttr]").val(), 
-						commodityAttrAuthority: row.find("select").val()
+						authority: row.find("select[name=authority]").val()
 					};
 				$.ajax("/jersey/userConfig/commodityAttr/", {
 					type : "POST",
@@ -42,11 +41,11 @@
 			$("#createCommodityAttr").click(function(){
 				var row = $(this).parents(".row");
 				var commodityAttrVO = {
-						commodityType : row.find("input[name=commodityType]").val(), 
+						commodityTypeId : row.find("select[name=commodityTypeId]").val(), 
 						commodityAttr : row.find("input[name=commodityAttr]").val(), 
-						commodityAttrAuthority: row.find("select").val()
+						commodityAttrAuthority: row.find("select[name=commodityAttrAuthority]").val()
 					};
-				$.ajax("/jersey/userConfig/commodityAttr/"+commodityAttrVO.commodityType, {
+				$.ajax("/jersey/userConfig/commodityAttr/"+commodityAttrVO.commodityTypeId, {
 					type : "POST",
 					data : JSON.stringify(commodityAttrVO),
 					contentType : "application/json",
@@ -64,7 +63,25 @@
 				});
 			});
 			
-			//
+			//刪除商品屬性
+			$("button[name=removeCommodityAttr]").click(function(){
+				$.ajax("/jersey/userConfig/commodityAttr/"+$(this).val(), {
+					type : "DELETE",
+					contentType : "application/json",
+					dataType : "json",
+					success : function(data) {
+						if (data.result=="success") {
+							alertify.success("新增商品屬性成功");
+						} else {
+							alertify.error(data.msg);
+						}
+					},
+					error : function(){
+						alertify.error("新增商品屬性失敗");
+					}
+				});
+			});
+			
 			
 		});
 	</script>
@@ -72,15 +89,12 @@
 	<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">新增商品種類:</label>
 		<div class="col-sm-1">
-			<input type="text" name="commodityType">
+			<input class="form-control" type="text" name="commodityType">
 		</div>
 		<div class="col-sm-1">
-			<input type="text" name="commodityAtt">
-		</div>
-		<div class="col-sm-1">
-			<select>
-				<c:forEach items="${commodityAttrAuthorityList}" var="commodityAttrAuthority">
-					<option value="${commodityAttrAuthority}">${commodityAttrAuthority.showName}</option>
+			<select class="form-control" name="authority">
+				<c:forEach items="${authorityList}" var="authority">
+					<option value="${authority}">${authority.showName}</option>
 				</c:forEach>
 			</select>
 		</div>
@@ -92,17 +106,17 @@
 	<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">新增商品屬性:</label>
 		<div class="col-sm-1">
-			<select class="form-control">
+			<select class="form-control" name="commodityTypeId">
 				<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
-					<option value="${commodityAttr.key}">${commodityAttr.key}</option>
+					<option value="${commodityAttr.key.commodityTypeId}">${commodityAttr.key.commodityType}</option>
 				</c:forEach>
 			</select>
 		</div>
 		<div class="col-sm-1">
-			<input type="text" name="commodityAttr">
+			<input class="form-control" type="text" name="commodityAttr">
 		</div>
 		<div class="col-sm-1">
-			<select>
+			<select class="form-control" name="commodityAttrAuthority">
 				<c:forEach items="${commodityAttrAuthorityList}" var="commodityAttrAuthority">
 					<option value="${commodityAttrAuthority}">${commodityAttrAuthority.showName}</option>
 				</c:forEach>
@@ -126,10 +140,10 @@
 			<c:forEach items="${commodityAttr.value}" var="commodityAttrVO">
 				<tr>
 					<td><button class="btn btn-warning">修改</button></td>
-					<td><button class="btn btn-danger">刪除</button></td>
-					<td>${commodityAttrVO.commodityType}</td>
+					<td><button name="removeCommodityAttr" class="btn btn-danger" value="${commodityAttrVO.commodityAttrId}">刪除</button></td>
+					<td>${commodityAttrVO.commodityTypeVO.commodityType}</td>
 					<td>${commodityAttrVO.commodityAttr}</td>
-					<td><select>
+					<td><select class="form-control">
 						<c:forEach items="${requestScope.commodityAttrAuthorityList}" var="commodityAttrAuthority">
 							<option value="${commodityAttrAuthority}" ${commodityAttrVO.commodityAttrAuthority==commodityAttrAuthority?"selected":""}>${commodityAttrAuthority.showName}</option>
 						</c:forEach>

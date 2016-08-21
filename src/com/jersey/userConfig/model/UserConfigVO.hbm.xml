@@ -10,7 +10,11 @@
 		</id>
 
 		<property name="userName" column="user_name" />
-		<property name="authority" column="authority" />
+		<property name="authority" column="authority">
+        	<type name="org.hibernate.type.EnumType">
+        		<param name="enumClass">com.jersey.tools.JerseyEnum$Authority</param>
+        	</type>
+        </property>
 		<property name="commodityPageSize" column="commodity_page_size" />
 		<property name="purchaseCasePageSize" column="purchase_case_page_size" />
 		<property name="sellCasePageSize" column="sell_case_page_size" />

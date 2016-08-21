@@ -2,8 +2,6 @@ package com.jersey.userConfig.controller;
 
 import java.util.Map;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jersey.commodity.model.CommodityService;
+import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.JerseyEnum.UserConfig;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.CommodityAttrVO;
+import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserConfigService;
 
 @Controller
@@ -27,6 +28,8 @@ public class UserConfigController {
 	
 	@Autowired
 	private UserConfigService userConfigService;
+	@Autowired
+	private CommodityService commodityService;
 	
 	
 	
@@ -56,22 +59,23 @@ public class UserConfigController {
 		}
 	}
 	
+	//------------------------------------------------------------------------------------------------------------------
 	@RequestMapping(value="/commodityAttr", method=RequestMethod.GET)
 	public String getCommodityAttr (Map<String, Object> map) {
-		CommodityAttrAuthority.admin.getShowName();
+		map.put("authorityList", Authority.values());
 		map.put("commodityAttrAuthorityList", CommodityAttrAuthority.values());
-		map.put("commodityAttrMap", userConfigService.getCommodityAttrMap());
+		map.put("commodityAttrMap", userConfigService.getCommodityTypeAttrMap());
 		return COMMODITY_ATTR;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/commodityAttr", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String createCommodityType (@RequestBody CommodityAttrVO commodityAttrVO) {
+	public String createCommodityType (@RequestBody CommodityTypeVO commodityTypeVO) {
 		try {
-			if (userConfigService.getCommodityAttrMap().keySet().contains(commodityAttrVO.getCommodityTypeVO().getCommodityType())) {
+			if (userConfigService.getCommodityTypeAttrStringMap().keySet().contains(commodityTypeVO.getCommodityType())) {
 				return Tools.getFailJson("已經有此商品類別").toString();
 			}
-			userConfigService.createCommodityAttr(commodityAttrVO);
+			userConfigService.createCommodityType(commodityTypeVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			return Tools.getFailJson("新增商品類別失敗").toString();
@@ -79,14 +83,14 @@ public class UserConfigController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/commodityAttr/{commodityType}", method=RequestMethod.POST)
-	public String createCommodityAttr (@RequestBody CommodityAttrVO commodityAttrVO, @PathParam("commodityType") String commodityType) {
+	@RequestMapping(value="/commodityAttr/{commodityTypeId}", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	public String createCommodityAttr (@RequestBody CommodityAttrVO commodityAttrVO, @PathVariable("commodityTypeId") Integer commodityTypeId) {
 		try {
-			if (!commodityType.equals(commodityAttrVO.getCommodityTypeVO().getCommodityType())) {
-				return Tools.getFailJson("別亂來!").toString();
-			}
-			if (userConfigService.getCommodityAttrMap().keySet().contains(commodityType)) {
-				return Tools.getFailJson("已經有此商品類別").toString();
+			CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
+			commodityTypeVO.setCommodityTypeId(commodityTypeId);
+			commodityAttrVO.setCommodityTypeVO(commodityTypeVO);
+			if (userConfigService.getCommodityTypeAttrMap().get(commodityTypeVO).contains(commodityAttrVO)) {
+				return Tools.getFailJson("已經有此商品屬性").toString();
 			}
 			userConfigService.createCommodityAttr(commodityAttrVO);
 			return Tools.getSuccessJson().toString();
@@ -96,10 +100,16 @@ public class UserConfigController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/commodityAttr/{commodityType}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
-	public String removeCommodityAttr (@RequestBody String request, @PathParam("commodityType") String commodityType, Map<String, Object> map) {
-		
-		return Tools.getSuccessJson().toString();
+	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
+	public String removeCommodityAttr (@PathVariable("commodityAttrId") Integer commodityAttrId, Map<String, Object> map) {
+		try {
+			userConfigService.removeCommodityAttr(commodityAttrId);
+			return Tools.getSuccessJson().toString();
+		} catch (Exception e) {
+			return Tools.getSuccessJson().toString();
+		}		
 	}
 
+	
+	
 }
