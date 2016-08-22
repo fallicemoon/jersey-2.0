@@ -96,8 +96,10 @@ public class UserConfigController {
 	
 	@ResponseBody
 	@RequestMapping(value="/commodityType/{commodityTypeId}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
-	public String updateCommodityType(@RequestBody CommodityTypeVO commodityTypeVO){
+	public String updateCommodityType(@RequestBody String commodityType, @PathVariable("commodityTypeId") Integer commodityTypeId){
 		try {
+			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
+			commodityTypeVO.setCommodityType(commodityType);
 			userConfigService.updateCommodityType(commodityTypeVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
@@ -107,8 +109,14 @@ public class UserConfigController {
 	
 	@ResponseBody
 	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
-	public String updateCommodityAttr(@RequestBody CommodityAttrVO commodityAttrVO){
+	public String updateCommodityAttr(@RequestBody String[] commodityAttrArray, @PathVariable("commodityAttrId") Integer commodityAttrId){
 		try {
+			String commodityAttr = commodityAttrArray[0];
+			CommodityAttrAuthority commodityAttrAuthority = CommodityAttrAuthority.valueOf(commodityAttrArray[1]);
+			CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
+			commodityAttrVO.setCommodityAttrId(commodityAttrId);
+			commodityAttrVO.setCommodityAttr(commodityAttr);
+			commodityAttrVO.setCommodityAttrAuthority(commodityAttrAuthority);
 			userConfigService.updateCommodityAttr(commodityAttrVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {

@@ -14,6 +14,8 @@
 		$(function(){
 			//隱藏確認修改的按鈕
 			$("#updateCommodityType").add("button[name=updateCommodityAttr]").hide();
+			//隱藏按下修改後才會顯示的東西
+			$("#commodityTypeSelect").add
 			
 			<%--新增商品種類--%>
 			$("#createCommodityType").click(function(){
@@ -68,7 +70,7 @@
 			
 			//商品種類切換為修改模式
 			$("#prepareUpdateCommodityType").click(function(){
-				
+				$(this).
 			});
 			
 			//商品屬性切換為修改模式
@@ -100,7 +102,7 @@
 			});
 			
 			//依照商品種類篩選出商品屬性
-			$("#commodityType").chnage(function(){
+			$("#commodityTypeSelect").chnage(function(){
 				var commodityTypeId = $(this).val();
 				$("tr").show();
 				$("tr").not("."+commodityTypeId).hide();
@@ -136,6 +138,7 @@
 		});
 	</script>
 	<br/><br/>
+	<!-- 新增商品種類 -->
 	<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">新增商品種類:</label>
 		<div class="col-sm-1">
@@ -153,6 +156,8 @@
 		</div>
 	</div>
 	<br />
+	
+	<!-- 新增商品屬性 -->
 	<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">新增商品屬性:</label>
 		<div class="col-sm-1">
@@ -178,10 +183,12 @@
 	</div>
 	<br />
 	
+	<!-- 篩選商品種類、修改商品種類、移除商品種類 -->
 	<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">商品種類:</label>
 		<div class="col-sm-1">
-			<select class="form-control" id="commodityType">
+			<div id="commodityTypeText">${commodityAttr.key.commodityType}</div>
+			<select class="form-control" id="commodityTypeSelect">
 				<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
 					<option value="${commodityAttr.key.commodityTypeId}">${commodityAttr.key.commodityType}</option>
 				</c:forEach>
@@ -195,23 +202,25 @@
 			<button id="removeCommodityType" class="btn btn-danger">移除商品種類</button>
 		</div>
 	</div>
-	
 	<br />
+	
+	<!-- 根據上面的篩選器列出符合的商品屬性 -->
 	<table border=1 class="table table-hover">
 		<thead>
 			<tr>
 				<th></th>
-				<th></th>
 				<th>商品類別</th>
 				<th>商品屬性</th>
 				<th>屬性權限</th>
+				<th></th>
 		</thead>
 		<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
 			<c:forEach items="${commodityAttr.value}" var="commodityAttrVO">
 				<tr class="${commodityAttrVO.commodityTypeVO.commodityTypeId}">
 					<td><button name="removeCommodityAttr" class="btn btn-danger" value="${commodityAttrVO.commodityAttrId}">刪除</button></td>
 					<td>${commodityAttrVO.commodityTypeVO.commodityType}</td>
-					<td>${commodityAttrVO.commodityAttr}</td>
+					<td class="commodityAttrText">${commodityAttrVO.commodityAttr}</td>
+					<td class="commodityAttrText">${commodityAttrVO.commodityAttr}</td>
 					<td><select class="form-control">
 						<c:forEach items="${requestScope.commodityAttrAuthorityList}" var="commodityAttrAuthority">
 							<option value="${commodityAttrAuthority}" ${commodityAttrVO.commodityAttrAuthority==commodityAttrAuthority?"selected":""}>${commodityAttrAuthority.showName}</option>

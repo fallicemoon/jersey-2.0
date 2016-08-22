@@ -1,6 +1,8 @@
 package commodity;
 
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,9 +33,6 @@ public class CommodityDAOTest {
 		System.out.println(commodityDAO.getOne(85));
 	}
 	
-	@Test
-	public void getCommodityAttrValue () {
-		System.out.println(commodityDAO.getCommodityAttrValue(19));
-	} 
+
 
 }

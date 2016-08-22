@@ -113,9 +113,18 @@ public class UserConfigService {
 	}
 	
 	//-----------------------commodity attr-----------------------
+	public CommodityTypeVO getCommodityTypeVOByCommodityTypeId(Integer commodityTypeId){
+		return commodityTypeDAO.getOne(commodityTypeId);
+	}
+	
 	public CommodityTypeVO getCommodityTypeVOByCommodityType(String commodityType){
 		return commodityTypeDAO.getByCommodityType(commodityType);
 	}
+	
+	public CommodityAttrVO getCommodityAttrVOByCommodityAttrId(Integer commodityAttrId){
+		return commodityAttrDAO.getOne(commodityAttrId);
+	}
+	
 	public CommodityAttrVO getCommodityAttrVOByCommodityAttr(String commodityAttr){
 		return commodityAttrDAO.getByCommodityAttrName(commodityAttr);
 	}
