@@ -12,6 +12,9 @@
 	<c:import url="/WEB-INF/pages/header.jsp" />
 	<script type="text/javascript">
 		$(function(){
+			//隱藏確認修改的按鈕
+			$("#updateCommodityType").add("button[name=updateCommodityAttr]").hide();
+			
 			<%--新增商品種類--%>
 			$("#createCommodityType").click(function(){
 				var row = $(this).parents(".row");
@@ -19,7 +22,7 @@
 						commodityType : row.find("input[name=commodityType]").val(), 
 						authority: row.find("select[name=authority]").val()
 					};
-				$.ajax("/jersey/userConfig/commodityAttr/", {
+				$.ajax("/jersey/userConfig/commodityType", {
 					type : "POST",
 					data : JSON.stringify(commodityAttrVO),
 					contentType : "application/json",
@@ -63,24 +66,71 @@
 				});
 			});
 			
-			//刪除商品屬性
+			//商品種類切換為修改模式
+			$("#prepareUpdateCommodityType").click(function(){
+				
+			});
+			
+			//商品屬性切換為修改模式
+			$("button[name=prepareUpdateCommodityAttr]").click(function(){
+				
+			});
+			
+			//移除商品屬性
 			$("button[name=removeCommodityAttr]").click(function(){
-				$.ajax("/jersey/userConfig/commodityAttr/"+$(this).val(), {
-					type : "DELETE",
-					contentType : "application/json",
-					dataType : "json",
-					success : function(data) {
-						if (data.result=="success") {
-							alertify.success("新增商品屬性成功");
-						} else {
-							alertify.error(data.msg);
-						}
-					},
-					error : function(){
-						alertify.error("新增商品屬性失敗");
+				alertify.confirm("警告:刪除商品屬性也會刪除已存在商品的對應屬性值, 請確認是否刪除", function(confirm){
+					if (confirm) {
+						$.ajax("/jersey/userConfig/commodityAttr/"+$(this).val(), {
+							type : "DELETE",
+							contentType : "application/json",
+							dataType : "json",
+							success : function(data) {
+								if (data.result=="success") {
+									alertify.success("刪除商品屬性成功");
+								} else {
+									alertify.error(data.msg);
+								}
+							},
+							error : function(){
+								alertify.error("刪除商品屬性失敗");
+							}
+						});
 					}
 				});
 			});
+			
+			//依照商品種類篩選出商品屬性
+			$("#commodityType").chnage(function(){
+				var commodityTypeId = $(this).val();
+				$("tr").show();
+				$("tr").not("."+commodityTypeId).hide();
+			});
+			
+			//移除商品種類
+			$("#removeCommodityType").click(function(){
+				alertify.confirm("警告:刪除商品種類也會刪除所有此種類的商品和商品屬性, 請確認是否刪除", function(confirm){
+					if (confirm) {
+						var commodityTypeId = $(this).parent().prev().children().val();
+						$.ajax("/jersey/userConfig/commodityType/"+commodityTypeId, {
+							type : "DELETE",
+							contentType : "application/json",
+							dataType : "json",
+							success : function(data) {
+								if (data.result=="success") {
+									alertify.success("刪除商品屬性成功");
+								} else {
+									alertify.error(data.msg);
+								}
+							},
+							error : function(){
+								alertify.error("刪除商品屬性失敗");
+							}
+						});
+					}
+				});
+			});
+
+			
 			
 			
 		});
@@ -127,6 +177,26 @@
 		</div>
 	</div>
 	<br />
+	
+	<div class="row">
+		<label for="inputEmail3" class="col-sm-1 control-label">商品種類:</label>
+		<div class="col-sm-1">
+			<select class="form-control" id="commodityType">
+				<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
+					<option value="${commodityAttr.key.commodityTypeId}">${commodityAttr.key.commodityType}</option>
+				</c:forEach>
+			</select>
+		</div>
+		<div class="col-sm-1">
+			<button id="prepareUpdateCommodityType" class="btn btn-warning">修改商品種類</button>
+			<button id="updateCommodityType" class="btn btn-success">確認修改</button>
+		</div>
+		<div class="col-sm-1">
+			<button id="removeCommodityType" class="btn btn-danger">移除商品種類</button>
+		</div>
+	</div>
+	
+	<br />
 	<table border=1 class="table table-hover">
 		<thead>
 			<tr>
@@ -138,8 +208,7 @@
 		</thead>
 		<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
 			<c:forEach items="${commodityAttr.value}" var="commodityAttrVO">
-				<tr>
-					<td><button class="btn btn-warning">修改</button></td>
+				<tr class="${commodityAttrVO.commodityTypeVO.commodityTypeId}">
 					<td><button name="removeCommodityAttr" class="btn btn-danger" value="${commodityAttrVO.commodityAttrId}">刪除</button></td>
 					<td>${commodityAttrVO.commodityTypeVO.commodityType}</td>
 					<td>${commodityAttrVO.commodityAttr}</td>
@@ -149,6 +218,10 @@
 						</c:forEach>
 					</select></td>
 					<td>${commodityAttrVO.commodityAttrAuthority}</td>
+					<td>
+						<button name="prepareUpdateCommodityAttr" class="btn btn-warning">修改商品屬性</button>
+						<button name="updateCommodityAttr" class="btn btn-success">確認修改</button>
+					</td>
 				</tr>
 			</c:forEach>
 		</c:forEach>

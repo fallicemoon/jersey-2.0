@@ -83,8 +83,10 @@ public class UserConfigService {
 		generateCommodityAttrMap();
 	}
 	
-	public void removeCommodityType (Integer[] ids) {
-		commodityTypeDAO.delete(ids);
+	public void removeCommodityType (Integer id) {
+		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
+		commodityTypeVO.setCommodityTypeId(id);
+		commodityTypeDAO.delete(commodityTypeVO);
 		generateCommodityAttrMap();
 	}
 	
@@ -105,7 +107,7 @@ public class UserConfigService {
 		generateCommodityAttrMap();
 	}
 	
-	public void updateCommodityAttrAuthority (CommodityAttrVO commodityAttrVO) {
+	public void updateCommodityAttr (CommodityAttrVO commodityAttrVO) {
 		commodityAttrDAO.update(commodityAttrVO);
 		generateCommodityAttrMap();
 	}

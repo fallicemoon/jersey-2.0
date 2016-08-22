@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jersey.commodity.model.CommodityService;
 import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.JerseyEnum.UserConfig;
@@ -28,10 +27,6 @@ public class UserConfigController {
 	
 	@Autowired
 	private UserConfigService userConfigService;
-	@Autowired
-	private CommodityService commodityService;
-	
-	
 	
 	@RequestMapping(value="/systemParam", method=RequestMethod.GET)
 	public String getSystemParam (Map<String, Object> map) {
@@ -69,7 +64,7 @@ public class UserConfigController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/commodityAttr", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
+	@RequestMapping(value="/commodityType", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String createCommodityType (@RequestBody CommodityTypeVO commodityTypeVO) {
 		try {
 			if (userConfigService.getCommodityTypeAttrStringMap().keySet().contains(commodityTypeVO.getCommodityType())) {
@@ -100,10 +95,43 @@ public class UserConfigController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/commodityType/{commodityTypeId}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
+	public String updateCommodityType(@RequestBody CommodityTypeVO commodityTypeVO){
+		try {
+			userConfigService.updateCommodityType(commodityTypeVO);
+			return Tools.getSuccessJson().toString();
+		} catch (Exception e) {
+			return Tools.getFailJson("更新商品類別失敗").toString();
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
+	public String updateCommodityAttr(@RequestBody CommodityAttrVO commodityAttrVO){
+		try {
+			userConfigService.updateCommodityAttr(commodityAttrVO);
+			return Tools.getSuccessJson().toString();
+		} catch (Exception e) {
+			return Tools.getFailJson("更新商品屬性失敗").toString();
+		}
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
 	public String removeCommodityAttr (@PathVariable("commodityAttrId") Integer commodityAttrId, Map<String, Object> map) {
 		try {
 			userConfigService.removeCommodityAttr(commodityAttrId);
+			return Tools.getSuccessJson().toString();
+		} catch (Exception e) {
+			return Tools.getSuccessJson().toString();
+		}		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/commodityType/{commodityTypeId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
+	public String removeCommodityType (@PathVariable("commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
+		try {
+			userConfigService.removeCommodityType(commodityTypeId);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			return Tools.getSuccessJson().toString();
