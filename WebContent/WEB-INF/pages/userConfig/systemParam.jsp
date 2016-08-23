@@ -13,10 +13,8 @@
 	<script type="text/javascript">
 		$(function() {
 			$("#pageSize").on("click", "button", function() {
-				var img = $("<img>").attr("src", "../pic/circle_load.gif");
+				var img = $("<img>").attr("src", "/jersey/pic/circle_load.gif");
 				var self = $(this);
-				console.log(img);
-				console.log(self);
 				self.prop("disabled", true).text(" 更新中").prepend(img);
 				var value = [];
 				value.push(self.parent().prev().children().val());
