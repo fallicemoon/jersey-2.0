@@ -74,6 +74,20 @@
 					success : function(data) {
 						if (data.result=="success") {
 							alertify.success("新增商品屬性成功");
+							var tr = $("tr").has("td");
+							if(tr.length==0){
+								location.reload(true);
+								return;
+							}				
+							tr = tr.eq(0).clone();
+							tr.find("td:nth-child(1) button[name=removeCommodityAttr]").val(data.commodityAttrId);
+							tr.find("td:nth-child(2)").text(data.commodityType);
+							tr.find("td:nth-child(3) div").text(data.commodityAttr);
+							tr.find("td:nth-child(3) input").val(data.commodityAttr);
+							tr.find("td:nth-child(4) div").text(data.commodityAttrAuthorityShowName);
+							tr.find("td:nth-child(4) option[value="+data.commodityAttrAuthority+"]").prop("selected", true);
+							tr.find("td:nth-child(5) button name=[updateCommodityAttr]").val(data.commodityAttrId);
+							tr.appendTo("table");
 						} else {
 							alertify.error(data.msg);
 						}
@@ -96,17 +110,19 @@
 			
 			//商品種類名稱修改
 			$("#updateCommodityType").click(function(){
-				var commodityTypeId = $(this).parents("div.row").find("option:selected").val();
-				var commodityType = [];
+				var option = $(this).parents("div.row").find("option:selected");
+				var commodityTypeId = option.val();
+				var pushData = [];
 				commodityType.push($(this).parents("div.row").find("input").val());
 				$.ajax("/jersey/userConfig/commodityType/"+commodityTypeId, {
 					type : "PUT",
-					data : JSON.stringify(commodityType),
+					data : JSON.stringify(pushData),
 					contentType : "application/json;charset=UTF-8",
 					dataType : "json",
 					success : function(data) {
 						if (data.result=="success") {
 							alertify.success("商品種類修改成功");
+							$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").find("option[value="+commodityTypeId+"]").text(pushData[0]);
 						} else {
 							alertify.error(data.msg);
 						}
@@ -128,8 +144,9 @@
 			$("button[name=updateCommodityAttr]").click(function(){
 				var commodityAttrId = $(this).val();
 				var commodityAttr = [];
-				commodityAttr.push($(this).parents("tr").find("input.updateCommodityAttr").val());
-				commodityAttr.push($(this).parents("tr").find("select.updateCommodityAttr").val());
+				var tr = $(this).parents("tr");
+				commodityAttr.push(tr.find("input.updateCommodityAttr").val());
+				commodityAttr.push(tr.find("select.updateCommodityAttr").val());
 				$.ajax("/jersey/userConfig/commodityAttr/"+commodityAttrId, {
 					type : "PUT",
 					data : JSON.stringify(commodityAttr),
@@ -138,6 +155,8 @@
 					success : function(data) {
 						if (data.result=="success") {
 							alertify.success("商品屬性修改成功");
+							tr.find("input.updateCommodityAttr").prev().text(commodityAttr[0]);
+							tr.find("select.updateCommodityAttr").prev().text(data.commodityAttrAuthorityShowName);
 						} else {
 							alertify.error(data.msg);
 						}
@@ -150,6 +169,7 @@
 			
 			//移除商品屬性
 			$("button[name=removeCommodityAttr]").click(function(){
+				var tr = $(this).parents("tr");
 				alertify.confirm("警告:刪除商品屬性也會刪除已存在商品的對應屬性值, 請確認是否刪除", function(confirm){
 					if (confirm) {
 						$.ajax("/jersey/userConfig/commodityAttr/"+$(this).val(), {
@@ -159,6 +179,7 @@
 							success : function(data) {
 								if (data.result=="success") {
 									alertify.success("刪除商品屬性成功");
+									tr.remove();
 								} else {
 									alertify.error(data.msg);
 								}
@@ -197,6 +218,7 @@
 							success : function(data) {
 								if (data.result=="success") {
 									alertify.success("刪除商品屬性成功");
+									$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").find("option[value="+commodityTypeId+"]").remove();
 								} else {
 									alertify.error(data.msg);
 								}
@@ -261,7 +283,7 @@
 	<br />
 	<br />
 	
-	<!-- 根據上面的篩選器列出符合的商品屬性 -->
+	<!-- 根據篩選器列出符合的商品屬性 -->
 	<table border=1 class="table table-hover">
 		<thead>
 			<tr>

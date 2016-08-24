@@ -87,7 +87,13 @@ public class UserConfigController {
 				return Tools.getFailJson("已經有此商品屬性").toString();
 			}
 			CommodityAttrVO result = userConfigService.createCommodityAttr(commodityAttrVO);
-			return Tools.getSuccessJson().put("commodityAttrId", result.getCommodityAttrId()).toString();
+			return Tools.getSuccessJson()
+					.put("commodityAttrId", result.getCommodityAttrId())
+					.put("commodityType", result.getCommodityTypeVO().getCommodityType())
+					.put("commodityAttr", result.getCommodityAttr())
+					.put("commodityAttrAuthority", result.getCommodityAttrAuthority())
+					.put("commodityAttrAuthorityShowName", result.getCommodityAttrAuthority().getShowName())
+					.toString();
 		} catch (Exception e) {
 			return Tools.getFailJson("新增商品屬性失敗").toString();
 		}
@@ -117,7 +123,7 @@ public class UserConfigController {
 			commodityAttrVO.setCommodityAttr(commodityAttr);
 			commodityAttrVO.setCommodityAttrAuthority(commodityAttrAuthority);
 			userConfigService.updateCommodityAttr(commodityAttrVO);
-			return Tools.getSuccessJson().toString();
+			return Tools.getSuccessJson().put("commodityAttrAuthorityShowName", commodityAttrAuthority.getShowName()).toString();
 		} catch (Exception e) {
 			return Tools.getFailJson("更新商品屬性失敗").toString();
 		}
