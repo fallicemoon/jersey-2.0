@@ -73,6 +73,7 @@ public class UserConfigController {
 			commodityTypeVO = userConfigService.createCommodityType(commodityTypeVO);
 			return Tools.getSuccessJson().put("commodityTypeId", commodityTypeVO.getCommodityTypeId()).toString();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Tools.getFailJson("新增商品類別失敗").toString();
 		}
 	}
@@ -83,7 +84,7 @@ public class UserConfigController {
 		try {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
 			commodityAttrVO.setCommodityTypeVO(commodityTypeVO);
-			if (userConfigService.getCommodityTypeAttrMap().get(commodityTypeVO).contains(commodityAttrVO)) {
+			if (userConfigService.getCommodityTypeAttrStringMap().get(commodityTypeVO.getCommodityType()).contains(commodityAttrVO.getCommodityAttr())) {
 				return Tools.getFailJson("已經有此商品屬性").toString();
 			}
 			CommodityAttrVO result = userConfigService.createCommodityAttr(commodityAttrVO);
@@ -95,6 +96,7 @@ public class UserConfigController {
 					.put("commodityAttrAuthorityShowName", result.getCommodityAttrAuthority().getShowName())
 					.toString();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Tools.getFailJson("新增商品屬性失敗").toString();
 		}
 	}
@@ -108,6 +110,7 @@ public class UserConfigController {
 			userConfigService.updateCommodityType(commodityTypeVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Tools.getFailJson("更新商品類別失敗").toString();
 		}
 	}
@@ -125,6 +128,7 @@ public class UserConfigController {
 			userConfigService.updateCommodityAttr(commodityAttrVO);
 			return Tools.getSuccessJson().put("commodityAttrAuthorityShowName", commodityAttrAuthority.getShowName()).toString();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Tools.getFailJson("更新商品屬性失敗").toString();
 		}
 	}
@@ -136,6 +140,7 @@ public class UserConfigController {
 			userConfigService.removeCommodityAttr(commodityAttrId);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Tools.getSuccessJson().toString();
 		}		
 	}
@@ -147,6 +152,7 @@ public class UserConfigController {
 			userConfigService.removeCommodityType(commodityTypeId);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return Tools.getSuccessJson().toString();
 		}		
 	}

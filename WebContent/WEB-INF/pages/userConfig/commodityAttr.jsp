@@ -21,6 +21,10 @@
 			//顯示該顯示的
 			$("#prepareUpdateCommodityType").add("button[name=prepareUpdateCommodityAttr]").show();
 			$(".prepareUpdateCommodityType").add(".prepareUpdateCommodityAttr").show();
+			//清空input
+			$("input").val("");
+			//因為filter變回全部, 所以秀出所有tr
+			$("tr").show();
 		}
 		
 		$(function(){
@@ -35,7 +39,7 @@
 			$("#createCommodityType").click(function(){
 				var row = $(this).parents(".row");
 				var commodityAttrVO = {
-						commodityType : row.find("input[name=commodityType]").val(), 
+						commodityType : row.find("input[name=commodityType]").val(),
 						authority: row.find("select[name=authority]").val()
 					};
 				$.ajax("/jersey/userConfig/commodityType", {
@@ -80,14 +84,20 @@
 								return;
 							}				
 							tr = tr.eq(0).clone();
+							tr.addClass(commodityAttrVO.commodityTypeId);
 							tr.find("td:nth-child(1) button[name=removeCommodityAttr]").val(data.commodityAttrId);
 							tr.find("td:nth-child(2)").text(data.commodityType);
 							tr.find("td:nth-child(3) div").text(data.commodityAttr);
 							tr.find("td:nth-child(3) input").val(data.commodityAttr);
 							tr.find("td:nth-child(4) div").text(data.commodityAttrAuthorityShowName);
 							tr.find("td:nth-child(4) option[value="+data.commodityAttrAuthority+"]").prop("selected", true);
-							tr.find("td:nth-child(5) button name=[updateCommodityAttr]").val(data.commodityAttrId);
-							tr.appendTo("table");
+							tr.find("td:nth-child(5) button[name=updateCommodityAttr]").val(data.commodityAttrId);
+							var beforeTr = $("tr").has("td:contains("+ data.commodityType +")").filter(":last");
+							if(beforeTr.length==0){
+								$("table").append(tr);
+							} else {
+								beforeTr.after(tr);
+							}
 						} else {
 							alertify.error(data.msg);
 						}
@@ -112,8 +122,9 @@
 			$("#updateCommodityType").click(function(){
 				var option = $(this).parents("div.row").find("option:selected");
 				var commodityTypeId = option.val();
+				var oldCommodityType = option.text();
 				var pushData = [];
-				commodityType.push($(this).parents("div.row").find("input").val());
+				pushData.push($(this).parents("div.row").find("input").val());
 				$.ajax("/jersey/userConfig/commodityType/"+commodityTypeId, {
 					type : "PUT",
 					data : JSON.stringify(pushData),
@@ -123,6 +134,9 @@
 						if (data.result=="success") {
 							alertify.success("商品種類修改成功");
 							$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").find("option[value="+commodityTypeId+"]").text(pushData[0]);
+							$("td").filter(function(){
+								return $(this).text() == oldCommodityType;
+							}).text(pushData[0]);
 						} else {
 							alertify.error(data.msg);
 						}
@@ -134,14 +148,18 @@
 			});
 			
 			//商品屬性切換為修改模式
-			$("button[name=prepareUpdateCommodityAttr]").click(function(){
+			$("table").on("click", "button[name=prepareUpdateCommodityAttr]", function(){
 				var tr = $(this).parents("tr");
 				$(this).add(tr.find(".prepareUpdateCommodityAttr")).hide();
 				tr.find("button[name=updateCommodityAttr], .updateCommodityAttr").show();
+				tr.find("input").val(tr.find("td:nth-child(3)>.prepareUpdateCommodityAttr").text());
+				tr.find("option").filter(function(){
+					return $(this).text() == tr.find("td:nth-child(4)>.prepareUpdateCommodityAttr").text();
+				}).prop("selected", true);
 			});
 			
 			//商品屬性修改
-			$("button[name=updateCommodityAttr]").click(function(){
+			$("table").on("click", "button[name=updateCommodityAttr]", function(){
 				var commodityAttrId = $(this).val();
 				var commodityAttr = [];
 				var tr = $(this).parents("tr");
@@ -168,11 +186,12 @@
 			});
 			
 			//移除商品屬性
-			$("button[name=removeCommodityAttr]").click(function(){
+			$("table").on("click", "button[name=removeCommodityAttr]", function(){
+				var commodityAttrId = $(this).val();
 				var tr = $(this).parents("tr");
 				alertify.confirm("警告:刪除商品屬性也會刪除已存在商品的對應屬性值, 請確認是否刪除", function(confirm){
 					if (confirm) {
-						$.ajax("/jersey/userConfig/commodityAttr/"+$(this).val(), {
+						$.ajax("/jersey/userConfig/commodityAttr/"+commodityAttrId, {
 							type : "DELETE",
 							contentType : "application/json",
 							dataType : "json",
@@ -208,23 +227,28 @@
 				if ($(".prepareUpdateCommodityType").val()=="all") {
 					return;
 				}
+				var option = $(this).parents("tr").find("option:selected");
+				var commodityTypeId = option.val();
+				var commodtiyType = option.text();
 				alertify.confirm("警告:刪除商品種類也會刪除所有此種類的商品和商品屬性, 請確認是否刪除", function(confirm){
 					if (confirm) {
-						var commodityTypeId = $(this).parent().prev().children().val();
 						$.ajax("/jersey/userConfig/commodityType/"+commodityTypeId, {
 							type : "DELETE",
 							contentType : "application/json",
 							dataType : "json",
 							success : function(data) {
 								if (data.result=="success") {
-									alertify.success("刪除商品屬性成功");
+									alertify.success("刪除商品種類成功");
 									$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").find("option[value="+commodityTypeId+"]").remove();
+									$("td").filter(function(){
+										return $(this).text() == commodtiyType;
+									}).parent().remove();
 								} else {
 									alertify.error(data.msg);
 								}
 							},
 							error : function(){
-								alertify.error("刪除商品屬性失敗");
+								alertify.error("刪除商品種類失敗");
 							}
 						});
 					}
