@@ -1,13 +1,17 @@
 package com.jersey.commodity.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jersey.picture.model.PictureDAO;
 import com.jersey.tools.Tools;
+import com.jersey.userConfig.model.CommodityAttrVO;
+import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserConfigService;
 
 @Service
@@ -18,6 +22,24 @@ public class CommodityService {
 	private CommodityDAO commodityDAO;
 	@Autowired
 	private UserConfigService userConfigService;
+	
+	/**
+	 * 取得所有商品種類
+	 * @return 此List為LinkedHashSet轉成, 順序就是從DB中撈出來的順序
+	 */
+	public List<CommodityTypeVO> getCommodityType () {
+		return new ArrayList<>(userConfigService.getCommodityTypeAttrMap().keySet());
+	}
+	
+	/**
+	 * 取得某商品種類的所有商品屬性
+	 * @param commodityTypeId
+	 * @return
+	 */
+	public List<CommodityAttrVO> getCommodityAttrByCommodityTypeId (String commodityTypeId) {
+		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
+		return userConfigService.getCommodityTypeAttrMap().get(commodityTypeVO);
+	}
 
 
 	//取得所有商品
