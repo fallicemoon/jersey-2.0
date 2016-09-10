@@ -23,6 +23,8 @@ public class UserConfigService {
 	//clob不要複製, 怕太吃資源
 	//private static final String[] CLOB_FIELDS = new String[]{"commodityAttr"};
 	
+	private boolean isAdmin = false;
+	
 	private UserConfigVO userConfigVO;
 	private Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap;
 	private Map<String, List<String>> commodityTypeAttrStringMap;
@@ -39,12 +41,21 @@ public class UserConfigService {
 		userConfigVO = userConfigDAO.getByUserName("jersey");
 		generateCommodityAttrMap();
 	}
+	
+	//使用者相關登入資訊
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 
 	//-----------------------get config-----------------------
 	public Authority getAuthority () {
 		return userConfigVO.getAuthority();
 	}
-	
+
 	public Integer getCommodityPageSize () {
 		return userConfigVO.getCommodityPageSize();
 	}

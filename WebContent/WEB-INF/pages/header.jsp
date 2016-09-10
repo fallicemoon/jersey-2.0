@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,6 +30,7 @@
 </div>
 </div>
 
+<c:if test="${sessionScope.userConfigService.isAdmin}">
 <div class="btn-group">
   <a href="/jersey/purchaseCase/getAll">
   <button type="button" class="btn btn-primary dropdown-toggle">
@@ -74,6 +75,7 @@
 </div>
 
 <a href="/jersey/MemberServlet?action=logout">登出</a>
+</c:if>
 
 </body>
 </html>
