@@ -22,26 +22,26 @@
 		<c:import url="/WEB-INF/pages/header.jsp" />
 		<script type="text/javascript">
 
-	var commodityAttr = ["itemName", "player", "team", "style", "brand",
-			"size", "level", "condition", "tag", "owner", "sellPlatform",
-			"isStored" ];
+// 	var commodityAttr = ["itemName", "player", "team", "style", "brand",
+// 			"size", "level", "condition", "tag", "owner", "sellPlatform",
+// 			"isStored" ];
 
-	function filter() {
-		$("tr").show();
-		for ( var index in commodityAttr) {
-			var filterName = commodityAttr[index];
+// 	function filter() {
+// 		$("tr").show();
+// 		for ( var index in commodityAttr) {
+// 			var filterName = commodityAttr[index];
 			<%-- 從篩選條件中取得要保留的資料 --%>
-			var keep = $("input:checked[name='"+filterName+"']").map(function(){
-				return $(this).val();
-			}).toArray();
+// 			var keep = $("input:checked[name='"+filterName+"']").map(function(){
+// 				return $(this).val();
+// 			}).toArray();
 			<%-- 只要有任何條件不符合就隱藏資料 --%>
-			$("."+filterName).not(".checkboxDiv").each(function(){
-				if($.inArray($(this).text(), keep)==-1){
-					$(this).closest("tr").hide();
-				}
-			});
-		}
-	}
+// 			$("."+filterName).not(".checkboxDiv").each(function(){
+// 				if($.inArray($(this).text(), keep)==-1){
+// 					$(this).closest("tr").hide();
+// 				}
+// 			});
+// 		}
+// 	}
 
 	$(function(){
 		<%--把checkbox清空--%>

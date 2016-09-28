@@ -22,10 +22,11 @@ public class Tools {
 		Set<String> notCopyFieldSet = new HashSet<>();
 		Collections.addAll(notCopyFieldSet, notCopyFields);
 		notCopyFieldSet.add(serialVersionUID);
-		
 		for (Field field : oldFields) {
-			if (notCopyFieldSet.contains(field.getName()))
+			boolean flag = field.isAccessible();
+			if (notCopyFieldSet.contains(field.getName())){
 				continue;
+			}
 			field.setAccessible(true);
 			try {
 				Object value = field.get(old);
@@ -34,6 +35,7 @@ public class Tools {
 				//新物件沒有這個屬性
 				continue;
 			}
+			field.setAccessible(flag);
 		}
 
 	}

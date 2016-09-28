@@ -2,7 +2,7 @@ package com.jersey.commodity.model;
 
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 
-public class CommodityAttrValue {
+public class CommodityAttrValueVO {
 	
 	private String commodityAttr;
 	private String commodityAttrValue;

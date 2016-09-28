@@ -24,13 +24,15 @@
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">商品
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-    <li><a href="/jersey/commodity/getAll">球衣</a></li>
+  	<c:forEach items="${requestScope.commodityTypes}" var="commodityType">
+  		<li><a href="/jersey/commodity/${commodityType}/getAll">${commodityType}</a></li>
+  	</c:forEach>
   </ul>
 </div>
 </div>
 </div>
 
-<c:if test="${sessionScope.userConfigService.isAdmin}">
+<c:if test="${sessionScope['scopedTarget.userConfigService'].admin}">
 <div class="btn-group">
   <a href="/jersey/purchaseCase/getAll">
   <button type="button" class="btn btn-primary dropdown-toggle">
@@ -74,7 +76,7 @@
 </div>
 </div>
 
-<a href="/jersey/MemberServlet?action=logout">登出</a>
+<a href="/jersey/logout">登出</a>
 </c:if>
 
 </body>

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jersey.commodity.model.CommodityDisplay;
+import com.jersey.commodity.model.CommodityDisplayVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.Tools;
@@ -44,10 +44,13 @@ public class CommodityController {
 		}
 	}
 
-	// 取得全部
+	//根據商品種類取得商品
 	@RequestMapping(value = "/{commodityType}/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map, @PathVariable(value="commodityType") String commodityType,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+		Map<String, List<String>> commodityTypeAttrStringMap = userConfigService.getCommodityTypeAttrStringMap();
+		map.put("commodityAttrList", commodityTypeAttrStringMap.get(commodityType));
+		
 		map.put("commodityList", commodityService.getAll(commodityType, page));
 		map.put("pages", commodityService.getPages(commodityType));
 		return LIST;
@@ -70,7 +73,7 @@ public class CommodityController {
 	public String create(CommodityVO vo, Map<String, Object> map) {
 		vo.setIsStored(true);
 		commodityService.create(vo);
-		List<CommodityDisplay> list = new ArrayList<>();
+		List<CommodityDisplayVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityDisplayVO(vo));
 		map.put("commodityList", list);
 		return LIST;
@@ -81,7 +84,7 @@ public class CommodityController {
 	public String update(@PathVariable("id") Integer id, @ModelAttribute(value = "commodity") CommodityVO vo,
 			Map<String, Object> map, @RequestParam Map<String, Object> map2) {
 		commodityService.update(vo);
-		List<CommodityDisplay> list = new ArrayList<>();
+		List<CommodityDisplayVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityDisplayVO(vo));
 		map.put("commodityList", list);
 		return LIST;

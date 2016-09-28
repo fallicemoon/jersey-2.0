@@ -19,12 +19,12 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		super(CommodityVO.class, "commodityId");
 	}
 	
-	public List<CommodityDisplay> getAll (Authority authority, String commodityType, Integer pageSize, Integer page) {
-		//TODO Authority為admin就不要加
+	public List<CommodityVO> getAll (Authority authority, String commodityType, Integer pageSize, Integer page) {
+		
 		return null;
 	}
 	
-	public CommodityDisplay getOne (Authority authority, Integer commodityId) {
+	public CommodityDisplayVO getOne (Authority authority, Integer commodityId) {
 		//TODO
 		return null;
 	}

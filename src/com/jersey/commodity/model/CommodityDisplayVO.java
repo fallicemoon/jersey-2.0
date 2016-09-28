@@ -2,7 +2,7 @@ package com.jersey.commodity.model;
 
 import java.util.List;
 
-public class CommodityDisplay extends CommodityVO {
+public class CommodityDisplayVO extends CommodityVO {
 
 	/**
 	 * 
@@ -10,7 +10,7 @@ public class CommodityDisplay extends CommodityVO {
 	private static final long serialVersionUID = 4286339903266668677L;
 	
 	private Integer pictureCount;
-	private List<CommodityAttrValue> commodityAttrValueList;
+	private List<CommodityAttrValueVO> commodityAttrValueList;
 	
 
 	public Integer getPictureCount() {
@@ -21,11 +21,11 @@ public class CommodityDisplay extends CommodityVO {
 		this.pictureCount = pictureCount;
 	}
 
-	public List<CommodityAttrValue> getCommodityAttrValueList() {
+	public List<CommodityAttrValueVO> getCommodityAttrValueList() {
 		return commodityAttrValueList;
 	}
 
-	public void setCommodityAttrValueList(List<CommodityAttrValue> commodityAttrValueList) {
+	public void setCommodityAttrValueList(List<CommodityAttrValueVO> commodityAttrValueList) {
 		this.commodityAttrValueList = commodityAttrValueList;
 	}
 

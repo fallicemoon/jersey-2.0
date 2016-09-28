@@ -42,7 +42,7 @@ public class CommodityService {
 
 
 	//取得所有商品
-	public List<CommodityDisplay> getAll(String commodityType, Integer page) {
+	public List<CommodityDisplayVO> getAll(String commodityType, Integer page) {
 		return commodityDAO.getAll(userConfigService.getAuthority(), commodityType, userConfigService.getCommodityPageSize(), page);
 	}
 	
@@ -88,14 +88,16 @@ public class CommodityService {
 		return pictureDAO.getCommodityIdPictureCount(commodityId);
 	}
 	
-	public CommodityDisplay getCommodityDisplayVO (CommodityVO commodityVO) {
-		CommodityDisplay commodityWithPicCountVO = new CommodityDisplay();
+	public CommodityDisplayVO getCommodityDisplayVO (CommodityVO commodityVO) {
+		CommodityDisplayVO commodityWithPicCountVO = new CommodityDisplayVO();
 		if (commodityVO!=null) {
 			Tools.copyBeanProperties(commodityVO, commodityWithPicCountVO);
 			commodityWithPicCountVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
 		}
 		return commodityWithPicCountVO;
 	}
+	
+	
 	
 
 	

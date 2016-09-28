@@ -2,6 +2,8 @@ package com.jersey.member.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,7 @@ public class MemberController {
 	
 	private static final String INDEX = "index";
 	private static final String LOGIN = "login";
-	private static final String REDIRECT_INDEX = "redirect:";
+	private static final String REDIRECT_INDEX = "redirect:index.html";
 	
 	@Autowired
 	private UserConfigService userConfigService;
@@ -33,14 +35,22 @@ public class MemberController {
 		}
 	}
 	
+	//登出
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
+	public String logout (HttpSession session) {
+		session.invalidate();
+		return REDIRECT_INDEX;
+	}
+	
+	//導向首頁
 	@RequestMapping(value="/index.html", method=RequestMethod.GET)
 	public String welcome (Map<String, Object> map) {
 		if (userConfigService.isAdmin()) {
 			//賣家, 可以使用完整功能
-			map.put("isAdmin", true);
+			map.put("commodityTypes", userConfigService.getCommodityTypeAttrStringMap().keySet());
 		} else {
 			//一般使用者
-			map.put("isAdmin", false);
+			map.put("commodityTypes", userConfigService.getCommodityTypeAttrStringMap().keySet());
 		}
 		return INDEX;
 	}
