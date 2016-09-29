@@ -3,6 +3,7 @@ package com.jersey.commodity.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.jersey.picture.model.PictureDAO;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.CommodityAttrVO;
+import com.jersey.userConfig.model.CommodityTypeDAO;
 import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserConfigService;
 
@@ -19,6 +21,8 @@ public class CommodityService {
 	
 	@Autowired
 	private CommodityDAO commodityDAO;
+	@Autowired
+	private CommodityTypeDAO commodityTypeDAO; 
 	@Autowired
 	private UserConfigService userConfigService;
 	
@@ -40,10 +44,15 @@ public class CommodityService {
 		return userConfigService.getCommodityTypeAttrMap().get(commodityTypeVO);
 	}
 
-
 	//取得所有商品
 	public List<CommodityDisplayVO> getAll(String commodityType, Integer page) {
-		return commodityDAO.getAll(userConfigService.getAuthority(), commodityType, userConfigService.getCommodityPageSize(), page);
+		CommodityTypeVO commodityTypeVO = commodityTypeDAO.getByCommodityType(commodityType);
+		List<CommodityVO> oldList = commodityDAO.getAll(userConfigService.getAuthority(), commodityTypeVO, userConfigService.getCommodityPageSize(), page);
+		List<CommodityDisplayVO> newList = new ArrayList<>();
+		for (CommodityVO commodityVO : oldList) {
+			newList.add(getCommodityDisplayVO(commodityVO));
+		}
+		return newList;
 	}
 	
 	//取得總分頁數
@@ -89,12 +98,22 @@ public class CommodityService {
 	}
 	
 	public CommodityDisplayVO getCommodityDisplayVO (CommodityVO commodityVO) {
-		CommodityDisplayVO commodityWithPicCountVO = new CommodityDisplayVO();
+		CommodityDisplayVO commodityDisplayVO = new CommodityDisplayVO();
 		if (commodityVO!=null) {
-			Tools.copyBeanProperties(commodityVO, commodityWithPicCountVO);
-			commodityWithPicCountVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
+			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
+			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
+			//開始處理屬性
+			List<CommodityAttrValueVO> list = new ArrayList<>();
+			Set<CommodityAttrMappingVO> set = commodityVO.getCommodityAttrMappings();
+			for (CommodityAttrMappingVO commodityAttrMappingVO : set) {
+				CommodityAttrValueVO commodityAttrValueVO = new CommodityAttrValueVO();
+				commodityAttrValueVO.setCommodityAttr(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttr());
+				commodityAttrValueVO.setCommodityAttrValue(commodityAttrMappingVO.getCommodityAttrValue());
+				list.add(commodityAttrValueVO);
+			}
+			commodityDisplayVO.setCommodityAttrValueList(list);
 		}
-		return commodityWithPicCountVO;
+		return commodityDisplayVO;
 	}
 	
 	

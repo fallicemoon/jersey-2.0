@@ -50,7 +50,6 @@ public class CommodityController {
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
 		Map<String, List<String>> commodityTypeAttrStringMap = userConfigService.getCommodityTypeAttrStringMap();
 		map.put("commodityAttrList", commodityTypeAttrStringMap.get(commodityType));
-		
 		map.put("commodityList", commodityService.getAll(commodityType, page));
 		map.put("pages", commodityService.getPages(commodityType));
 		return LIST;

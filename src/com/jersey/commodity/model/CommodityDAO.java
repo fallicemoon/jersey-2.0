@@ -1,16 +1,22 @@
 package com.jersey.commodity.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.AbstractDAO;
 import com.jersey.tools.HibernateTools;
 import com.jersey.tools.JerseyEnum.Authority;
+import com.jersey.userConfig.model.CommodityTypeVO;
 
 @Repository
 public class CommodityDAO extends AbstractDAO<CommodityVO> {
@@ -19,9 +25,27 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		super(CommodityVO.class, "commodityId");
 	}
 	
-	public List<CommodityVO> getAll (Authority authority, String commodityType, Integer pageSize, Integer page) {
-		
-		return null;
+	public List<CommodityVO> getAll (Authority authority, CommodityTypeVO commodityTypeVO, Integer pageSize, Integer page) {
+		Session session = HibernateTools.getSession();
+		session.getTransaction().begin();
+		List<CommodityVO> list;
+		try {
+			Criteria criteria = session.createCriteria(CommodityVO.class);
+			criteria.add(Restrictions.eq("authority", authority));
+			criteria.add(Restrictions.eq("commodityTypeVO", commodityTypeVO));
+			//分頁
+			Integer firstResult = pageSize*(page-1);
+			criteria.setFirstResult(firstResult);
+			criteria.setMaxResults(pageSize);
+			
+			list = criteria.list();
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			list = new ArrayList<>();
+		}
+		return list;
 	}
 	
 	public CommodityDisplayVO getOne (Authority authority, Integer commodityId) {
@@ -43,6 +67,8 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		//TODO
 		return null;
 	}
+	
+	
 
 
 	// public List<CommodityVO> getAll() {
