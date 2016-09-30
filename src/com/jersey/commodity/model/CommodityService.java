@@ -109,6 +109,7 @@ public class CommodityService {
 				CommodityAttrValueVO commodityAttrValueVO = new CommodityAttrValueVO();
 				commodityAttrValueVO.setCommodityAttr(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttr());
 				commodityAttrValueVO.setCommodityAttrValue(commodityAttrMappingVO.getCommodityAttrValue());
+				commodityAttrValueVO.setCommodityAttrAuthority(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttrAuthority());
 				list.add(commodityAttrValueVO);
 			}
 			commodityDisplayVO.setCommodityAttrValueList(list);

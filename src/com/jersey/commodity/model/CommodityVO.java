@@ -20,7 +20,7 @@ public class CommodityVO extends AbstractVo{
 	private Set<CommodityAttrMappingVO> commodityAttrMappings;
 	
 //	private Integer qty;
-//	private String link;
+	private String link;
 //	private String player;
 //	private String number;
 //	private String season;
@@ -106,13 +106,13 @@ public class CommodityVO extends AbstractVo{
 //		this.qty = qty;
 //	}
 //
-//	public String getLink() {
-//		return link;
-//	}
-//
-//	public void setLink(String link) {
-//		this.link = link;
-//	}
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
 //
 //	public String getPlayer() {
 //		return player;
@@ -273,14 +273,9 @@ public class CommodityVO extends AbstractVo{
 	public String toString() {
 		return "CommodityVO [commodityId=" + commodityId + ", purchaseCaseVO=" + purchaseCaseVO + ", itemName="
 				+ itemName + ", commodityTypeVO=" + commodityTypeVO + ", commodityAttrMappings=" + commodityAttrMappings
-				+ ", cost=" + cost + ", sellPrice=" + sellPrice + ", authority=" + authority + ", isStored=" + isStored
-				+ "]";
+				+ ", link=" + link + ", cost=" + cost + ", sellPrice=" + sellPrice + ", authority=" + authority
+				+ ", isStored=" + isStored + "]";
 	}
-
-
-
-
-
 
 	
 }
