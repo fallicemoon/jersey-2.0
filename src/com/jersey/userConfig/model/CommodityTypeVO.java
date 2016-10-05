@@ -49,12 +49,7 @@ public class CommodityTypeVO extends AbstractVo {
 	public void setCommodityAttrs(Set<CommodityAttrVO> commodityAttrs) {
 		this.commodityAttrs = commodityAttrs;
 	}
-	@Override
-	public String toString() {
-		return "CommodityTypeVO [commodityTypeId=" + commodityTypeId + ", commodityType=" + commodityType
-				+ ", authority=" + authority + ", commoditys=" + commoditys + ", commodityAttrs=" + commodityAttrs
-				+ "]";
-	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

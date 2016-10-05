@@ -5,11 +5,8 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
@@ -63,9 +60,8 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		return null;
 	}
 	
-	public Long getTotalCount (Authority authority, String commodityType) {
-		//TODO
-		return null;
+	public Long getTotalCount (Authority authority, CommodityTypeVO commodityTypeVO) {
+		return super.getTotalCount(Restrictions.eq("authority", authority), Restrictions.eq("commodityTypeVO", commodityTypeVO));
 	}
 	
 	

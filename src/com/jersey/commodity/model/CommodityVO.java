@@ -7,7 +7,7 @@ import com.jersey.tools.AbstractVo;
 import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.userConfig.model.CommodityTypeVO;
 
-public class CommodityVO extends AbstractVo{
+public class CommodityVO extends AbstractVo {
 	/**
 	 * 
 	 */
@@ -15,27 +15,27 @@ public class CommodityVO extends AbstractVo{
 	private Integer commodityId;
 	private PurchaseCaseVO purchaseCaseVO;
 	private String itemName;
-	
+
 	private CommodityTypeVO commodityTypeVO;
 	private Set<CommodityAttrMappingVO> commodityAttrMappings;
-	
-//	private Integer qty;
+
+	// private Integer qty;
 	private String link;
-//	private String player;
-//	private String number;
-//	private String season;
-//	private String team;
-//	private String style;
-//	private String color;
-//	private String brand;
-//	private String size;
-//	private String level;
-//	private String condition;
-//	private String tag;
-//	private String patchAndCertificate;
-//	private String serial;
-//	private String owner;
-	
+	// private String player;
+	// private String number;
+	// private String season;
+	// private String team;
+	// private String style;
+	// private String color;
+	// private String brand;
+	// private String size;
+	// private String level;
+	// private String condition;
+	// private String tag;
+	// private String patchAndCertificate;
+	// private String serial;
+	// private String owner;
+
 	private Integer cost;
 	private Integer sellPrice;
 	private Authority authority;
@@ -96,16 +96,15 @@ public class CommodityVO extends AbstractVo{
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	
-	
-//	public Integer getQty() {
-//		return qty;
-//	}
-//
-//	public void setQty(Integer qty) {
-//		this.qty = qty;
-//	}
-//
+
+	// public Integer getQty() {
+	// return qty;
+	// }
+	//
+	// public void setQty(Integer qty) {
+	// this.qty = qty;
+	// }
+	//
 	public String getLink() {
 		return link;
 	}
@@ -113,120 +112,118 @@ public class CommodityVO extends AbstractVo{
 	public void setLink(String link) {
 		this.link = link;
 	}
-//
-//	public String getPlayer() {
-//		return player;
-//	}
-//
-//	public void setPlayer(String player) {
-//		this.player = player;
-//	}
-//
-//	public String getNumber() {
-//		return number;
-//	}
-//
-//	public void setNumber(String number) {
-//		this.number = number;
-//	}
-//
-//	public String getSeason() {
-//		return season;
-//	}
-//
-//	public void setSeason(String season) {
-//		this.season = season;
-//	}
-//
-//	public String getTeam() {
-//		return team;
-//	}
-//
-//	public void setTeam(String team) {
-//		this.team = team;
-//	}
-//
-//	public String getStyle() {
-//		return style;
-//	}
-//
-//	public void setStyle(String style) {
-//		this.style = style;
-//	}
-//
-//	public String getColor() {
-//		return color;
-//	}
-//
-//	public void setColor(String color) {
-//		this.color = color;
-//	}
-//
-//	public String getBrand() {
-//		return brand;
-//	}
-//
-//	public void setBrand(String brand) {
-//		this.brand = brand;
-//	}
-//
-//	public String getSize() {
-//		return size;
-//	}
-//
-//	public void setSize(String size) {
-//		this.size = size;
-//	}
-//
-//	public String getLevel() {
-//		return level;
-//	}
-//
-//	public void setLevel(String level) {
-//		this.level = level;
-//	}
-//
-//	public String getCondition() {
-//		return condition;
-//	}
-//
-//	public void setCondition(String condition) {
-//		this.condition = condition;
-//	}
-//
-//	public String getTag() {
-//		return tag;
-//	}
-//
-//	public void setTag(String tag) {
-//		this.tag = tag;
-//	}
-//
-//	public String getPatchAndCertificate() {
-//		return patchAndCertificate;
-//	}
-//
-//	public void setPatchAndCertificate(String patchAndCertificate) {
-//		this.patchAndCertificate = patchAndCertificate;
-//	}
-//
-//	public String getSerial() {
-//		return serial;
-//	}
-//
-//	public void setSerial(String serial) {
-//		this.serial = serial;
-//	}
-//
-//	public String getOwner() {
-//		return owner;
-//	}
-//
-//	public void setOwner(String owner) {
-//		this.owner = owner;
-//	}
-
-
+	//
+	// public String getPlayer() {
+	// return player;
+	// }
+	//
+	// public void setPlayer(String player) {
+	// this.player = player;
+	// }
+	//
+	// public String getNumber() {
+	// return number;
+	// }
+	//
+	// public void setNumber(String number) {
+	// this.number = number;
+	// }
+	//
+	// public String getSeason() {
+	// return season;
+	// }
+	//
+	// public void setSeason(String season) {
+	// this.season = season;
+	// }
+	//
+	// public String getTeam() {
+	// return team;
+	// }
+	//
+	// public void setTeam(String team) {
+	// this.team = team;
+	// }
+	//
+	// public String getStyle() {
+	// return style;
+	// }
+	//
+	// public void setStyle(String style) {
+	// this.style = style;
+	// }
+	//
+	// public String getColor() {
+	// return color;
+	// }
+	//
+	// public void setColor(String color) {
+	// this.color = color;
+	// }
+	//
+	// public String getBrand() {
+	// return brand;
+	// }
+	//
+	// public void setBrand(String brand) {
+	// this.brand = brand;
+	// }
+	//
+	// public String getSize() {
+	// return size;
+	// }
+	//
+	// public void setSize(String size) {
+	// this.size = size;
+	// }
+	//
+	// public String getLevel() {
+	// return level;
+	// }
+	//
+	// public void setLevel(String level) {
+	// this.level = level;
+	// }
+	//
+	// public String getCondition() {
+	// return condition;
+	// }
+	//
+	// public void setCondition(String condition) {
+	// this.condition = condition;
+	// }
+	//
+	// public String getTag() {
+	// return tag;
+	// }
+	//
+	// public void setTag(String tag) {
+	// this.tag = tag;
+	// }
+	//
+	// public String getPatchAndCertificate() {
+	// return patchAndCertificate;
+	// }
+	//
+	// public void setPatchAndCertificate(String patchAndCertificate) {
+	// this.patchAndCertificate = patchAndCertificate;
+	// }
+	//
+	// public String getSerial() {
+	// return serial;
+	// }
+	//
+	// public void setSerial(String serial) {
+	// this.serial = serial;
+	// }
+	//
+	// public String getOwner() {
+	// return owner;
+	// }
+	//
+	// public void setOwner(String owner) {
+	// this.owner = owner;
+	// }
 
 	public CommodityTypeVO getCommodityTypeVO() {
 		return commodityTypeVO;
@@ -269,13 +266,4 @@ public class CommodityVO extends AbstractVo{
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "CommodityVO [commodityId=" + commodityId + ", purchaseCaseVO=" + purchaseCaseVO + ", itemName="
-				+ itemName + ", commodityTypeVO=" + commodityTypeVO + ", commodityAttrMappings=" + commodityAttrMappings
-				+ ", link=" + link + ", cost=" + cost + ", sellPrice=" + sellPrice + ", authority=" + authority
-				+ ", isStored=" + isStored + "]";
-	}
-
-	
 }

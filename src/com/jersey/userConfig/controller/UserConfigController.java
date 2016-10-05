@@ -30,10 +30,10 @@ public class UserConfigController {
 	
 	@RequestMapping(value="/systemParam", method=RequestMethod.GET)
 	public String getSystemParam (Map<String, Object> map) {
-		map.put(UserConfig.commodityPageSize.toString(), userConfigService.getCommodityPageSize());
-		map.put(UserConfig.purchaseCasePageSize.toString(), userConfigService.getPurchaseCasePageSize());
-		map.put(UserConfig.sellCasePageSize.toString(), userConfigService.getSellCasePageSize());
-		map.put(UserConfig.storePageSize.toString(), userConfigService.getStorePageSize());
+		map.put(UserConfig.commodityPageSize.toString(), userConfigService.getUserSession().getUserConfigVO().getCommodityPageSize());
+		map.put(UserConfig.purchaseCasePageSize.toString(), userConfigService.getUserSession().getUserConfigVO().getPurchaseCasePageSize());
+		map.put(UserConfig.sellCasePageSize.toString(), userConfigService.getUserSession().getUserConfigVO().getSellCasePageSize());
+		map.put(UserConfig.storePageSize.toString(), userConfigService.getUserSession().getUserConfigVO().getStorePageSize());
 		return SYSTEM_PARAM;
 	}
 	
@@ -59,7 +59,7 @@ public class UserConfigController {
 	public String getCommodityAttr (Map<String, Object> map) {
 		map.put("authorityList", Authority.values());
 		map.put("commodityAttrAuthorityList", CommodityAttrAuthority.values());
-		map.put("commodityAttrMap", userConfigService.getCommodityTypeAttrMap());
+		map.put("commodityAttrMap", userConfigService.getUserSession().getCommodityTypeAttrMap());
 		return COMMODITY_ATTR;
 	}
 	
@@ -67,7 +67,7 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityType", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String createCommodityType (@RequestBody CommodityTypeVO commodityTypeVO) {
 		try {
-			if (userConfigService.getCommodityTypeAttrStringMap().keySet().contains(commodityTypeVO.getCommodityType())) {
+			if (userConfigService.getUserSession().getCommodityTypeAttrStringMap().keySet().contains(commodityTypeVO.getCommodityType())) {
 				return Tools.getFailJson("已經有此商品類別").toString();
 			}
 			commodityTypeVO = userConfigService.createCommodityType(commodityTypeVO);
@@ -84,7 +84,7 @@ public class UserConfigController {
 		try {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
 			commodityAttrVO.setCommodityTypeVO(commodityTypeVO);
-			if (userConfigService.getCommodityTypeAttrStringMap().get(commodityTypeVO.getCommodityType()).contains(commodityAttrVO.getCommodityAttr())) {
+			if (userConfigService.getUserSession().getCommodityTypeAttrStringMap().get(commodityTypeVO.getCommodityType()).contains(commodityAttrVO.getCommodityAttr())) {
 				return Tools.getFailJson("已經有此商品屬性").toString();
 			}
 			CommodityAttrVO result = userConfigService.createCommodityAttr(commodityAttrVO);

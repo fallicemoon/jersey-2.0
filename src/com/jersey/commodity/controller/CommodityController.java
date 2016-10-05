@@ -1,9 +1,12 @@
 package com.jersey.commodity.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.annotation.RequestScope;
+import org.springframework.web.context.annotation.SessionScope;
 
+import com.jersey.commodity.model.CommodityAttrMappingVO;
 import com.jersey.commodity.model.CommodityDisplayVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.Tools;
+import com.jersey.userConfig.model.CommodityAttrVO;
+import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserConfigService;
+import com.jersey.userConfig.model.UserSession;
 
 @Controller
 @RequestMapping(value = "/commodity")
@@ -45,32 +54,53 @@ public class CommodityController {
 	}
 
 	//根據商品種類取得商品
-	@RequestMapping(value = "/{commodityType}/getAll", method = RequestMethod.GET)
-	public String getAll(Map<String, Object> map, @PathVariable(value="commodityType") String commodityType,
+	@RequestMapping(value = "/{commodityTypeId}/getAll", method = RequestMethod.GET)
+	public String getAll(Map<String, Object> map, @PathVariable(value="commodityTypeId") Integer commodityTypeId,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		Map<String, List<String>> commodityTypeAttrStringMap = userConfigService.getCommodityTypeAttrStringMap();
-		map.put("commodityAttrList", commodityTypeAttrStringMap.get(commodityType));
-		map.put("commodityList", commodityService.getAll(commodityType, page));
-		map.put("pages", commodityService.getPages(commodityType));
+		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = userConfigService.getUserSession().getCommodityTypeAttrMap();
+		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
+		for (CommodityTypeVO vo : commodityTypeAttrMap.keySet()) {
+			if (vo.getCommodityTypeId()==commodityTypeId) {
+				commodityTypeVO = vo;
+			}
+		}
+		map.put("commodityAttrList", commodityTypeAttrMap.get(commodityTypeVO));
+		map.put("commodityList", commodityService.getAll(commodityTypeVO, page));
+		map.put("pages", commodityService.getPages(commodityTypeVO));
 		return LIST;
 	}
 
 	// 準備新增
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String get(Map<String, Object> map) {
+	@RequestMapping(value = "/{commodityTypeId}", method = RequestMethod.GET)
+	public String get(@PathVariable(value="commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
+		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
+		commodityTypeVO.setCommodityTypeId(commodityTypeId);
+		map.put("commodityAttrList", userConfigService.getUserSession().getCommodityTypeAttrMap().get(commodityTypeVO));
 		return ADD;
 	}
 
 	// 準備更新
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getOne(@PathVariable("id") Integer id, Map<String, Object> map) {
+	@RequestMapping(value = "/{commodityTypeId}/{id}", method = RequestMethod.GET)
+	public String getOne(@PathVariable(value="commodityTypeId") Integer commodityTypeId, @PathVariable("id") Integer id, Map<String, Object> map) {
+		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
+		commodityTypeVO.setCommodityTypeId(commodityTypeId);
+		map.put("commodityAttrList", userConfigService.getUserSession().getCommodityTypeAttrMap().get(commodityTypeVO));
 		return UPDATE;
 	}
 
 	// 新增
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String create(CommodityVO vo, Map<String, Object> map) {
+	@RequestMapping(value = "/{commodityTypeId}", method = RequestMethod.POST)
+	public String create(@PathVariable("commodityTypeId") Integer commodityTypeId, CommodityVO vo, Map<String, Object> map) {
+		//新增商品
 		vo.setIsStored(true);
+		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
+		commodityTypeVO.setCommodityTypeId(commodityTypeId);
+		vo.setCommodityTypeVO(commodityTypeVO);
+		//新增商品屬性值
+		Set<CommodityAttrMappingVO> commodityAttrMappings = new HashSet<>();
+		
+		vo.setCommodityAttrMappings(commodityAttrMappings);
+		
 		commodityService.create(vo);
 		List<CommodityDisplayVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityDisplayVO(vo));
@@ -79,7 +109,7 @@ public class CommodityController {
 	}
 
 	// 修改
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{commodityType}/{id}", method = RequestMethod.PUT)
 	public String update(@PathVariable("id") Integer id, @ModelAttribute(value = "commodity") CommodityVO vo,
 			Map<String, Object> map, @RequestParam Map<String, Object> map2) {
 		commodityService.update(vo);

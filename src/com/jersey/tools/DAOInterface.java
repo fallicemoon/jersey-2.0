@@ -11,7 +11,7 @@ public interface DAOInterface<E extends AbstractVo> {
 	
 	public List<E> getAll(Integer pageSize, Integer page);
 
-	public Long getTotalCount();
+	public Long getTotalCount(Criterion... criterions);
 
 	public E getOne(Integer id);
 

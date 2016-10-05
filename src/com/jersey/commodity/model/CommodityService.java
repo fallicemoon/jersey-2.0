@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import com.jersey.picture.model.PictureDAO;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.CommodityAttrVO;
-import com.jersey.userConfig.model.CommodityTypeDAO;
 import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserConfigService;
+import com.jersey.userConfig.model.UserConfigVO;
 
 @Service
 public class CommodityService {
@@ -22,8 +22,6 @@ public class CommodityService {
 	@Autowired
 	private CommodityDAO commodityDAO;
 	@Autowired
-	private CommodityTypeDAO commodityTypeDAO; 
-	@Autowired
 	private UserConfigService userConfigService;
 	
 	/**
@@ -31,7 +29,7 @@ public class CommodityService {
 	 * @return 此List為LinkedHashSet轉成, 順序就是從DB中撈出來的順序
 	 */
 	public List<CommodityTypeVO> getCommodityType () {
-		return new ArrayList<>(userConfigService.getCommodityTypeAttrMap().keySet());
+		return new ArrayList<>(userConfigService.getUserSession().getCommodityTypeAttrMap().keySet());
 	}
 	
 	/**
@@ -41,13 +39,12 @@ public class CommodityService {
 	 */
 	public List<CommodityAttrVO> getCommodityAttrByCommodityTypeId (String commodityTypeId) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
-		return userConfigService.getCommodityTypeAttrMap().get(commodityTypeVO);
+		return userConfigService.getUserSession().getCommodityTypeAttrMap().get(commodityTypeVO);
 	}
 
 	//取得所有商品
-	public List<CommodityDisplayVO> getAll(String commodityType, Integer page) {
-		CommodityTypeVO commodityTypeVO = commodityTypeDAO.getByCommodityType(commodityType);
-		List<CommodityVO> oldList = commodityDAO.getAll(userConfigService.getAuthority(), commodityTypeVO, userConfigService.getCommodityPageSize(), page);
+	public List<CommodityDisplayVO> getAll(CommodityTypeVO commodityTypeVO, Integer page) {
+		List<CommodityVO> oldList = commodityDAO.getAll(userConfigService.getUserSession().getUserConfigVO().getAuthority(), commodityTypeVO, userConfigService.getUserSession().getUserConfigVO().getCommodityPageSize(), page);
 		List<CommodityDisplayVO> newList = new ArrayList<>();
 		for (CommodityVO commodityVO : oldList) {
 			newList.add(getCommodityDisplayVO(commodityVO));
@@ -56,21 +53,22 @@ public class CommodityService {
 	}
 	
 	//取得總分頁數
-	public Long getPages (String commodityType) {
-		Long pages = getTotalCount(commodityType)/userConfigService.getCommodityPageSize();
-		if (getTotalCount(commodityType)%userConfigService.getCommodityPageSize()!=0) {
+	public Long getPages (CommodityTypeVO commodityTypeVO) {
+		UserConfigVO userConfigVO = userConfigService.getUserSession().getUserConfigVO();
+		Long pages = getTotalCount(commodityTypeVO)/userConfigVO.getCommodityPageSize();
+		if (getTotalCount(commodityTypeVO)%userConfigService.getUserSession().getUserConfigVO().getCommodityPageSize()!=0) {
 			pages++;
 		}
 		return pages;
 	}
 	
 	//取得資料總筆數
-	public Long getTotalCount (String commodityType) {
-		return commodityDAO.getTotalCount(userConfigService.getAuthority(), commodityType);
+	public Long getTotalCount (CommodityTypeVO commodityTypeVO) {
+		return commodityDAO.getTotalCount(userConfigService.getUserSession().getUserConfigVO().getAuthority(), commodityTypeVO);
 	}
 
 	public CommodityVO getOne(Integer commodityId) {
-		return this.commodityDAO.getOne(userConfigService.getAuthority(), commodityId);
+		return this.commodityDAO.getOne(userConfigService.getUserSession().getUserConfigVO().getAuthority(), commodityId);
 	}
 
 	public CommodityVO create(CommodityVO vo) {

@@ -60,13 +60,6 @@ public class UserConfigVO extends AbstractVo{
 	public void setStorePageSize(Integer storePageSize) {
 		this.storePageSize = storePageSize;
 	}
-	
-	@Override
-	public String toString() {
-		return "UserConfigVO [userConfigId=" + userConfigId + ", commodityPageSize=" + commodityPageSize
-				+ ", purchaseCasePageSize=" + purchaseCasePageSize + ", sellCasePageSize=" + sellCasePageSize
-				+ ", storePageSize=" + storePageSize + "]";
-	}
 
 
 }

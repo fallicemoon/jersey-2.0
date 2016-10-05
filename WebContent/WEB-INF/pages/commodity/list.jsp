@@ -23,7 +23,7 @@
 		<script type="text/javascript">
 
 // 	var commodityAttr = ["itemName", "player", "team", "style", "brand",
-// 			"size", "level", "condition", "tag", "owner", "sellPlatform",
+// 			"size", "level", "condition", "tag", "owner", "authority",
 // 			"isStored" ];
 
 // 	function filter() {
@@ -49,7 +49,7 @@
 		
 		<%--生成篩選條件的下拉式選單內容--%>
 		var commodity = ["itemName", "player", "team", "style", "brand",
-		          			"size", "condition", "owner", "sellPlatform"];
+		          			"size", "condition", "owner", "authority"];
 		$.each(commodity, function(){
 			var name = this;
 			var inputValue = [];
@@ -184,8 +184,8 @@
 							</div>
 						</th>
 						
-						<c:forEach items="${requestScope.commodityAttrList}" var="commodityAttr">
-							<th>${commodityAttr}</th>
+						<c:forEach items="${requestScope.commodityAttrList}" var="commodityAttrVO">
+							<th>${commodityAttrVO.commodityAttr}</th>
 						</c:forEach>
 <!-- 						<th>Qty</th> -->
 <!-- 						<th> -->
@@ -292,11 +292,11 @@
 						<th>售價</th>
 						<th>						
 							<button type="button" class="btn btn-warning" data-toggle="modal">販售平台</button>
-							<div class="sellPlatform checkboxDiv">
+							<div class="authority checkboxDiv">
 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/>
-<%-- 								<c:forEach items="${requestScope.sellPlatforms}" var="sellPlatform"> --%>
-<!-- 									<input type="checkbox" name=sellPlatform -->
-<%-- 										value='<c:out value="${sellPlatform}"/>' checked="checked">${sellPlatform}&nbsp<br/> --%>
+<%-- 								<c:forEach items="${requestScope.authoritys}" var="authority"> --%>
+<!-- 									<input type="checkbox" name=authority -->
+<%-- 										value='<c:out value="${authority}"/>' checked="checked">${authority}&nbsp<br/> --%>
 <%-- 								</c:forEach> --%>
 							</div>
 						</th>
@@ -337,7 +337,7 @@
 							<a href="${vo.link}" target="_blank"> 連結</a>
 						</c:if> <c:if test="${empty vo.link}"></c:if></td>
 					<c:forEach items="${vo.commodityAttrValueList}" var="commodityAttrValueVO">
-						
+						<td><div><c:out value="${commodityAttrValueVO.commodityAttrValue}" /></div></td>
 					</c:forEach>
 <%-- 					<td><div class=""><c:out value="${vo.qty}" /></div></td> --%>
 <%-- 					<td><div class="player"><c:out value="${vo.player}" /></div></td> --%>
@@ -356,7 +356,7 @@
 <%-- 					<td><div class="owner"><c:out value="${vo.owner}" /></div></td> --%>
 					<td><div class=""><c:out value="${vo.cost}" /></div></td>
 					<td><div class=""><c:out value="${vo.sellPrice}" /></div></td>
-					<td><div class="sellPlatform"><c:out value="${vo.sellPlatform}" /></div></td>
+					<td><div class="authority"><c:out value="${vo.authority}" /></div></td>
 					<td><div class="isStored"><c:if test="${vo.isStored ? '是':'否'}"></c:if></div></td>
 				</tr>
 			</c:forEach>

@@ -7,27 +7,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.SessionScope;
 
-import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.UserConfig;
 
 @Service
-@SessionScope
 public class UserConfigService {
 	
 	//clob不要複製, 怕太吃資源
 	//private static final String[] CLOB_FIELDS = new String[]{"commodityAttr"};
-	
-	private boolean isAdmin = false;
-	
-	private UserConfigVO userConfigVO;
-	private Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap;
-	private Map<String, List<String>> commodityTypeAttrStringMap;
 	
 	@Autowired
 	private UserConfigDAO userConfigDAO;
@@ -35,63 +24,24 @@ public class UserConfigService {
 	private CommodityTypeDAO commodityTypeDAO;
 	@Autowired
 	private CommodityAttrDAO commodityAttrDAO;
-	
-	@PostConstruct
-	public void init () throws SQLException, IOException {
-		userConfigVO = userConfigDAO.getByUserName("jersey");
-		generateCommodityAttrMap();
-	}
+	@Autowired
+	private UserSession userSession;
 	
 	//使用者相關登入資訊
-	public boolean isAdmin() {
-		return isAdmin;
+	public UserSession getUserSession() {
+		UserConfigVO userConfigVO = userConfigDAO.getByUserName("jersey");
+		userSession.setUserConfigVO(userConfigVO);
+		generateCommodityAttrMap(userSession);
+		return userSession;
 	}
-
-	public void setAdmin(boolean isAdmin) {
-		this.isAdmin = isAdmin;
-	}
-
-	//-----------------------get config-----------------------
-	public Authority getAuthority () {
-		return userConfigVO.getAuthority();
-	}
-
-	public Integer getCommodityPageSize () {
-		return userConfigVO.getCommodityPageSize();
-	}
-	
-	public Integer getPurchaseCasePageSize () {
-		return userConfigVO.getPurchaseCasePageSize();
-	}
-	
-	public Integer getSellCasePageSize () {
-		return userConfigVO.getSellCasePageSize();
-	}
-	
-	public Integer getStorePageSize () {
-		return userConfigVO.getStorePageSize();
-	}
-	
-	//取得key為商品類別, value為List<CommodityAttrVO>的map
-	public Map<CommodityTypeVO, List<CommodityAttrVO>> getCommodityTypeAttrMap () {
-		return commodityTypeAttrMap;
-	}
-	
-	//方便用來檢查新增的商品種類和商品屬性是否有重複
-	public Map<String, List<String>> getCommodityTypeAttrStringMap () {
-		return commodityTypeAttrStringMap;
-	} 
-	
 	
 	//-----------------------update config-----------------------
 	public void updateUserConfig (UserConfig userConfig, Integer value) throws SQLException, IOException {
 		userConfigDAO.updateUserConfig(userConfig, value);
-		init();
 	}
 	
 	public CommodityTypeVO createCommodityType (CommodityTypeVO commodityTypeVO) {
 		CommodityTypeVO result = commodityTypeDAO.create(commodityTypeVO);
-		generateCommodityAttrMap();
 		return result;
 	}
 	
@@ -99,17 +49,14 @@ public class UserConfigService {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(id);
 		commodityTypeDAO.delete(commodityTypeVO);
-		generateCommodityAttrMap();
 	}
 	
 	public void updateCommodityType (CommodityTypeVO commodityTypeVO) {
 		commodityTypeDAO.update(commodityTypeVO);
-		generateCommodityAttrMap();
 	}
 	
 	public CommodityAttrVO createCommodityAttr (CommodityAttrVO commodityAttrVO) {
 		CommodityAttrVO result = commodityAttrDAO.create(commodityAttrVO);
-		generateCommodityAttrMap();
 		return result;
 	}
 	
@@ -117,12 +64,10 @@ public class UserConfigService {
 		CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
 		commodityAttrVO.setCommodityAttrId(id);
 		commodityAttrDAO.delete(commodityAttrVO);
-		generateCommodityAttrMap();
 	}
 	
 	public void updateCommodityAttr (CommodityAttrVO commodityAttrVO) {
 		commodityAttrDAO.update(commodityAttrVO);
-		generateCommodityAttrMap();
 	}
 	
 	//-----------------------commodity attr-----------------------
@@ -142,11 +87,11 @@ public class UserConfigService {
 		return commodityAttrDAO.getByCommodityAttrName(commodityAttr);
 	}
 	
-	private void generateCommodityAttrMap () {
-		commodityTypeAttrMap = new LinkedHashMap<>();
-		commodityTypeAttrStringMap = new LinkedHashMap<>();
+	private void generateCommodityAttrMap (UserSession userSession) {
+		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = new LinkedHashMap<>();
+		Map<String, List<String>> commodityTypeAttrStringMap = new LinkedHashMap<>();
 		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll()) {
-			List<CommodityAttrVO> commodityAttrList = commodityAttrDAO.getCommodityAttrByCommodityType(getAuthority(), commodityTypeVO);
+			List<CommodityAttrVO> commodityAttrList = commodityAttrDAO.getCommodityAttrByCommodityType(userSession.getUserConfigVO().getAuthority(), commodityTypeVO);
 			commodityTypeAttrMap.put(commodityTypeVO, commodityAttrList);
 			List<String> commodityAttrStringList = new ArrayList<>();
 			for (CommodityAttrVO commodityAttrVO : commodityAttrList) {
@@ -154,6 +99,8 @@ public class UserConfigService {
 			}
 			commodityTypeAttrStringMap.put(commodityTypeVO.getCommodityType(), commodityAttrStringList);
 		}
+		userSession.setCommodityTypeAttrMap(commodityTypeAttrMap);
+		userSession.setCommodityTypeAttrStringMap(commodityTypeAttrStringMap);
 	}
 
 }

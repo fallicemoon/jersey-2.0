@@ -27,7 +27,7 @@ public class MemberController {
 	public String login (MemberVO memberVO, Map<String, Object> map) {
 		//TODO 多用戶
 		if ("jersey".equals(memberVO.getUserName()) && "white".equals(memberVO.getPassword())) {
-			userConfigService.setAdmin(true);
+//			userConfigService.getUserSession().setAdmin(true);
 			return REDIRECT_INDEX;
 		} else {
 			map.put("errorMessage", "帳號密碼打錯了");
@@ -45,12 +45,12 @@ public class MemberController {
 	//導向首頁
 	@RequestMapping(value="/index.html", method=RequestMethod.GET)
 	public String welcome (Map<String, Object> map) {
-		if (userConfigService.isAdmin()) {
+		if (userConfigService.getUserSession().isAdmin()) {
 			//賣家, 可以使用完整功能
-			map.put("commodityTypes", userConfigService.getCommodityTypeAttrStringMap().keySet());
+			map.put("commodityTypeVOList", userConfigService.getUserSession().getCommodityTypeAttrMap().keySet());
 		} else {
 			//一般使用者
-			map.put("commodityTypes", userConfigService.getCommodityTypeAttrStringMap().keySet());
+			map.put("commodityTypeVOList", userConfigService.getUserSession().getCommodityTypeAttrMap().keySet());
 		}
 		return INDEX;
 	}

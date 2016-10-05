@@ -49,9 +49,9 @@ public class PurchaseCaseController {
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		map.put("purchaseCaseList", purchaseCaseService.getAll(userConfigService.getPurchaseCasePageSize(), page));
-		Long count = purchaseCaseService.getTotalCount()/userConfigService.getPurchaseCasePageSize();
-		if (purchaseCaseService.getTotalCount()%userConfigService.getPurchaseCasePageSize()!=0) {
+		map.put("purchaseCaseList", purchaseCaseService.getAll(userConfigService.getUserSession().getUserConfigVO().getPurchaseCasePageSize(), page));
+		Long count = purchaseCaseService.getTotalCount()/userConfigService.getUserSession().getUserConfigVO().getPurchaseCasePageSize();
+		if (purchaseCaseService.getTotalCount()%userConfigService.getUserSession().getUserConfigVO().getPurchaseCasePageSize()!=0) {
 			count++;
 		}
 		map.put("pages", count);

@@ -18,6 +18,7 @@ public class CommodityAttrVO extends AbstractVo{
 	private String commodityAttr;
 	private Set<CommodityAttrMappingVO> commodityAttrMappings;
 	private CommodityAttrAuthority commodityAttrAuthority;
+	private Integer order;
 	
 	public Integer getCommodityAttrId() {
 		return commodityAttrId;
@@ -49,12 +50,35 @@ public class CommodityAttrVO extends AbstractVo{
 	public void setCommodityAttrAuthority(CommodityAttrAuthority commodityAttrAuthority) {
 		this.commodityAttrAuthority = commodityAttrAuthority;
 	}
+	public Integer getOrder() {
+		return order;
+	}
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
 	
 	@Override
-	public String toString() {
-		return "CommodityAttrVO [commodityAttrId=" + commodityAttrId + ", commodityTypeVO=" + commodityTypeVO
-				+ ", commodityAttrAuthority="
-				+ commodityAttrAuthority + "]";
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((commodityAttrId == null) ? 0 : commodityAttrId.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CommodityAttrVO other = (CommodityAttrVO) obj;
+		if (commodityAttrId == null) {
+			if (other.commodityAttrId != null)
+				return false;
+		} else if (!commodityAttrId.equals(other.commodityAttrId))
+			return false;
+		return true;
 	}
 	
 

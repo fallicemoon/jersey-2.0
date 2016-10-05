@@ -66,11 +66,17 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 	}
 	
 	@Override
-	public Long getTotalCount () {
+	public Long getTotalCount (Criterion... criterions) {
 		Session session = HibernateTools.getSession();
 		session.beginTransaction();
 		try {
-			Long count = (Long)session.createCriteria(voType).setProjection(Projections.rowCount()).uniqueResult();
+			Criteria criteria = session.createCriteria(voType);
+			if (criterions != null && criterions.length != 0) {
+				for (Criterion criterion : criterions) {
+					criteria.add(criterion);
+				}
+			}
+			Long count = (Long)criteria.setProjection(Projections.rowCount()).uniqueResult();
 			session.getTransaction().commit();
 			return count;
 		} catch (HibernateException e) {

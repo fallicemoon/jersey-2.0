@@ -23,7 +23,7 @@
         	<one-to-many class="com.jersey.commodity.model.CommodityAttrMappingVO" />
         </set>
 <!--         <property name="qty" column="qty" /> -->
-<!--         <property name="link" column="link" /> -->
+        <property name="link" column="link" />
 <!--         <property name="player" column="player" /> -->
 <!--         <property name="number" column="number" /> -->
 <!--         <property name="season" column="season" /> -->

@@ -50,9 +50,9 @@ public class SellCaseController {
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		map.put("sellCaseList", sellCaseService.getAll(userConfigService.getSellCasePageSize(), page));
-		Long count = sellCaseService.getTotalCount()/userConfigService.getSellCasePageSize();
-		if (sellCaseService.getTotalCount()%userConfigService.getSellCasePageSize()!=0) {
+		map.put("sellCaseList", sellCaseService.getAll(userConfigService.getUserSession().getUserConfigVO().getSellCasePageSize(), page));
+		Long count = sellCaseService.getTotalCount()/userConfigService.getUserSession().getUserConfigVO().getSellCasePageSize();
+		if (sellCaseService.getTotalCount()%userConfigService.getUserSession().getUserConfigVO().getSellCasePageSize()!=0) {
 			count++;
 		}
 		map.put("pages", count);

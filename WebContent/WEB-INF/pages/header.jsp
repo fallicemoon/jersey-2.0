@@ -24,8 +24,8 @@
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">商品
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-  	<c:forEach items="${requestScope.commodityTypes}" var="commodityType">
-  		<li><a href="/jersey/commodity/${commodityType}/getAll">${commodityType}</a></li>
+  	<c:forEach items="${requestScope.commodityTypeVOList}" var="commodityTypeVO">
+  		<li><a href="/jersey/commodity/${commodityTypeVO.commodityTypeId}/getAll">${commodityTypeVO.commodityType}</a></li>
   	</c:forEach>
   </ul>
 </div>

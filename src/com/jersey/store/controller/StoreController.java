@@ -53,9 +53,9 @@ public class StoreController {
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		map.put("storeList", storeService.getAll(userConfigService.getStorePageSize(), page));
-		Long count = storeService.getTotalCount()/userConfigService.getStorePageSize();
-		if (storeService.getTotalCount()%userConfigService.getStorePageSize()!=0) {
+		map.put("storeList", storeService.getAll(userConfigService.getUserSession().getUserConfigVO().getStorePageSize(), page));
+		Long count = storeService.getTotalCount()/userConfigService.getUserSession().getUserConfigVO().getStorePageSize();
+		if (storeService.getTotalCount()%userConfigService.getUserSession().getUserConfigVO().getStorePageSize()!=0) {
 			count++;
 		}
 		map.put("pages", count);
