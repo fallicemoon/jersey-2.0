@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jersey.purchaseCase.model.PurchaseCaseService;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.Tools;
-import com.jersey.userConfig.model.UserConfigService;
+import com.jersey.userConfig.model.UserSession;
 
 @Controller
 @RequestMapping(value = "/purchaseCase")
@@ -31,10 +31,9 @@ public class PurchaseCaseController {
 
 	@Autowired
 	private PurchaseCaseService purchaseCaseService;
-	
 	@Autowired
-	private UserConfigService userConfigService;
-
+	private UserSession userSession;
+	
 	// for update purchaseCase用
 	@ModelAttribute
 	public void getPurchaseCase(Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
@@ -49,9 +48,9 @@ public class PurchaseCaseController {
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		map.put("purchaseCaseList", purchaseCaseService.getAll(userConfigService.getUserSession().getUserConfigVO().getPurchaseCasePageSize(), page));
-		Long count = purchaseCaseService.getTotalCount()/userConfigService.getUserSession().getUserConfigVO().getPurchaseCasePageSize();
-		if (purchaseCaseService.getTotalCount()%userConfigService.getUserSession().getUserConfigVO().getPurchaseCasePageSize()!=0) {
+		map.put("purchaseCaseList", purchaseCaseService.getAll(userSession.getUserConfigVO().getPurchaseCasePageSize(), page));
+		Long count = purchaseCaseService.getTotalCount()/userSession.getUserConfigVO().getPurchaseCasePageSize();
+		if (purchaseCaseService.getTotalCount()%userSession.getUserConfigVO().getPurchaseCasePageSize()!=0) {
 			count++;
 		}
 		map.put("pages", count);

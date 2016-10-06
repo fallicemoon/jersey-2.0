@@ -21,7 +21,7 @@ import com.jersey.store.model.StoreService;
 import com.jersey.store.model.StoreVO;
 import com.jersey.tools.JerseyEnum.StoreType;
 import com.jersey.tools.Tools;
-import com.jersey.userConfig.model.UserConfigService;
+import com.jersey.userConfig.model.UserSession;
 
 @Controller
 @RequestMapping(value="/store")
@@ -32,12 +32,10 @@ public class StoreController {
 	
 	@Autowired
 	private ServletContext servletContext;
-	
 	@Autowired
 	private StoreService storeService;
-	
 	@Autowired
-	private UserConfigService userConfigService;
+	private UserSession userSession;
 	
 	//for update store用
 	@ModelAttribute
@@ -53,9 +51,9 @@ public class StoreController {
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		map.put("storeList", storeService.getAll(userConfigService.getUserSession().getUserConfigVO().getStorePageSize(), page));
-		Long count = storeService.getTotalCount()/userConfigService.getUserSession().getUserConfigVO().getStorePageSize();
-		if (storeService.getTotalCount()%userConfigService.getUserSession().getUserConfigVO().getStorePageSize()!=0) {
+		map.put("storeList", storeService.getAll(userSession.getUserConfigVO().getStorePageSize(), page));
+		Long count = storeService.getTotalCount()/userSession.getUserConfigVO().getStorePageSize();
+		if (storeService.getTotalCount()%userSession.getUserConfigVO().getStorePageSize()!=0) {
 			count++;
 		}
 		map.put("pages", count);

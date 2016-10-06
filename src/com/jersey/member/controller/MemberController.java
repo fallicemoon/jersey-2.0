@@ -9,8 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jersey.member.model.MemberService;
 import com.jersey.member.model.MemberVO;
-import com.jersey.userConfig.model.UserConfigService;
+import com.jersey.userConfig.model.UserSession;
 
 @Controller
 public class MemberController {
@@ -20,14 +21,15 @@ public class MemberController {
 	private static final String REDIRECT_INDEX = "redirect:index.html";
 	
 	@Autowired
-	private UserConfigService userConfigService;
+	private MemberService memberService;
+	@Autowired
+	private UserSession userSession;
 	
 	//秘密接口, 只有admin才會知道
 	@RequestMapping(value="/secretLogin", method=RequestMethod.POST)
 	public String login (MemberVO memberVO, Map<String, Object> map) {
-		//TODO 多用戶
-		if ("jersey".equals(memberVO.getUserName()) && "white".equals(memberVO.getPassword())) {
-//			userConfigService.getUserSession().setAdmin(true);
+		boolean result = memberService.login(memberVO);
+		if (result) {
 			return REDIRECT_INDEX;
 		} else {
 			map.put("errorMessage", "帳號密碼打錯了");
@@ -45,12 +47,12 @@ public class MemberController {
 	//導向首頁
 	@RequestMapping(value="/index.html", method=RequestMethod.GET)
 	public String welcome (Map<String, Object> map) {
-		if (userConfigService.getUserSession().isAdmin()) {
+		if (userSession.isAdmin()) {
 			//賣家, 可以使用完整功能
-			map.put("commodityTypeVOList", userConfigService.getUserSession().getCommodityTypeAttrMap().keySet());
+			map.put("commodityTypeVOList", userSession.getCommodityTypeAttrMap().keySet());
 		} else {
 			//一般使用者
-			map.put("commodityTypeVOList", userConfigService.getUserSession().getCommodityTypeAttrMap().keySet());
+			map.put("commodityTypeVOList", userSession.getCommodityTypeAttrMap().keySet());
 		}
 		return INDEX;
 	}

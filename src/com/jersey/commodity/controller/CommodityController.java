@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
 
 import com.jersey.commodity.model.CommodityAttrMappingVO;
 import com.jersey.commodity.model.CommodityDisplayVO;
@@ -27,7 +23,6 @@ import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
-import com.jersey.userConfig.model.UserConfigService;
 import com.jersey.userConfig.model.UserSession;
 
 @Controller
@@ -41,7 +36,7 @@ public class CommodityController {
 	@Autowired
 	private CommodityService commodityService;
 	@Autowired
-	private UserConfigService userConfigService;
+	private UserSession userSession;
 
 	// for update commodity用
 	@ModelAttribute
@@ -57,7 +52,7 @@ public class CommodityController {
 	@RequestMapping(value = "/{commodityTypeId}/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map, @PathVariable(value="commodityTypeId") Integer commodityTypeId,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = userConfigService.getUserSession().getCommodityTypeAttrMap();
+		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = userSession.getCommodityTypeAttrMap();
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		for (CommodityTypeVO vo : commodityTypeAttrMap.keySet()) {
 			if (vo.getCommodityTypeId()==commodityTypeId) {
@@ -75,7 +70,7 @@ public class CommodityController {
 	public String get(@PathVariable(value="commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(commodityTypeId);
-		map.put("commodityAttrList", userConfigService.getUserSession().getCommodityTypeAttrMap().get(commodityTypeVO));
+		map.put("commodityAttrList", userSession.getCommodityTypeAttrMap().get(commodityTypeVO));
 		return ADD;
 	}
 
@@ -84,7 +79,7 @@ public class CommodityController {
 	public String getOne(@PathVariable(value="commodityTypeId") Integer commodityTypeId, @PathVariable("id") Integer id, Map<String, Object> map) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(commodityTypeId);
-		map.put("commodityAttrList", userConfigService.getUserSession().getCommodityTypeAttrMap().get(commodityTypeVO));
+		map.put("commodityAttrList", userSession.getCommodityTypeAttrMap().get(commodityTypeVO));
 		return UPDATE;
 	}
 

@@ -19,7 +19,7 @@ import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseVO;
 import com.jersey.sellCase.model.SellCaseWithBenefitVO;
 import com.jersey.tools.Tools;
-import com.jersey.userConfig.model.UserConfigService;
+import com.jersey.userConfig.model.UserSession;
 
 @Controller
 @RequestMapping(value="/sellCase")
@@ -32,9 +32,8 @@ public class SellCaseController {
 	
 	@Autowired
 	private SellCaseService sellCaseService;
-	
 	@Autowired
-	private UserConfigService userConfigService;
+	private UserSession userSession;
 	
 	//for update sellCase用
 	@ModelAttribute
@@ -50,9 +49,9 @@ public class SellCaseController {
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public String getAll(Map<String, Object> map,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
-		map.put("sellCaseList", sellCaseService.getAll(userConfigService.getUserSession().getUserConfigVO().getSellCasePageSize(), page));
-		Long count = sellCaseService.getTotalCount()/userConfigService.getUserSession().getUserConfigVO().getSellCasePageSize();
-		if (sellCaseService.getTotalCount()%userConfigService.getUserSession().getUserConfigVO().getSellCasePageSize()!=0) {
+		map.put("sellCaseList", sellCaseService.getAll(userSession.getUserConfigVO().getSellCasePageSize(), page));
+		Long count = sellCaseService.getTotalCount()/userSession.getUserConfigVO().getSellCasePageSize();
+		if (sellCaseService.getTotalCount()%userSession.getUserConfigVO().getSellCasePageSize()!=0) {
 			count++;
 		}
 		map.put("pages", count);

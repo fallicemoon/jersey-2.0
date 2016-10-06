@@ -28,11 +28,9 @@ public class UserConfigService {
 	private UserSession userSession;
 	
 	//使用者相關登入資訊
-	public UserSession getUserSession() {
-		UserConfigVO userConfigVO = userConfigDAO.getByUserName("jersey");
-		userSession.setUserConfigVO(userConfigVO);
+	public void initAdminUserSessionUserConfig(String userName) {
+		userSession.setUserConfigVO(userConfigDAO.getByUserName(userName));
 		generateCommodityAttrMap(userSession);
-		return userSession;
 	}
 	
 	//-----------------------update config-----------------------

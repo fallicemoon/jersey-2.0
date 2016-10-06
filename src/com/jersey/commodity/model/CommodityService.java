@@ -12,8 +12,8 @@ import com.jersey.picture.model.PictureDAO;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
-import com.jersey.userConfig.model.UserConfigService;
 import com.jersey.userConfig.model.UserConfigVO;
+import com.jersey.userConfig.model.UserSession;
 
 @Service
 public class CommodityService {
@@ -22,14 +22,14 @@ public class CommodityService {
 	@Autowired
 	private CommodityDAO commodityDAO;
 	@Autowired
-	private UserConfigService userConfigService;
+	private UserSession userSession;
 	
 	/**
 	 * 取得所有商品種類
 	 * @return 此List為LinkedHashSet轉成, 順序就是從DB中撈出來的順序
 	 */
 	public List<CommodityTypeVO> getCommodityType () {
-		return new ArrayList<>(userConfigService.getUserSession().getCommodityTypeAttrMap().keySet());
+		return new ArrayList<>(userSession.getCommodityTypeAttrMap().keySet());
 	}
 	
 	/**
@@ -39,12 +39,12 @@ public class CommodityService {
 	 */
 	public List<CommodityAttrVO> getCommodityAttrByCommodityTypeId (String commodityTypeId) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
-		return userConfigService.getUserSession().getCommodityTypeAttrMap().get(commodityTypeVO);
+		return userSession.getCommodityTypeAttrMap().get(commodityTypeVO);
 	}
 
 	//取得所有商品
 	public List<CommodityDisplayVO> getAll(CommodityTypeVO commodityTypeVO, Integer page) {
-		List<CommodityVO> oldList = commodityDAO.getAll(userConfigService.getUserSession().getUserConfigVO().getAuthority(), commodityTypeVO, userConfigService.getUserSession().getUserConfigVO().getCommodityPageSize(), page);
+		List<CommodityVO> oldList = commodityDAO.getAll(userSession.getUserConfigVO().getAuthority(), commodityTypeVO, userSession.getUserConfigVO().getCommodityPageSize(), page);
 		List<CommodityDisplayVO> newList = new ArrayList<>();
 		for (CommodityVO commodityVO : oldList) {
 			newList.add(getCommodityDisplayVO(commodityVO));
@@ -54,9 +54,9 @@ public class CommodityService {
 	
 	//取得總分頁數
 	public Long getPages (CommodityTypeVO commodityTypeVO) {
-		UserConfigVO userConfigVO = userConfigService.getUserSession().getUserConfigVO();
+		UserConfigVO userConfigVO = userSession.getUserConfigVO();
 		Long pages = getTotalCount(commodityTypeVO)/userConfigVO.getCommodityPageSize();
-		if (getTotalCount(commodityTypeVO)%userConfigService.getUserSession().getUserConfigVO().getCommodityPageSize()!=0) {
+		if (getTotalCount(commodityTypeVO)%userSession.getUserConfigVO().getCommodityPageSize()!=0) {
 			pages++;
 		}
 		return pages;
@@ -64,11 +64,11 @@ public class CommodityService {
 	
 	//取得資料總筆數
 	public Long getTotalCount (CommodityTypeVO commodityTypeVO) {
-		return commodityDAO.getTotalCount(userConfigService.getUserSession().getUserConfigVO().getAuthority(), commodityTypeVO);
+		return commodityDAO.getTotalCount(userSession.getUserConfigVO().getAuthority(), commodityTypeVO);
 	}
 
 	public CommodityVO getOne(Integer commodityId) {
-		return this.commodityDAO.getOne(userConfigService.getUserSession().getUserConfigVO().getAuthority(), commodityId);
+		return this.commodityDAO.getOne(userSession.getUserConfigVO().getAuthority(), commodityId);
 	}
 
 	public CommodityVO create(CommodityVO vo) {
