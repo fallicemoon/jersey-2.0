@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.jersey.member.model.MemberService;
 import com.jersey.member.model.MemberVO;
 import com.jersey.userConfig.model.UserSession;
 
 @Controller
+@SessionAttributes(value={"commodityTypeVOList"})
 public class MemberController {
 	
 	private static final String INDEX = "index";

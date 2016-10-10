@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.jersey.tools.JerseyEnum.UserConfig;
 
+/**
+ * 請不要在此class注入userSession, 會導致循環注入
+ * @author fallicemoon
+ *
+ */
 @Service
 public class UserConfigService {
 	
@@ -24,13 +29,15 @@ public class UserConfigService {
 	private CommodityTypeDAO commodityTypeDAO;
 	@Autowired
 	private CommodityAttrDAO commodityAttrDAO;
-	@Autowired
-	private UserSession userSession;
 	
 	//使用者相關登入資訊
-	public void initAdminUserSessionUserConfig(String userName) {
+	public void initAdminUserSessionUserConfig(UserSession userSession, String userName) {
 		userSession.setUserConfigVO(userConfigDAO.getByUserName(userName));
-		generateCommodityAttrMap(userSession);
+		initCommodityAttrMap(userSession);
+	}
+	
+	public void initCustomerUserSessionUserConfig(UserSession userSession) {
+		initCommodityAttrMap(userSession);
 	}
 	
 	//-----------------------update config-----------------------
@@ -85,7 +92,7 @@ public class UserConfigService {
 		return commodityAttrDAO.getByCommodityAttrName(commodityAttr);
 	}
 	
-	private void generateCommodityAttrMap (UserSession userSession) {
+	private void initCommodityAttrMap (UserSession userSession) {
 		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = new LinkedHashMap<>();
 		Map<String, List<String>> commodityTypeAttrStringMap = new LinkedHashMap<>();
 		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll()) {
@@ -100,5 +107,8 @@ public class UserConfigService {
 		userSession.setCommodityTypeAttrMap(commodityTypeAttrMap);
 		userSession.setCommodityTypeAttrStringMap(commodityTypeAttrStringMap);
 	}
+	
+	
+
 
 }

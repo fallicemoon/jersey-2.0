@@ -1,7 +1,6 @@
 package com.jersey.commodity.controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jersey.commodity.model.CommodityAttrMappingVO;
 import com.jersey.commodity.model.CommodityDisplayVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
@@ -59,6 +57,7 @@ public class CommodityController {
 				commodityTypeVO = vo;
 			}
 		}
+		map.put("commodityTypeId", commodityTypeId);
 		map.put("commodityAttrList", commodityTypeAttrMap.get(commodityTypeVO));
 		map.put("commodityList", commodityService.getAll(commodityTypeVO, page));
 		map.put("pages", commodityService.getPages(commodityTypeVO));
@@ -70,7 +69,7 @@ public class CommodityController {
 	public String get(@PathVariable(value="commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(commodityTypeId);
-		map.put("commodityAttrList", userSession.getCommodityTypeAttrMap().get(commodityTypeVO));
+		map.put("commodityTypeId", commodityTypeId);
 		return ADD;
 	}
 
@@ -79,7 +78,7 @@ public class CommodityController {
 	public String getOne(@PathVariable(value="commodityTypeId") Integer commodityTypeId, @PathVariable("id") Integer id, Map<String, Object> map) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(commodityTypeId);
-		map.put("commodityAttrList", userSession.getCommodityTypeAttrMap().get(commodityTypeVO));
+		map.put("commodityTypeId", commodityTypeId);
 		return UPDATE;
 	}
 
@@ -90,23 +89,21 @@ public class CommodityController {
 		vo.setIsStored(true);
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(commodityTypeId);
-		vo.setCommodityTypeVO(commodityTypeVO);
-		//新增商品屬性值
-		Set<CommodityAttrMappingVO> commodityAttrMappings = new HashSet<>();
-		
-		vo.setCommodityAttrMappings(commodityAttrMappings);
-		
+		vo.setCommodityTypeVO(commodityTypeVO);	
 		commodityService.create(vo);
+		
 		List<CommodityDisplayVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityDisplayVO(vo));
 		map.put("commodityList", list);
+		map.put("commodityTypeId", commodityTypeId);
+		map.put("commodityAttrList", userSession.getCommodityTypeAttrMap().get(commodityTypeVO));
 		return LIST;
 	}
 
 	// 修改
-	@RequestMapping(value = "/{commodityType}/{id}", method = RequestMethod.PUT)
-	public String update(@PathVariable("id") Integer id, @ModelAttribute(value = "commodity") CommodityVO vo,
-			Map<String, Object> map, @RequestParam Map<String, Object> map2) {
+	@RequestMapping(value = "/{commodityTypeId}/{id}", method = RequestMethod.PUT)
+	public String update(@PathVariable(value="commodityTypeId") Integer commodityTypeId, @PathVariable("id") Integer id, @ModelAttribute(value = "commodity") CommodityVO vo,
+			Map<String, Object> map) {
 		commodityService.update(vo);
 		List<CommodityDisplayVO> list = new ArrayList<>();
 		list.add(commodityService.getCommodityDisplayVO(vo));

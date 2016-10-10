@@ -24,7 +24,7 @@
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">商品
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-  	<c:forEach items="${requestScope.commodityTypeVOList}" var="commodityTypeVO">
+  	<c:forEach items="${sessionScope.commodityTypeVOList}" var="commodityTypeVO">
   		<li><a href="/jersey/commodity/${commodityTypeVO.commodityTypeId}/getAll">${commodityTypeVO.commodityType}</a></li>
   	</c:forEach>
   </ul>
@@ -32,7 +32,7 @@
 </div>
 </div>
 
-<c:if test="${sessionScope['scopedTarget.userConfigService'].admin}">
+<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 <div class="btn-group">
   <a href="/jersey/purchaseCase/getAll">
   <button type="button" class="btn btn-primary dropdown-toggle">

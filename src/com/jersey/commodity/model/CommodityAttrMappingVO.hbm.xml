@@ -9,7 +9,7 @@
             <generator class="identity"/>
         </id>
         
-        <many-to-one name="commodityVO" class="com.jersey.commodity.model.CommodityVO" lazy="false">
+        <many-to-one name="commodityVO" class="com.jersey.commodity.model.CommodityVO" lazy="false" cascade="save-update">
         	<column name="commodity_id"></column>
         </many-to-one>
         
@@ -17,8 +17,8 @@
         	<column name="commodity_attr_id"></column>
         </many-to-one>
 
-    	<property name="createTime" column="create_time" />
-    	<property name="lastModifyTime" column="last_modify_time" />
+    	<property name="createTime" not-null="true"><column name="create_time" sql-type="timestamp" default="CURRENT_TIMESTAMP" /></property>
+    	<property name="lastModifyTime" not-null="true"><column name="last_modify_time" sql-type="timestamp" default="CURRENT_TIMESTAMP" /></property>
     </class>
 </hibernate-mapping>
 

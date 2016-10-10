@@ -18,8 +18,8 @@
         	<column name="commodity_type_id"></column>
         </many-to-one>
         
-        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" order-by="commodityAttrMappingId asc">
-        	<key><column name="commodity_attr_mapping_id"></column></key>
+        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" order-by="commodityAttrMappingId asc" cascade="save-update">
+        	<key><column name="commodity_id"></column></key>
         	<one-to-many class="com.jersey.commodity.model.CommodityAttrMappingVO" />
         </set>
 <!--         <property name="qty" column="qty" /> -->

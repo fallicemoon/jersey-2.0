@@ -1,5 +1,6 @@
 package com.jersey.userConfig.model;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.jersey.commodity.model.CommodityAttrMappingVO;
@@ -16,7 +17,7 @@ public class CommodityAttrVO extends AbstractVo{
 	private Integer commodityAttrId;
 	private CommodityTypeVO commodityTypeVO;
 	private String commodityAttr;
-	private Set<CommodityAttrMappingVO> commodityAttrMappings;
+	private Set<CommodityAttrMappingVO> commodityAttrMappings = new LinkedHashSet<>();
 	private CommodityAttrAuthority commodityAttrAuthority;
 	private Integer order;
 	

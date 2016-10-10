@@ -1,6 +1,7 @@
 package com.jersey.commodity.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jersey.picture.model.PictureDAO;
+import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
@@ -72,6 +74,19 @@ public class CommodityService {
 	}
 
 	public CommodityVO create(CommodityVO vo) {
+		//新增空白的商品屬性值
+		List<CommodityAttrVO> commodityAttrVOs = userSession.getCommodityTypeAttrMap().get(vo.getCommodityTypeVO());
+		Set<CommodityAttrMappingVO> commodityAttrMappings = new HashSet<>();
+		for (CommodityAttrVO commodityAttrVO : commodityAttrVOs) {
+			CommodityAttrMappingVO commodityAttrMappingVO = new CommodityAttrMappingVO();
+			commodityAttrMappingVO.setCommodityVO(vo);
+			commodityAttrMappingVO.setCommodityAttrVO(commodityAttrVO);
+			commodityAttrMappings.add(commodityAttrMappingVO);
+		}
+		vo.setCommodityAttrMappings(commodityAttrMappings);
+		//預設
+		vo.setAuthority(Authority.admin);
+		
 		return this.commodityDAO.create(vo);
 	}
 

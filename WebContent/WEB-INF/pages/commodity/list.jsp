@@ -86,12 +86,12 @@
 		
 		<%--新增--%>
 		$("#create").click(function(){
-			location.href = "/jersey/commodity";
+			location.href = "/jersey/commodity/${requestScope.commodityTypeId}";
 		});
 		
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
-			location.href = "/jersey/commodity/"+$(this).val();
+			location.href = "/jersey/commodity/${requestScope.commodityTypeId}/"+$(this).val();
 		});
 		
 		<%--刪除--%>
@@ -210,7 +210,7 @@
 <%-- 								</c:forEach> --%>
 <!-- 							</div> -->
 <!-- 						</th> -->
-						<th>
+<!-- 						<th> -->
 <!-- 						<button type="button" class="btn btn-warning" data-toggle="modal">style</button> -->
 <!-- 							<div class="style checkboxDiv"> -->
 <!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
