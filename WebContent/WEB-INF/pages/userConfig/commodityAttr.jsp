@@ -269,7 +269,7 @@
 		</div>
 		<div class="col-sm-1">
 			<select class="form-control" name="authority">
-				<c:forEach items="${authorityList}" var="authority">
+				<c:forEach items="${applicationScope.authority}" var="authority">
 					<option value="${authority}">${authority.showName}</option>
 				</c:forEach>
 			</select>
@@ -295,7 +295,7 @@
 		</div>
 		<div class="col-sm-1">
 			<select class="form-control" name="commodityAttrAuthority">
-				<c:forEach items="${commodityAttrAuthorityList}" var="commodityAttrAuthority">
+				<c:forEach items="${applicationScope.commodityAttrAuthority}" var="commodityAttrAuthority">
 					<option value="${commodityAttrAuthority}">${commodityAttrAuthority.showName}</option>
 				</c:forEach>
 			</select>
@@ -352,7 +352,7 @@
 					<td>
 						<div class="prepareUpdateCommodityAttr">${commodityAttrVO.commodityAttrAuthority.showName}</div>
 						<select class="form-control updateCommodityAttr">
-						<c:forEach items="${requestScope.commodityAttrAuthorityList}" var="commodityAttrAuthority">
+						<c:forEach items="${applicationScope.commodityAttrAuthority}" var="commodityAttrAuthority">
 							<option value="${commodityAttrAuthority}" ${commodityAttrVO.commodityAttrAuthority==commodityAttrAuthority?"selected":""}>${commodityAttrAuthority.showName}</option>
 						</c:forEach>
 						</select>

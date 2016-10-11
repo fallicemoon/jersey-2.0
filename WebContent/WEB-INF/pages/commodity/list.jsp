@@ -91,8 +91,51 @@
 		
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
-			location.href = "/jersey/commodity/${requestScope.commodityTypeId}/"+$(this).val();
+			if ($(this).hasClass("btn-warning")) {
+				//first是圖片張數
+				var update = $(this).parent().nextAll().not(":first");
+				update.children("div").hide();
+				update.children("input").attr("type", "text");
+				update.children("input[name=cost]").attr("type", "number");
+				update.children("input[name=sellPrice]").attr("type", "number");
+				$(this).removeClass("btn-warning").addClass("btn-primary").text("確認修改");
+			} else {
+				var body = {};
+				var commodityAttr = {};
+				var row = $(this).closest("tr");
+				//商品自定屬性
+				row.find("input[class=commodityAttrMapping]").serializeArray().each(function(){
+					commodityAttr[$(this).name]=$(this).value;
+				});
+				//商品資料
+				row.find("input[class!=commodityAttrMapping]").serializeArray().each(function(){
+					body[$(this).name]=$(this).value;
+				});
+				body["commodityAttr"] = commodityAttr;
+				
+				var commodityId = row.find("input[name=commodityIds]").val();
+				$.ajax("/jersey/commodity/${requestScope.commodityTypeId}/"+commodityId, {
+					type : "POST",
+					data : JSON.stringify(body),
+					contentType : "application/json",
+					dataType : "json",
+					success : function(data) {
+						if (data.result=="success") {
+							alertify.success("修改商品屬性成功");
+						} else {
+							alertify.error(data.msg);
+						}
+					},
+					error : function(){
+						alertify.error("修改商品屬性失敗");
+					}
+				});
+				$(this).removeClass("btn-primary").addClass("btn-warning").text("修改");				
+			}
 		});
+// 		$("table").on("click", "button[name=update]", function(){
+// 			location.href = "/jersey/commodity/${requestScope.commodityTypeId}/"+$(this).val();
+// 		});
 		
 		<%--刪除--%>
 		$("#delete").click(function() {
@@ -291,7 +334,7 @@
 						<th>成本</th>
 						<th>售價</th>
 						<th>						
-							<button type="button" class="btn btn-warning" data-toggle="modal">販售平台</button>
+							<button type="button" class="btn btn-warning" data-toggle="modal">上架</button>
 							<div class="authority checkboxDiv">
 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/>
 <%-- 								<c:forEach items="${requestScope.authoritys}" var="authority"> --%>
@@ -331,13 +374,24 @@
 									type="button" class="btn btn-danger" data-toggle="modal">0</button></a></td>
 					</c:if>
 
-					<td><a href="/jersey/triple/commodity/${vo.commodityId}">
-						<div class="itemName"><c:out value="${vo.itemName}" /></div></a>
-					<c:if test="${!empty vo.link}">
-							<a href="${vo.link}" target="_blank"> 連結</a>
-						</c:if> <c:if test="${empty vo.link}"></c:if></td>
-					<c:forEach items="${vo.commodityAttrValueList}" var="commodityAttrValueVO">
-						<td><div><c:out value="${commodityAttrValueVO.commodityAttrValue}" /></div></td>
+					<td>
+						<div class="itemName">
+							<a href="/jersey/triple/commodity/${vo.commodityId}">
+								<c:out value="${vo.itemName}" />
+								<input type="hidden" name="itemName" value="${vo.itemName}">
+							</a>
+						</div>
+						<c:if test="${!empty vo.link}">
+							<a href="${vo.link}" target="_blank">連結</a>
+							<input type="hidden" name="link" value="${vo.link}">
+						</c:if>
+					</td>
+					
+					<c:forEach items="${vo.commodityAttrMappings}" var="commodityAttrMappingVO">
+						<td>
+							<div><c:out value="${commodityAttrMappingVO.commodityAttrValue}" /></div>
+							<input type="hidden" class="commodityAttrMapping" name="${commodityAttrMappingVO.commodityAttrMappingId}" value="${commodityAttrMappingVO.commodityAttrValue}">
+						</td>
 					</c:forEach>
 <%-- 					<td><div class=""><c:out value="${vo.qty}" /></div></td> --%>
 <%-- 					<td><div class="player"><c:out value="${vo.player}" /></div></td> --%>
@@ -354,10 +408,31 @@
 <%-- 					<td><div class=""><c:out value="${vo.patchAndCertificate}" /></div></td> --%>
 <%-- 					<td><div class=""><c:out value="${vo.serial}" /></div></td> --%>
 <%-- 					<td><div class="owner"><c:out value="${vo.owner}" /></div></td> --%>
-					<td><div class=""><c:out value="${vo.cost}" /></div></td>
-					<td><div class=""><c:out value="${vo.sellPrice}" /></div></td>
-					<td><div class="authority"><c:out value="${vo.authority}" /></div></td>
-					<td><div class="isStored"><c:if test="${vo.isStored ? '是':'否'}"></c:if></div></td>
+					<td>
+						<div><c:out value="${vo.cost}" /></div>
+						<input type="hidden" name="cost" value="${vo.cost}">
+					</td>
+					<td>
+						<div><c:out value="${vo.sellPrice}" /></div>
+						<input type="hidden" name="sellPrice" value="${vo.sellPrice}">
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${vo.authority=='admin'}">
+								<button class="btn btn-warning">未上架</button>
+							</c:when>
+							<c:otherwise>
+								<button class="btn btn-primary">已上架</button>
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<div class="isStored">${vo.isStored ? '是':'否'}</div>
+						<select style="display:none">
+							<option value="true">是</option>
+							<option value="false">否</option>
+						</select>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>

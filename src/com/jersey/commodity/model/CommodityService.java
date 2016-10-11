@@ -116,16 +116,16 @@ public class CommodityService {
 			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
 			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
 			//開始處理屬性
-			List<CommodityAttrValueVO> list = new ArrayList<>();
-			Set<CommodityAttrMappingVO> set = commodityVO.getCommodityAttrMappings();
-			for (CommodityAttrMappingVO commodityAttrMappingVO : set) {
-				CommodityAttrValueVO commodityAttrValueVO = new CommodityAttrValueVO();
-				commodityAttrValueVO.setCommodityAttr(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttr());
-				commodityAttrValueVO.setCommodityAttrValue(commodityAttrMappingVO.getCommodityAttrValue());
-				commodityAttrValueVO.setCommodityAttrAuthority(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttrAuthority());
-				list.add(commodityAttrValueVO);
-			}
-			commodityDisplayVO.setCommodityAttrValueList(list);
+//			List<CommodityAttrValueVO> list = new ArrayList<>();
+//			Set<CommodityAttrMappingVO> set = commodityVO.getCommodityAttrMappings();
+//			for (CommodityAttrMappingVO commodityAttrMappingVO : set) {
+//				CommodityAttrValueVO commodityAttrValueVO = new CommodityAttrValueVO();
+//				commodityAttrValueVO.setCommodityAttr(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttr());
+//				commodityAttrValueVO.setCommodityAttrValue(commodityAttrMappingVO.getCommodityAttrValue());
+//				commodityAttrValueVO.setCommodityAttrAuthority(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttrAuthority());
+//				list.add(commodityAttrValueVO);
+//			}
+//			commodityDisplayVO.setCommodityAttrValueList(list);
 		}
 		return commodityDisplayVO;
 	}

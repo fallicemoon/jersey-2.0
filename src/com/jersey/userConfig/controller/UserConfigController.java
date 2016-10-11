@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.JerseyEnum.UserConfig;
 import com.jersey.tools.Tools;
@@ -60,8 +59,6 @@ public class UserConfigController {
 	//------------------------------------------------------------------------------------------------------------------
 	@RequestMapping(value="/commodityAttr", method=RequestMethod.GET)
 	public String getCommodityAttr (Map<String, Object> map) {
-		map.put("authorityList", Authority.values());
-		map.put("commodityAttrAuthorityList", CommodityAttrAuthority.values());
 		map.put("commodityAttrMap", userSession.getCommodityTypeAttrMap());
 		return COMMODITY_ATTR;
 	}

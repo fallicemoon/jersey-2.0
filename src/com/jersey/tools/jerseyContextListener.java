@@ -8,8 +8,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.jersey.store.model.StoreService;
+import com.jersey.tools.JerseyEnum.Authority;
+import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.JerseyEnum.StoreType;
-import com.jersey.userConfig.model.UserConfigService;
 
 /**
  * Application Lifecycle Listener implementation class jerseyContextListener
@@ -20,7 +21,6 @@ public class jerseyContextListener implements ServletContextListener {
 	private ApplicationContext applicationContext;
 	
 	private StoreService storeService;
-	private UserConfigService userConfigService;
 
 	/**
 	 * Default constructor.
@@ -42,14 +42,14 @@ public class jerseyContextListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
 		applicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContextEvent.getServletContext());
 		storeService = (StoreService)applicationContext.getBean("storeService");
-		userConfigService = (UserConfigService)applicationContext.getBean("userConfigService");
 		
 		// 塞入商店和託運公司
 		//TODO cache
 		ServletContext servletContext = servletContextEvent.getServletContext();
 		servletContext.setAttribute(StoreType.store.toString(), storeService.getStoreSetByType(StoreType.store));
 		servletContext.setAttribute(StoreType.shippingCompany.toString(), storeService.getStoreSetByType(StoreType.shippingCompany));
-	
+		servletContext.setAttribute("authority", Authority.values());
+		servletContext.setAttribute("commodityAttrAuthority", CommodityAttrAuthority.values());
 		// 塞入使用者設定
 //		UserConfigWithJsonVO userConfigWithJsonVO = userConfigService.getAll().get(0);
 //		servletContext.setAttribute(UserConfig.commodityPageSize.toString(), userConfigWithJsonVO.getCommodityPageSize());
