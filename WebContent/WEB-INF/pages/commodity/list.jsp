@@ -91,36 +91,42 @@
 		
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
+			//first是圖片張數, 有button的是上架按鈕
+			var updateTd = $(this).parent().nextAll().not(":first, :has(button)");
+			var updateTdDiv = updateTd.children("div");
+			var updateTdInput = updateTd.children("input");
 			if ($(this).hasClass("btn-warning")) {
-				//first是圖片張數
-				var update = $(this).parent().nextAll().not(":first");
-				update.children("div").hide();
-				update.children("input").attr("type", "text");
-				update.children("input[name=cost]").attr("type", "number");
-				update.children("input[name=sellPrice]").attr("type", "number");
+				updateTdDiv.hide();
+				updateTdInput.attr("type", "text");
+				updateTdInput.filter("input[name=cost]").attr("type", "number");
+				updateTdInput.filter("input[name=sellPrice]").attr("type", "number");
 				$(this).removeClass("btn-warning").addClass("btn-primary").text("確認修改");
-			} else {
+			} else if($(this).hasClass("btn-success")){
 				var body = {};
 				var commodityAttr = {};
 				var row = $(this).closest("tr");
 				//商品自定屬性
-				row.find("input[class=commodityAttrMapping]").serializeArray().each(function(){
+				$.each(row.find("input[class=commodityAttrMapping]").serializeArray(), function(){
 					commodityAttr[$(this).name]=$(this).value;
 				});
 				//商品資料
-				row.find("input[class!=commodityAttrMapping]").serializeArray().each(function(){
+				$.each(row.find("input[class!=commodityAttrMapping]").serializeArray(), function(){
 					body[$(this).name]=$(this).value;
 				});
 				body["commodityAttr"] = commodityAttr;
+				delete body["commodityIds"];
 				
 				var commodityId = row.find("input[name=commodityIds]").val();
-				$.ajax("/jersey/commodity/${requestScope.commodityTypeId}/"+commodityId, {
-					type : "POST",
+				$.ajax("/jersey/commodity/"+commodityId, {
+					type : "PUT",
 					data : JSON.stringify(body),
 					contentType : "application/json",
 					dataType : "json",
 					success : function(data) {
 						if (data.result=="success") {
+							updateTdDiv.each(function(){
+								$(this).text($(this).next().val());
+							});
 							alertify.success("修改商品屬性成功");
 						} else {
 							alertify.error(data.msg);
@@ -130,12 +136,71 @@
 						alertify.error("修改商品屬性失敗");
 					}
 				});
+				updateTdDiv.show();
+				updateTdInput("input").hide();
 				$(this).removeClass("btn-primary").addClass("btn-warning").text("修改");				
 			}
 		});
 // 		$("table").on("click", "button[name=update]", function(){
 // 			location.href = "/jersey/commodity/${requestScope.commodityTypeId}/"+$(this).val();
 // 		});
+
+		<%--商品上下架--%>
+		$("#commodityAuthority").click(function(){
+			var button = $(this);
+			var isUp;
+			var body = {};
+			var img = $("<img>").attr("src", "/jersey/pic/circle_load.gif");
+			if(button.hasClass("btn-warning")){
+				//未上架, 開始上架
+				button.prop("disabled", true).text(" 上架中").prepend(img);
+				body["commodityAuthority"] = "customer";
+				isUp = true;
+			}else if(button.hasClass("btn-success")){
+				//已上架, 開始下架
+				button.prop("disabled", true).text(" 下架中").prepend(img);
+				body["commodityAuthority"] = "admin";
+				isUp = false;
+			}
+			
+			var commodityId = button.closest("tr").find("input[name=commodityIds]").val();
+			$.ajax("/jersey/commodity/switchStatus/"+commodityId, {
+				type : "PUT",
+				data : JSON.stringify(body),
+				contentType : "application/json",
+				dataType : "json",
+				success : function(data) {
+					if (data.result=="success") {
+						if (isUp) {
+							button.prop("disabled", false)
+								.removeClass("btn-warning")
+								.addClass("btn-success")
+								.text("已上架");
+						} else {
+							button.prop("disabled", false)
+								.removeClass("btn-success")
+								.addClass("btn-warning")
+								.text("未上架");
+						}
+					} else {
+						if (isUp) {
+							button.prop("disabled", false).text("未上架");
+						} else {
+							button.prop("disabled", false).text("已上架");
+						}
+						alertify.error(data.msg);
+					}
+				},
+				error : function(){
+					if (isUp) {
+						button.prop("disabled", false).text("未上架");
+					} else {
+						button.prop("disabled", false).text("已上架");
+					}
+					alertify.error("商品上下架切換失敗");
+				}
+			});
+		});
 		
 		<%--刪除--%>
 		$("#delete").click(function() {
@@ -419,11 +484,11 @@
 					<td>
 						<c:choose>
 							<c:when test="${vo.authority=='admin'}">
-								<button class="btn btn-warning">未上架</button>
+								<button id="commodityAuthority" class="btn btn-warning">未上架</button>
 							</c:when>
-							<c:otherwise>
-								<button class="btn btn-primary">已上架</button>
-							</c:otherwise>
+							<c:when test="${vo.authority=='customer'}">
+								<button id="commodityAuthority" class="btn btn-success">已上架</button>
+							</c:when>
 						</c:choose>
 					</td>
 					<td>

@@ -2,6 +2,7 @@ package com.jersey.commodity.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.jersey.picture.model.PictureDAO;
 import com.jersey.tools.JerseyEnum.Authority;
+import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
@@ -23,6 +25,8 @@ public class CommodityService {
 	
 	@Autowired
 	private CommodityDAO commodityDAO;
+	@Autowired
+	private CommodityAttrMappingDAO commodityAttrMappingDAO;
 	@Autowired
 	private UserSession userSession;
 	
@@ -47,6 +51,7 @@ public class CommodityService {
 	//取得所有商品
 	public List<CommodityDisplayVO> getAll(CommodityTypeVO commodityTypeVO, Integer page) {
 		List<CommodityVO> oldList = commodityDAO.getAll(userSession.getUserConfigVO().getAuthority(), commodityTypeVO, userSession.getUserConfigVO().getCommodityPageSize(), page);
+		//刪掉不屬於此權限的屬性, 塞入圖片張數
 		List<CommodityDisplayVO> newList = new ArrayList<>();
 		for (CommodityVO commodityVO : oldList) {
 			newList.add(getCommodityDisplayVO(commodityVO));
@@ -115,19 +120,26 @@ public class CommodityService {
 		if (commodityVO!=null) {
 			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
 			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
-			//開始處理屬性
-//			List<CommodityAttrValueVO> list = new ArrayList<>();
-//			Set<CommodityAttrMappingVO> set = commodityVO.getCommodityAttrMappings();
-//			for (CommodityAttrMappingVO commodityAttrMappingVO : set) {
-//				CommodityAttrValueVO commodityAttrValueVO = new CommodityAttrValueVO();
-//				commodityAttrValueVO.setCommodityAttr(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttr());
-//				commodityAttrValueVO.setCommodityAttrValue(commodityAttrMappingVO.getCommodityAttrValue());
-//				commodityAttrValueVO.setCommodityAttrAuthority(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttrAuthority());
-//				list.add(commodityAttrValueVO);
-//			}
-//			commodityDisplayVO.setCommodityAttrValueList(list);
+			//刪掉此權限不能看的屬性
+			Iterator<CommodityAttrMappingVO> iterator = commodityVO.getCommodityAttrMappings().iterator();
+			while (iterator.hasNext()) {
+				CommodityAttrMappingVO commodityAttrMappingVO = (CommodityAttrMappingVO) iterator.next();
+				List<CommodityAttrAuthority> authorities = CommodityAttrAuthority.getAllowByAuthority(userSession.getUserConfigVO().getAuthority());
+				if (!authorities.contains(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttrAuthority())) {
+					iterator.remove();
+				}
+			}
+
 		}
 		return commodityDisplayVO;
+	}
+	
+	public CommodityAttrMappingVO getCommodityAttrMappingVO(Integer commodityAttrMappingId) {
+		return commodityAttrMappingDAO.getOne(commodityAttrMappingId);
+	}
+	
+	public List<CommodityAttrMappingVO> getCommodityAttrMappingVOList(CommodityVO commodityVO) {
+		return commodityAttrMappingDAO.getByCommodityVO(commodityVO);
 	}
 	
 	

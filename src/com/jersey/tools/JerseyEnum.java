@@ -1,6 +1,7 @@
 package com.jersey.tools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class JerseyEnum {
@@ -29,22 +30,20 @@ public class JerseyEnum {
 		adminHidden(CommodityAttrStatus.hidden,"管理員(隱藏)", Authority.admin), 
 		customer(CommodityAttrStatus.show, "顧客", Authority.admin, Authority.customer);
 		
-		private Authority[] authoritys;
+		private List<Authority> allowAuthority;
 		private CommodityAttrStatus commodityAttrStatus;
 		private String showName;
-		private CommodityAttrAuthority (CommodityAttrStatus commodityAttrStatus, String showName, Authority... authoritys) {
-			this.authoritys = authoritys;
+		private CommodityAttrAuthority (CommodityAttrStatus commodityAttrStatus, String showName, Authority... allowAuthority) {
+			this.allowAuthority = Arrays.asList(allowAuthority);
 			this.commodityAttrStatus = commodityAttrStatus;
 			this.showName = showName;
 		}
 		
-		public static List<CommodityAttrAuthority> getByAuthority (Authority authority) {
+		public static List<CommodityAttrAuthority> getAllowByAuthority (Authority authority) {
 			List<CommodityAttrAuthority> list = new ArrayList<>();
 			for (CommodityAttrAuthority commodityAttrAuthority : CommodityAttrAuthority.values()) {
-				for (Authority oldAuthority : commodityAttrAuthority.authoritys) {
-					if (oldAuthority==authority) {
-						list.add(commodityAttrAuthority);
-					}
+				if (commodityAttrAuthority.allowAuthority.contains(authority)) {
+					list.add(commodityAttrAuthority);
 				}
 			}
 			return list;

@@ -36,7 +36,7 @@ public class CommodityAttrMappingVO extends AbstractVo{
 	public String getCommodityAttrValue() {
 		return commodityAttrValue;
 	}
-	public void setCommodityAttrValueValue(String commodityAttrValue) {
+	public void setCommodityAttrValue(String commodityAttrValue) {
 		this.commodityAttrValue = commodityAttrValue;
 	}
 	
