@@ -112,7 +112,7 @@ public class CommodityController {
 			commodityVO.setLink(json.getString("link"));
 			commodityVO.setCost(json.getInt("cost"));
 			commodityVO.setSellPrice(json.getInt("sellPrice"));
-			commodityVO.setIsStored(json.getBoolean("isStored"));
+			commodityVO.setIsStored(json.getString("isStored").equals("是") ? true:false);
 			
 			Set<CommodityAttrMappingVO> commodityAttrMappings = commodityVO.getCommodityAttrMappings();
 			//commodityAttrMap此map key-value為commodityAttrMappingVO的id-value

@@ -95,28 +95,30 @@
 			var updateTd = $(this).parent().nextAll().not(":first, :has(button)");
 			var updateTdDiv = updateTd.children("div");
 			var updateTdInput = updateTd.children("input");
+			var updateTdSelect = updateTd.children("select");
 			if ($(this).hasClass("btn-warning")) {
 				updateTdDiv.hide();
+				updateTdSelect.show();
 				updateTdInput.attr("type", "text");
-				updateTdInput.filter("input[name=cost]").attr("type", "number");
-				updateTdInput.filter("input[name=sellPrice]").attr("type", "number");
-				$(this).removeClass("btn-warning").addClass("btn-primary").text("確認修改");
+				updateTdInput.filter("[name=cost]").attr("type", "number");
+				updateTdInput.filter("[name=sellPrice]").attr("type", "number");
+				$(this).removeClass("btn-warning").addClass("btn-success").text("確認修改");
 			} else if($(this).hasClass("btn-success")){
 				var body = {};
 				var commodityAttr = {};
-				var row = $(this).closest("tr");
 				//商品自定屬性
-				$.each(row.find("input[class=commodityAttrMapping]").serializeArray(), function(){
-					commodityAttr[$(this).name]=$(this).value;
+				$.each(updateTdInput.filter("[class=commodityAttrMapping]").serializeArray(), function(){
+					commodityAttr[this.name] = this.value;
 				});
 				//商品資料
-				$.each(row.find("input[class!=commodityAttrMapping]").serializeArray(), function(){
-					body[$(this).name]=$(this).value;
+				$.each(updateTdInput.filter("[class!=commodityAttrMapping]").serializeArray(), function(){
+					body[this.name] = this.value;
 				});
+				body["isStored"] = updateTdSelect.eq(0).val();
 				body["commodityAttr"] = commodityAttr;
 				delete body["commodityIds"];
 				
-				var commodityId = row.find("input[name=commodityIds]").val();
+				var commodityId = $(this).closest("tr").find("input[name=commodityIds]").val();
 				$.ajax("/jersey/commodity/"+commodityId, {
 					type : "PUT",
 					data : JSON.stringify(body),
@@ -137,8 +139,9 @@
 					}
 				});
 				updateTdDiv.show();
-				updateTdInput("input").hide();
-				$(this).removeClass("btn-primary").addClass("btn-warning").text("修改");				
+				updateTdInput.attr("type", "hidden");
+				updateTdSelect.not("input").hide();
+				$(this).removeClass("btn-success").addClass("btn-warning").text("修改");				
 			}
 		});
 // 		$("table").on("click", "button[name=update]", function(){
@@ -146,7 +149,7 @@
 // 		});
 
 		<%--商品上下架--%>
-		$("#commodityAuthority").click(function(){
+		$(".commodityAuthority").click(function(){
 			var button = $(this);
 			var isUp;
 			var body = {};
@@ -396,10 +399,11 @@
 <%-- 								</c:forEach> --%>
 <!-- 							</div> -->
 <!-- 						</th> -->
-						<th>成本</th>
 						<th>售價</th>
+					<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
+						<th>成本</th>
 						<th>						
-							<button type="button" class="btn btn-warning" data-toggle="modal">上架</button>
+							<button type="button" class="btn btn-info" data-toggle="modal">銷售平台</button>
 							<div class="authority checkboxDiv">
 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/>
 <%-- 								<c:forEach items="${requestScope.authoritys}" var="authority"> --%>
@@ -417,6 +421,7 @@
 								<input type="checkbox" name=isStored value="否" checked="checked">否&nbsp<br/>
 							</div>
 						</th>
+					</c:if>
 				</tr>
 			</thead>
 
@@ -425,9 +430,11 @@
 				<tr>
 					<td><input type="checkbox" name="commodityIds"
 						value="${vo.commodityId}"></td>
+					<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 					<td>
 						<button name="update" type="button" value="${vo.commodityId}" class="btn btn-warning">修改</button>
 					</td>
+					</c:if>
 					<c:if test="${vo.pictureCount!=0}">
 						<td><a
 							href="/jersey/picture/${vo.commodityId}"><button
@@ -440,12 +447,8 @@
 					</c:if>
 
 					<td>
-						<div class="itemName">
-							<a href="/jersey/triple/commodity/${vo.commodityId}">
-								<c:out value="${vo.itemName}" />
-								<input type="hidden" name="itemName" value="${vo.itemName}">
-							</a>
-						</div>
+						<div class="itemName"><a href="/jersey/triple/commodity/${vo.commodityId}"><c:out value="${vo.itemName}" /></a></div>
+						<input type="hidden" name="itemName" value="${vo.itemName}">
 						<c:if test="${!empty vo.link}">
 							<a href="${vo.link}" target="_blank">連結</a>
 							<input type="hidden" name="link" value="${vo.link}">
@@ -474,30 +477,32 @@
 <%-- 					<td><div class=""><c:out value="${vo.serial}" /></div></td> --%>
 <%-- 					<td><div class="owner"><c:out value="${vo.owner}" /></div></td> --%>
 					<td>
-						<div><c:out value="${vo.cost}" /></div>
-						<input type="hidden" name="cost" value="${vo.cost}">
-					</td>
-					<td>
 						<div><c:out value="${vo.sellPrice}" /></div>
 						<input type="hidden" name="sellPrice" value="${vo.sellPrice}">
 					</td>
 					<td>
+						<div><c:out value="${vo.cost}" /></div>
+						<input type="hidden" name="cost" value="${vo.cost}">
+					</td>
+				<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
+					<td>
 						<c:choose>
 							<c:when test="${vo.authority=='admin'}">
-								<button id="commodityAuthority" class="btn btn-warning">未上架</button>
+								<button class="btn btn-warning commodityAuthority">未上架</button>
 							</c:when>
 							<c:when test="${vo.authority=='customer'}">
-								<button id="commodityAuthority" class="btn btn-success">已上架</button>
+								<button class="btn btn-success commodityAuthority">已上架</button>
 							</c:when>
 						</c:choose>
 					</td>
 					<td>
 						<div class="isStored">${vo.isStored ? '是':'否'}</div>
 						<select style="display:none">
-							<option value="true">是</option>
-							<option value="false">否</option>
+							<option value="是">是</option>
+							<option value="否">否</option>
 						</select>
 					</td>
+				</c:if>
 				</tr>
 			</c:forEach>
 		</table>

@@ -21,7 +21,7 @@ public class CommodityAttrDAO extends AbstractDAO<CommodityAttrVO> {
 			return getHelper(Restrictions.eq("commodityTypeVO", commodityTypeVO));
 		} else {
 			return getHelper(Restrictions.eq("commodityTypeVO", commodityTypeVO),
-					Restrictions.eq("CommodityAttrAuthority", CommodityAttrAuthority.customer));
+					Restrictions.eq("commodityAttrAuthority", CommodityAttrAuthority.customer));
 		}
 	}
 	

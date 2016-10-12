@@ -28,7 +28,9 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		List<CommodityVO> list;
 		try {
 			Criteria criteria = session.createCriteria(CommodityVO.class);
-			criteria.add(Restrictions.eq("authority", authority));
+			if (authority==Authority.customer) {
+				criteria.add(Restrictions.eq("authority", authority));
+			}
 			criteria.add(Restrictions.eq("commodityTypeVO", commodityTypeVO));
 			//分頁
 			Integer firstResult = pageSize*(page-1);
@@ -43,21 +45,6 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 			list = new ArrayList<>();
 		}
 		return list;
-	}
-	
-	public CommodityDisplayVO getOne (Authority authority, Integer commodityId) {
-		//TODO
-		return null;
-	}
-	
-	public List<String> getCommodityType (Authority authority) {
-		//TODO
-		return null;
-	}
-	
-	public List<String> getCommodityAttr (Authority authority, String commodityType) {
-		//TODO
-		return null;
 	}
 	
 	public Long getTotalCount (Authority authority, CommodityTypeVO commodityTypeVO) {

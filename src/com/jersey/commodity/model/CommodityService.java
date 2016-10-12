@@ -75,7 +75,12 @@ public class CommodityService {
 	}
 
 	public CommodityVO getOne(Integer commodityId) {
-		return this.commodityDAO.getOne(userSession.getUserConfigVO().getAuthority(), commodityId);
+		CommodityVO commodityVO = this.commodityDAO.getOne(commodityId);
+		if (userSession.getUserConfigVO().getAuthority()==Authority.customer && commodityVO.getAuthority()!=Authority.customer) {
+			commodityVO = null;
+		}
+		return commodityVO;
+		
 	}
 
 	public CommodityVO create(CommodityVO vo) {
