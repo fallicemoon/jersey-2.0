@@ -32,6 +32,7 @@ public class UserConfigService {
 	
 	//使用者相關登入資訊
 	public void initAdminUserSessionUserConfig(UserSession userSession, String userName) {
+		userSession.getUserConfigVO().setUserName(userName);
 		userSession.setUserConfigVO(userConfigDAO.getByUserName(userName));
 		initCommodityAttrMap(userSession);
 	}
@@ -41,8 +42,9 @@ public class UserConfigService {
 	}
 	
 	//-----------------------update config-----------------------
-	public void updateUserConfig (UserConfig userConfig, Integer value) throws SQLException, IOException {
+	public void updateUserConfig (UserSession userSession, UserConfig userConfig, Integer value) throws SQLException, IOException {
 		userConfigDAO.updateUserConfig(userConfig, value);
+		userSession.setUserConfigVO(userConfigDAO.getByUserName(userSession.getUserConfigVO().getUserName()));
 	}
 	
 	public CommodityTypeVO createCommodityType (CommodityTypeVO commodityTypeVO) {
@@ -95,7 +97,7 @@ public class UserConfigService {
 	private void initCommodityAttrMap (UserSession userSession) {
 		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = new LinkedHashMap<>();
 		Map<String, List<String>> commodityTypeAttrStringMap = new LinkedHashMap<>();
-		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll()) {
+		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll(userSession.getUserConfigVO().getAuthority())) {
 			List<CommodityAttrVO> commodityAttrList = commodityAttrDAO.getCommodityAttrByCommodityType(userSession.getUserConfigVO().getAuthority(), commodityTypeVO);
 			commodityTypeAttrMap.put(commodityTypeVO, commodityAttrList);
 			List<String> commodityAttrStringList = new ArrayList<>();

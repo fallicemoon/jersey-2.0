@@ -91,7 +91,11 @@ public class CommodityController {
 		vo.setIsStored(true);
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(commodityTypeId);
-		vo.setCommodityTypeVO(commodityTypeVO);	
+		vo.setCommodityTypeVO(commodityTypeVO);
+		//避免使用者沒有傳入數字
+		vo.setCost(vo.getCost()==null ? 0:vo.getCost());
+		vo.setSellPrice(vo.getSellPrice()==null ? 0:vo.getSellPrice());
+		
 		commodityService.create(vo);
 		
 		List<CommodityDisplayVO> list = new ArrayList<>();
@@ -103,7 +107,7 @@ public class CommodityController {
 	}
 
 	// 修改
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces="application/json;charset=UTF-8")
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces="application/json;charset=UTF-8", consumes="application/json;charset=UTF-8")
 	public @ResponseBody String update(@PathVariable("id") Integer id, @RequestBody String jsonString) {
 		try {
 			JSONObject json = new JSONObject(jsonString);
@@ -168,7 +172,9 @@ public class CommodityController {
 			for (int i = 0; i < commodityIds.length; i++) {
 				ids[i] = Integer.valueOf(commodityIds[i]);
 			}
-			commodityService.delete(ids);
+			if(!commodityService.delete(ids)){
+				return Tools.getFailJson("刪除失敗").toString();
+			}
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

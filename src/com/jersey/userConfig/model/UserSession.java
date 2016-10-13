@@ -34,6 +34,7 @@ public class UserSession{
 	public boolean isAdmin() {
 		return userConfigVO.getAuthority()==Authority.admin;
 	}
+
 	public UserConfigVO getUserConfigVO() {
 		return userConfigVO;
 	}

@@ -92,18 +92,19 @@
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
 			//first是圖片張數, 有button的是上架按鈕
-			var updateTd = $(this).parent().nextAll().not(":first, :has(button)");
+			var button = $(this);
+			var updateTd = button.parent().nextAll().not(":first, :has(button)");
 			var updateTdDiv = updateTd.children("div");
 			var updateTdInput = updateTd.children("input");
 			var updateTdSelect = updateTd.children("select");
-			if ($(this).hasClass("btn-warning")) {
+			if (button.hasClass("btn-warning")) {
 				updateTdDiv.hide();
 				updateTdSelect.show();
 				updateTdInput.attr("type", "text");
 				updateTdInput.filter("[name=cost]").attr("type", "number");
 				updateTdInput.filter("[name=sellPrice]").attr("type", "number");
-				$(this).removeClass("btn-warning").addClass("btn-success").text("確認修改");
-			} else if($(this).hasClass("btn-success")){
+				button.removeClass("btn-warning").addClass("btn-success").text("確認修改");
+			} else if(button.hasClass("btn-success")){
 				var body = {};
 				var commodityAttr = {};
 				//商品自定屬性
@@ -114,34 +115,44 @@
 				$.each(updateTdInput.filter("[class!=commodityAttrMapping]").serializeArray(), function(){
 					body[this.name] = this.value;
 				});
+				//select不知道為什麼不能serialize, 懶的研究
 				body["isStored"] = updateTdSelect.eq(0).val();
 				body["commodityAttr"] = commodityAttr;
 				delete body["commodityIds"];
 				
-				var commodityId = $(this).closest("tr").find("input[name=commodityIds]").val();
+				var commodityId = button.closest("tr").find("input[name=commodityIds]").val();
 				$.ajax("/jersey/commodity/"+commodityId, {
 					type : "PUT",
 					data : JSON.stringify(body),
-					contentType : "application/json",
+					contentType : "application/json;charset=UTF-8",
 					dataType : "json",
 					success : function(data) {
 						if (data.result=="success") {
 							updateTdDiv.each(function(){
 								$(this).text($(this).next().val());
 							});
+							updateTdDiv.show();
+							updateTdInput.attr("type", "hidden");
+							updateTdSelect.not("input").hide();
+							button.removeClass("btn-success").addClass("btn-warning").text("修改");		
 							alertify.success("修改商品屬性成功");
 						} else {
+							updateTdDiv.show();
+							updateTdInput.attr("type", "hidden");
+							updateTdSelect.not("input").hide();
+							button.removeClass("btn-success").addClass("btn-warning").text("修改");		
 							alertify.error(data.msg);
 						}
 					},
 					error : function(){
+						updateTdDiv.show();
+						updateTdInput.attr("type", "hidden");
+						updateTdSelect.not("input").hide();
+						button.removeClass("btn-success").addClass("btn-warning").text("修改");		
 						alertify.error("修改商品屬性失敗");
 					}
 				});
-				updateTdDiv.show();
-				updateTdInput.attr("type", "hidden");
-				updateTdSelect.not("input").hide();
-				$(this).removeClass("btn-success").addClass("btn-warning").text("修改");				
+		
 			}
 		});
 // 		$("table").on("click", "button[name=update]", function(){
@@ -447,12 +458,11 @@
 					</c:if>
 
 					<td>
-						<div class="itemName"><a href="/jersey/triple/commodity/${vo.commodityId}"><c:out value="${vo.itemName}" /></a></div>
-						<input type="hidden" name="itemName" value="${vo.itemName}">
-						<c:if test="${!empty vo.link}">
-							<a href="${vo.link}" target="_blank">連結</a>
-							<input type="hidden" name="link" value="${vo.link}">
-						</c:if>
+						<a href="/jersey/triple/commodity/${vo.commodityId}"><div class="itemName"><c:out value="${vo.itemName}" /></div></a>
+						<input type="hidden" name="itemName" value="<c:out value="${vo.itemName}" />">
+						
+						<a href="${vo.link}" target="_blank" ${empty vo.link? 'style="display:none"':''}>連結</a>
+						<input type="hidden" name="link" value="${vo.link}">
 					</td>
 					
 					<c:forEach items="${vo.commodityAttrMappings}" var="commodityAttrMappingVO">

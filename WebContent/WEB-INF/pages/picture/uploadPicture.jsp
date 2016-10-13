@@ -104,24 +104,8 @@ span {
     <thead>
     <tr>
       <th>商品編號/商品名稱</th>
-      <th>Qty</th>
-      <th>player</th>
-      <th>number</th>
-      <th>season</th>
-      <th>team</th>
-      <th>style</th>
-      <th>color</th>
-      <th>brand</th>
-      <th>size</th>
-      <th>level</th>
-      <th>condition</th>
-      <th>tag</th>
-      <th>Patch/Certificate</th>
-      <th>serial</th>
-      <th>owner</th>
       <th>成本</th>
       <th>售價</th>
-      <th>販售平台</th>
       <th>是否仍在庫</th>
     </tr>
     </thead>
@@ -129,26 +113,9 @@ span {
   	  <td><a href="/jersey/triple/commodity/${requestScope.commodity.commodityId}">${requestScope.commodity.commodityId} - <c:out value="${requestScope.commodity.itemName}" /></a>
   	  		<c:if test="${!empty requestScope.commodity.link}"><a href="${requestScope.commodity.link}" target="_blank"> 連結</a></c:if>
   	  		<c:if test="${empty requestScope.commodity.link}"></c:if></td>
-  	  <td><c:out value="${requestScope.commodity.qty}" /></td>
-  	  <td><c:out value="${requestScope.commodity.player}" /></td>
-  	  <td><c:out value="${requestScope.commodity.number}" /></td>
-  	  <td><c:out value="${requestScope.commodity.season}" /></td>
-  	  <td><c:out value="${requestScope.commodity.team}" /></td>
-	  <td><c:out value="${requestScope.commodity.style}" /></td>
-  	  <td><c:out value="${requestScope.commodity.color}" /></td>
-  	  <td><c:out value="${requestScope.commodity.brand}" /></td>
-  	  <td><c:out value="${requestScope.commodity.size}" /></td>
-  	  <td><c:out value="${requestScope.commodity.level}" /></td>
-  	  <td><c:out value="${requestScope.commodity.condition}" /></td>
-  	  <td><c:out value="${requestScope.commodity.tag}" /></td>
-  	  <td><c:out value="${requestScope.commodity.patchAndCertificate}" /></td>
-  	  <td><c:out value="${requestScope.commodity.serial}" /></td>
-  	  <td><c:out value="${requestScope.commodity.owner}" /></td>
   	  <td><c:out value="${requestScope.commodity.cost}" /></td>
   	  <td><c:out value="${requestScope.commodity.sellPrice}" /></td>
-  	  <td><c:out value="${requestScope.commodity.sellPlatform}" /></td>
-  	  <c:if test="${requestScope.commodity.isStored}"><td>是</td></c:if>
-  	  <c:if test="${!requestScope.commodity.isStored}"><td>否</td></c:if>
+  	  <td>${requestScope.commodity.isStored ? '是':'否'}</td>
   	</tr>
   	</table>
   	<%-- 在url和input裡面都要放commodityId, 不然吃不到 --%>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.jersey.tools.AbstractDAO;
 import com.jersey.tools.HibernateTools;
+import com.jersey.tools.JerseyEnum.Authority;
 
 @Repository
 public class CommodityTypeDAO extends AbstractDAO<CommodityTypeVO> {
@@ -19,13 +20,17 @@ public class CommodityTypeDAO extends AbstractDAO<CommodityTypeVO> {
 		super(CommodityTypeVO.class, "commodityTypeId");
 	}
 	
-	public List<CommodityTypeVO> getAll () {
+	public List<CommodityTypeVO> getAll (Authority authority) {
 		Session session = HibernateTools.getSession();
 		session.getTransaction().begin();
 		List<CommodityTypeVO> list;
 		try {
-			
-			Query query = session.createQuery("from CommodityTypeVO");
+			Query query;
+			if (authority==Authority.customer) {
+				query = session.createQuery("from CommodityTypeVO vo where vo.authority=:authority").setParameter("authority", authority);
+			} else {
+				query = session.createQuery("from CommodityTypeVO");
+			}
 			//分頁
 			list = query.list();
 			session.getTransaction().commit();

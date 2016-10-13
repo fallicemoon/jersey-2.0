@@ -171,13 +171,6 @@
     	<input type="number" name="sellPrice" value="${commodity.sellPrice}"> 請輸入數字!
     	</div>
     </div>
-                
-    <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">販售平台：</label>
-    	<div class="col-sm-10">
-    	<input type="text" name="sellPlatform" value="${commodity.sellPlatform}">
-    	</div>
-    </div>
 	
 	<div class="form-group">
 		<label for="inputEmail3" class="col-sm-2 control-label">

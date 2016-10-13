@@ -220,6 +220,7 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		try {
 			session.beginTransaction();
 			session.createQuery("delete from PictureVO vo where vo.commodityVO.commodityId in (:ids)").setParameterList("ids", ids).executeUpdate();
+			session.createQuery("delete from CommodityAttrMappingVO vo where vo.commodityVO.commodityId in (:ids)").setParameterList("ids", ids).executeUpdate();
 			session.createQuery("delete from CommodityVO vo where vo.commodityId in (:ids)").setParameterList("ids", ids).executeUpdate();
 			session.getTransaction().commit();
 			return true;

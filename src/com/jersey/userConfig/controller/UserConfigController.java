@@ -48,7 +48,7 @@ public class UserConfigController {
 			if (value<=0 || value>100) {
 				return Tools.getFailJson("分頁筆數不得小於0或大於100").toString();
 			}
-			userConfigService.updateUserConfig(userConfig, value);
+			userConfigService.updateUserConfig(userSession, userConfig, value);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
