@@ -22,12 +22,22 @@
 		<c:import url="/WEB-INF/pages/header.jsp" />
 		<script type="text/javascript">
 
-// 	var commodityAttr = ["itemName", "player", "team", "style", "brand",
-// 			"size", "level", "condition", "tag", "owner", "authority",
-// 			"isStored" ];
+	function filter() {
+		$("tr").show();
+		$("button.filter").each(function(){
+			<%-- 從篩選條件中取得要保留的資料 --%>
+			var checkboxDiv = $(this).next();
+			var keep = checkboxDiv.find("input:checked").map(function(){
+				return $(this).val();
+			}).toArray();
+			<%-- 只要有任何條件不符合就隱藏資料 --%>
+			$("div."+$(this).attr("name")+":not(.checkboxDiv)").each(function(){
+				if($.inArray($(this).text(), keep)==-1){
+					$(this).closest("tr").hide();
+				}
+			});
+		});
 
-// 	function filter() {
-// 		$("tr").show();
 // 		for ( var index in commodityAttr) {
 // 			var filterName = commodityAttr[index];
 			<%-- 從篩選條件中取得要保留的資料 --%>
@@ -41,25 +51,28 @@
 // 				}
 // 			});
 // 		}
-// 	}
+	}
 
 	$(function(){
 		<%--把checkbox清空--%>
 		$("input[name=commodityIds]:checked").prop("checked", false);
 		
 		<%--生成篩選條件的下拉式選單內容--%>
-		var commodity = ["itemName", "player", "team", "style", "brand",
-		          			"size", "condition", "owner", "authority"];
-		$.each(commodity, function(){
-			var name = this;
-			var inputValue = [];
-			$("."+name).not(".checkboxDiv").each(function(){
-				if($.inArray($(this).text(), inputValue)==-1){
-					inputValue.push($(this).text());
-					var input = $("<input>").attr("type", "checkbox").attr("name", name)
-						.attr("value", $(this).text()).prop("checked", true);
-					$("."+name+".checkboxDiv").append(input).append($(this).text()+"<br>");
-				}
+		$(".filter").each(function(){
+			//生成空白的div塞到button後面
+			var button = $(this);
+			var div = $("<div>").addClass("checkboxDiv").addClass(button.attr("name"));
+			button.after(div);
+			//生成checkbox塞到div,先塞全選
+			var all = $("<input>").attr("type","checkbox")
+					.attr("name","all").prop("checked", true)
+					.text("全選").insertAfter("<br>");
+			div.append(all.clone());
+			$("div."+button.attr("name")).each(function(){
+				var checkbox = $("<input>").attr("type","checkbox")
+					.attr("name",button.attr("name")).prop("checked", true)
+					.val($(this).text()).text($(this).text()).insertAfter("<br>");
+				div.append(checkbox);
 			});
 		});
 		
@@ -80,9 +93,7 @@
 		$("table tr:first").on("change", "[name!=commodityIds]", function(){
 			filter();
 		});
-// 		$("input[name!=commodityIds]").change(function(){
-// 			filter();
-// 		});
+
 		
 		<%--新增--%>
 		$("#create").click(function(){
@@ -91,8 +102,8 @@
 		
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
-			//first是圖片張數, 有button的是上架按鈕
 			var button = $(this);
+			//first是圖片張數, 有button的是上架按鈕
 			var updateTd = button.parent().nextAll().not(":first, :has(button)");
 			var updateTdDiv = updateTd.children("div");
 			var updateTdInput = updateTd.children("input");
@@ -100,7 +111,9 @@
 			if (button.hasClass("btn-warning")) {
 				updateTdDiv.hide();
 				updateTdSelect.show();
-				updateTdInput.attr("type", "text");
+				
+				updateTdInput.attr("type", "text").val($(this).prev().text());
+				updateTdInput.filter("[name=itemName]").val($(this).prev().children().text());
 				updateTdInput.filter("[name=cost]").attr("type", "number");
 				updateTdInput.filter("[name=sellPrice]").attr("type", "number");
 				button.removeClass("btn-warning").addClass("btn-success").text("確認修改");
@@ -297,17 +310,13 @@
 						<th></th>
 						<th>圖片</th>
 						<th>
-							<button type="button" class="btn btn-warning" data-toggle="modal">商品名稱</button>
-							<div class="itemName checkboxDiv">
-								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/>
-<%-- 								<c:forEach items="${requestScope.itemNames}" var="itemName"> --%>
-<%-- 									<input type="checkbox" name="itemName" value='<c:out value="${itemName}"/>' checked="checked">${itemName}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
-							</div>
+							<button type="button" class="btn btn-warning filter" name="itemName" data-toggle="modal">商品名稱</button>
 						</th>
 						
 						<c:forEach items="${requestScope.commodityAttrList}" var="commodityAttrVO">
-							<th>${commodityAttrVO.commodityAttr}</th>
+							<th>
+								<button type="button" class="btn btn-warning filter" name="${commodityAttrVO.commodityAttr}" data-toggle="modal">${commodityAttrVO.commodityAttr}</button>
+							</th>
 						</c:forEach>
 <!-- 						<th>Qty</th> -->
 <!-- 						<th> -->
@@ -320,96 +329,7 @@
 <%-- 								</c:forEach> --%>
 <!-- 							</div> -->
 <!-- 						</th> -->
-<!-- 						<th>number</th> -->
-<!-- 						<th>season</th> -->
-<!-- 						<th>							 -->
-<!-- 							<button type="button" class="btn btn-warning" data-toggle="modal">team</button> -->
-<!-- 							<div class="team checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<%-- 								<c:forEach items="${requestScope.teams}" var="team"> --%>
-<!-- 									<input type="checkbox" name="team" -->
-<%-- 										value='<c:out value="${team}"/>' checked="checked">${team}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</div> -->
-<!-- 						</th> -->
-<!-- 						<th> -->
-<!-- 						<button type="button" class="btn btn-warning" data-toggle="modal">style</button> -->
-<!-- 							<div class="style checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<%-- 								<c:forEach items="${requestScope.styles}" var="style"> --%>
-<!-- 									<input type="checkbox" name="style" -->
-<%-- 										value='<c:out value="${style}"/>' checked="checked">${style}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</div> -->
-<!-- 						</th> -->
-<!-- 						<th>color</th> -->
-<!-- 						<th>							 -->
-<!-- 						<button type="button" class="btn btn-warning" data-toggle="modal">brand</button> -->
-<!-- 							<div class="brand checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<%-- 								<c:forEach items="${requestScope.brands}" var="brand"> --%>
-<!-- 									<input type="checkbox" name="brand" -->
-<%-- 										value='<c:out value="${brand}"/>' checked="checked">${brand}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</div> -->
-<!-- 						</th> -->
-<!-- 						<th>						 -->
-<!-- 						<button type="button" class="btn btn-warning" data-toggle="modal">size</button> -->
-<!-- 							<div class="size checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<%-- 								<c:forEach items="${requestScope.sizes}" var="size"> --%>
-<!-- 									<input type="checkbox" name=size -->
-<%-- 										value='<c:out value="${size}"/>' checked="checked">${size}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</div> -->
-<!-- 						</th> -->
-<!-- 						<th>					 -->
-<!-- 						<button type="button" class="btn btn-info" data-toggle="modal">level</button> -->
-<!-- 							<div class="checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="" checked="checked">&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="Replica" checked="checked">Replica&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="Swingman" checked="checked">Swingman&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="Authentic" checked="checked">Authentic&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="Team Authentic" checked="checked">Team Authentic&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="Pro Cut" checked="checked">Pro Cut&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="Team Issued" checked="checked">Team Issued&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="Game Issued" checked="checked">Game Issued&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=level value="Game Used" checked="checked">Game Used&nbsp<br/> -->
-<!-- 							</div> -->
-<!-- 						</th> -->
-<!-- 						<th>						 -->
-<!-- 						<button type="button" class="btn btn-warning" data-toggle="modal">condition</button> -->
-<!-- 							<div class="condition checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<%-- 								<c:forEach items="${requestScope.conditions}" var="condition"> --%>
-<!-- 									<input type="checkbox" name=condition -->
-<%-- 										value='<c:out value="${condition}"/>' checked="checked">${condition}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</div> -->
-<!-- 						</th> -->
-<!-- 						<th> -->
-<!-- 							<button type="button" class="btn btn-info" data-toggle="modal">tag</button> -->
-<!-- 							<div class="checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=tag value="" checked="checked">&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=tag value="--" checked="checked">--&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=tag value="Yes" checked="checked">Yes&nbsp<br/> -->
-<!-- 								<input type="checkbox" name=tag value="No" checked="checked">No&nbsp<br/> -->
-<!-- 							</div> -->
-<!-- 						</th> -->
-<!-- 						<th>Patch/Certificate</th> -->
-<!-- 						<th>serial</th> -->
-<!-- 						<th>						 -->
-<!-- 						<button type="button" class="btn btn-warning" data-toggle="modal">owner</button> -->
-<!-- 							<div class="owner checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<%-- 								<c:forEach items="${requestScope.owners}" var="owner"> --%>
-<!-- 									<input type="checkbox" name=owner -->
-<%-- 										value='<c:out value="${owner}"/>' checked="checked">${owner}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</div> -->
-<!-- 						</th> -->
+
 						<th>售價</th>
 					<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 						<th>成本</th>
@@ -417,19 +337,16 @@
 							<button type="button" class="btn btn-info" data-toggle="modal">銷售平台</button>
 							<div class="authority checkboxDiv">
 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/>
-<%-- 								<c:forEach items="${requestScope.authoritys}" var="authority"> --%>
-<!-- 									<input type="checkbox" name=authority -->
-<%-- 										value='<c:out value="${authority}"/>' checked="checked">${authority}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
+								<input type="checkbox" name="commodityAuthority" value="未上架" checked="checked">未上架&nbsp<br/>
+								<input type="checkbox" name="commodityAuthority" value="已上架" checked="checked">已上架&nbsp<br/>
 							</div>
 						</th>
 						<th>
 							<button type="button" class="btn btn-info" data-toggle="modal">是否仍在庫</button>
 							<div class="checkboxDiv">
 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/>
-								<input type="checkbox" name=isStored value="" checked="checked">&nbsp<br/>
-								<input type="checkbox" name=isStored value="是" checked="checked">是&nbsp<br/>
-								<input type="checkbox" name=isStored value="否" checked="checked">否&nbsp<br/>
+								<input type="checkbox" name="isStored" value="是" checked="checked">是&nbsp<br/>
+								<input type="checkbox" name="isStored" value="否" checked="checked">否&nbsp<br/>
 							</div>
 						</th>
 					</c:if>
@@ -439,24 +356,17 @@
 
 			<c:forEach items="${commodityList}" var="vo">
 				<tr>
-					<td><input type="checkbox" name="commodityIds"
-						value="${vo.commodityId}"></td>
+					<td><input type="checkbox" name="commodityIds" value="${vo.commodityId}"></td>
 					<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 					<td>
 						<button name="update" type="button" value="${vo.commodityId}" class="btn btn-warning">修改</button>
 					</td>
 					</c:if>
-					<c:if test="${vo.pictureCount!=0}">
-						<td><a
-							href="/jersey/picture/${vo.commodityId}"><button
-									type="button" class="btn btn-success" data-toggle="modal">${vo.pictureCount}</button></a></td>
-					</c:if>
-					<c:if test="${vo.pictureCount==0}">
-						<td><a
-							href="/jersey/picture/${vo.commodityId}"><button
-									type="button" class="btn btn-danger" data-toggle="modal">0</button></a></td>
-					</c:if>
-
+					<td>
+						<a href="/jersey/picture/${vo.commodityId}">
+							<button type="button" class="btn ${vo.pictureCount==0 ? 'btn-danger':'btn-success'}" data-toggle="modal">${vo.pictureCount}</button>
+						</a>
+					</td>
 					<td>
 						<a href="/jersey/triple/commodity/${vo.commodityId}"><div class="itemName"><c:out value="${vo.itemName}" /></div></a>
 						<input type="hidden" name="itemName" value="<c:out value="${vo.itemName}" />">
@@ -467,25 +377,10 @@
 					
 					<c:forEach items="${vo.commodityAttrMappings}" var="commodityAttrMappingVO">
 						<td>
-							<div><c:out value="${commodityAttrMappingVO.commodityAttrValue}" /></div>
+							<div class="${commodityAttrMappingVO.commodityAttrVO.commodityAttr}"><c:out value="${commodityAttrMappingVO.commodityAttrValue}" /></div>
 							<input type="hidden" class="commodityAttrMapping" name="${commodityAttrMappingVO.commodityAttrMappingId}" value="${commodityAttrMappingVO.commodityAttrValue}">
 						</td>
 					</c:forEach>
-<%-- 					<td><div class=""><c:out value="${vo.qty}" /></div></td> --%>
-<%-- 					<td><div class="player"><c:out value="${vo.player}" /></div></td> --%>
-<%-- 					<td><div class=""><c:out value="${vo.number}" /></div></td> --%>
-<%-- 					<td><div class=""><c:out value="${vo.season}" /></div></td> --%>
-<%-- 					<td><div class="team"><c:out value="${vo.team}" /></div></td> --%>
-<%-- 					<td><div class="style"><c:out value="${vo.style}" /></div></td> --%>
-<%-- 					<td><div class=""><c:out value="${vo.color}" /></div></td> --%>
-<%-- 					<td><div class="brand"><c:out value="${vo.brand}" /></div></td> --%>
-<%-- 					<td><div class="size"><c:out value="${vo.size}" /></div></td> --%>
-<%-- 					<td><div class="level"><c:out value="${vo.level}" /></div></td> --%>
-<%-- 					<td><div class="condition"><c:out value="${vo.condition}" /></div></td> --%>
-<%-- 					<td><div class="tag"><c:out value="${vo.tag}" /></div></td> --%>
-<%-- 					<td><div class=""><c:out value="${vo.patchAndCertificate}" /></div></td> --%>
-<%-- 					<td><div class=""><c:out value="${vo.serial}" /></div></td> --%>
-<%-- 					<td><div class="owner"><c:out value="${vo.owner}" /></div></td> --%>
 					<td>
 						<div><c:out value="${vo.sellPrice}" /></div>
 						<input type="hidden" name="sellPrice" value="${vo.sellPrice}">

@@ -29,7 +29,6 @@
 		
 		$(function(){
 			init();
-			
 			//ajax結束後將按鈕恢復
 			$(document).ajaxComplete(function(){
 				init();
