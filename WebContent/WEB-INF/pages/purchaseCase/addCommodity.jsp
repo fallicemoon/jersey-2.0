@@ -19,19 +19,6 @@
     <tr>
       <th></th>
       <th>商品編號/商品名稱</th>
-      <th>player</th>
-      <th>number</th>
-      <th>season</th>
-      <th>team</th>
-      <th>color</th>
-      <th>brand</th>
-      <th>size</th>
-      <th>level</th>
-      <th>condition</th>
-      <th>tag</th>
-      <th>Patch/Certificate</th>
-      <th>serial</th>
-      <th>owner</th>
       <td>販售平台</td>
       <td>是否仍在庫</td>
     </tr>
@@ -44,20 +31,7 @@
   	  </td>
   	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" /><c:if test="${vo.link != null}"><a href="${vo.link}" target="_blank">連結</a></c:if>
   	  		<c:if test="${vo.link == null}"></c:if></td>
-  	  <td><c:out value="${vo.player}" /></td>
-  	  <td><c:out value="${vo.number}" /></td>
-  	  <td><c:out value="${vo.season}" /></td>
-  	  <td><c:out value="${vo.team}" /></td>
-  	  <td><c:out value="${vo.color}" /></td>
-  	  <td><c:out value="${vo.brand}" /></td>
-  	  <td><c:out value="${vo.size}" /></td>
-  	  <td><c:out value="${vo.level}" /></td>
-  	  <td><c:out value="${vo.condition}" /></td>
-  	  <td><c:out value="${vo.tag}" /></td>
-  	  <td><c:out value="${vo.patchAndCertificate}" /></td>
-  	  <td><c:out value="${vo.serial}" /></td>
-  	  <td><c:out value="${vo.owner}" /></td>
-  	  <td><c:out value="${vo.sellPlatform}" /></td>
+  	  <td>${vo.authority=='admin' ? '未上架':'已上架'}</td>
   	  <c:if test="${vo.isStored}"><td>是</td></c:if>
   	  <c:if test="${!vo.isStored}"><td>否</td></c:if>
   	</tr>

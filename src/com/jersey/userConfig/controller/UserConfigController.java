@@ -70,7 +70,7 @@ public class UserConfigController {
 			if (userSession.getCommodityTypeAttrStringMap().keySet().contains(commodityTypeVO.getCommodityType())) {
 				return Tools.getFailJson("已經有此商品類別").toString();
 			}
-			commodityTypeVO = userConfigService.createCommodityType(commodityTypeVO);
+			commodityTypeVO = userConfigService.createCommodityType(userSession, commodityTypeVO);
 			return Tools.getSuccessJson().put("commodityTypeId", commodityTypeVO.getCommodityTypeId()).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,7 +87,7 @@ public class UserConfigController {
 			if (userSession.getCommodityTypeAttrStringMap().get(commodityTypeVO.getCommodityType()).contains(commodityAttrVO.getCommodityAttr())) {
 				return Tools.getFailJson("已經有此商品屬性").toString();
 			}
-			CommodityAttrVO result = userConfigService.createCommodityAttr(commodityAttrVO);
+			CommodityAttrVO result = userConfigService.createCommodityAttr(userSession, commodityAttrVO);
 			return Tools.getSuccessJson()
 					.put("commodityAttrId", result.getCommodityAttrId())
 					.put("commodityType", result.getCommodityTypeVO().getCommodityType())
@@ -107,7 +107,7 @@ public class UserConfigController {
 		try {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
 			commodityTypeVO.setCommodityType(commodityType[0]);
-			userConfigService.updateCommodityType(commodityTypeVO);
+			userConfigService.updateCommodityType(userSession, commodityTypeVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,7 +125,7 @@ public class UserConfigController {
 			commodityAttrVO.setCommodityAttrId(commodityAttrId);
 			commodityAttrVO.setCommodityAttr(commodityAttr);
 			commodityAttrVO.setCommodityAttrAuthority(commodityAttrAuthority);
-			userConfigService.updateCommodityAttr(commodityAttrVO);
+			userConfigService.updateCommodityAttr(userSession, commodityAttrVO);
 			return Tools.getSuccessJson().put("commodityAttrAuthorityShowName", commodityAttrAuthority.getShowName()).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,7 +137,7 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
 	public String removeCommodityAttr (@PathVariable("commodityAttrId") Integer commodityAttrId, Map<String, Object> map) {
 		try {
-			userConfigService.removeCommodityAttr(commodityAttrId);
+			userConfigService.removeCommodityAttr(userSession, commodityAttrId);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,7 +149,7 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityType/{commodityTypeId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
 	public String removeCommodityType (@PathVariable("commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
 		try {
-			userConfigService.removeCommodityType(commodityTypeId);
+			userConfigService.removeCommodityType(userSession, commodityTypeId);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

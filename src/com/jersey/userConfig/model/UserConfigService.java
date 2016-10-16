@@ -47,34 +47,40 @@ public class UserConfigService {
 		userSession.setUserConfigVO(userConfigDAO.getByUserName(userSession.getUserConfigVO().getUserName()));
 	}
 	
-	public CommodityTypeVO createCommodityType (CommodityTypeVO commodityTypeVO) {
+	public CommodityTypeVO createCommodityType (UserSession userSession, CommodityTypeVO commodityTypeVO) {
 		CommodityTypeVO result = commodityTypeDAO.create(commodityTypeVO);
+		initCommodityAttrMap(userSession);
 		return result;
 	}
 	
-	public void removeCommodityType (Integer id) {
+	public void removeCommodityType (UserSession userSession, Integer id) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(id);
+		initCommodityAttrMap(userSession);
 		commodityTypeDAO.delete(commodityTypeVO);
 	}
 	
-	public void updateCommodityType (CommodityTypeVO commodityTypeVO) {
+	public void updateCommodityType (UserSession userSession, CommodityTypeVO commodityTypeVO) {
 		commodityTypeDAO.update(commodityTypeVO);
+		initCommodityAttrMap(userSession);
 	}
 	
-	public CommodityAttrVO createCommodityAttr (CommodityAttrVO commodityAttrVO) {
+	public CommodityAttrVO createCommodityAttr (UserSession userSession, CommodityAttrVO commodityAttrVO) {
 		CommodityAttrVO result = commodityAttrDAO.create(commodityAttrVO);
+		initCommodityAttrMap(userSession);
 		return result;
 	}
 	
-	public void removeCommodityAttr (Integer id) {
+	public void removeCommodityAttr (UserSession userSession, Integer id) {
 		CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
 		commodityAttrVO.setCommodityAttrId(id);
 		commodityAttrDAO.delete(commodityAttrVO);
+		initCommodityAttrMap(userSession);
 	}
 	
-	public void updateCommodityAttr (CommodityAttrVO commodityAttrVO) {
+	public void updateCommodityAttr (UserSession userSession, CommodityAttrVO commodityAttrVO) {
 		commodityAttrDAO.update(commodityAttrVO);
+		initCommodityAttrMap(userSession);
 	}
 	
 	//-----------------------commodity attr-----------------------
@@ -90,9 +96,6 @@ public class UserConfigService {
 		return commodityAttrDAO.getOne(commodityAttrId);
 	}
 	
-	public CommodityAttrVO getCommodityAttrVOByCommodityAttr(String commodityAttr){
-		return commodityAttrDAO.getByCommodityAttrName(commodityAttr);
-	}
 	
 	private void initCommodityAttrMap (UserSession userSession) {
 		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = new LinkedHashMap<>();

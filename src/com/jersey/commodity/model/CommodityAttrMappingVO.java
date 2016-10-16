@@ -3,7 +3,7 @@ package com.jersey.commodity.model;
 import com.jersey.tools.AbstractVo;
 import com.jersey.userConfig.model.CommodityAttrVO;
 
-public class CommodityAttrMappingVO extends AbstractVo{
+public class CommodityAttrMappingVO extends AbstractVo implements Comparable<CommodityAttrMappingVO>{
 
 	/**
 	 * 
@@ -44,6 +44,10 @@ public class CommodityAttrMappingVO extends AbstractVo{
 	public String toString() {
 		return "CommodityAttrMappingVO [commodityAttrMappingId=" + commodityAttrMappingId + ", commodityVO="
 				+ commodityVO + ", commodityAttrVO=" + commodityAttrVO + ", commodityAttrValue=" + commodityAttrValue + "]";
+	}
+	@Override
+	public int compareTo(CommodityAttrMappingVO o) {
+		return this.commodityAttrVO.getCommodityAttrId()-o.commodityAttrVO.getCommodityAttrId();
 	}	
 
 }

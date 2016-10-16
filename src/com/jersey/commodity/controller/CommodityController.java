@@ -1,10 +1,12 @@
 package com.jersey.commodity.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import com.jersey.commodity.model.CommodityDisplayVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.JerseyEnum.Authority;
+import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.Tools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
@@ -59,6 +62,15 @@ public class CommodityController {
 				commodityTypeVO = vo;
 			}
 		}
+		//把adminHidden的拿掉
+		Iterator<CommodityAttrVO> commodityAttrVOIterator = commodityTypeAttrMap.get(commodityTypeVO).iterator();
+		while (commodityAttrVOIterator.hasNext()) {
+			CommodityAttrVO commodityAttrVO = commodityAttrVOIterator.next();
+			if(commodityAttrVO.getCommodityAttrAuthority()==CommodityAttrAuthority.adminHidden){
+				commodityAttrVOIterator.remove();
+			}
+		}
+		
 		map.put("commodityTypeId", commodityTypeId);
 		map.put("commodityAttrList", commodityTypeAttrMap.get(commodityTypeVO));
 		map.put("commodityList", commodityService.getAll(commodityTypeVO, page));
@@ -112,11 +124,19 @@ public class CommodityController {
 		try {
 			JSONObject json = new JSONObject(jsonString);
 			CommodityVO commodityVO = commodityService.getOne(id);
-			commodityVO.setItemName(json.getString("itemName"));
-			commodityVO.setLink(json.getString("link"));
-			commodityVO.setCost(json.getInt("cost"));
-			commodityVO.setSellPrice(json.getInt("sellPrice"));
-			commodityVO.setIsStored(json.getString("isStored").equals("是") ? true:false);
+			commodityVO.setItemName(StringUtils.isEmpty(json.getString("itemName")) ? "":json.getString("itemName"));
+			commodityVO.setLink(StringUtils.isEmpty(json.getString("link")) ? "":json.getString("link"));
+			try {
+				commodityVO.setCost(json.getInt("cost"));
+			} catch (Exception e) {
+				commodityVO.setCost(0);
+			}
+			try {
+				commodityVO.setSellPrice(json.getInt("sellPrice"));
+			} catch (Exception e) {
+				commodityVO.setCost(0);
+			}
+			commodityVO.setIsStored("否".equals(json.getString("isStored")) ? false:true);
 			
 			Set<CommodityAttrMappingVO> commodityAttrMappings = commodityVO.getCommodityAttrMappings();
 			//commodityAttrMap此map key-value為commodityAttrMappingVO的id-value
@@ -184,9 +204,14 @@ public class CommodityController {
 
 	// 複製
 	@RequestMapping(value = "/clone", method = RequestMethod.POST)
-	public String clone(@RequestParam(value = "commodityIds", required = true) Integer id) {
-		commodityService.create(commodityService.getOne(id));
-		return REDIRECT_LIST;
+	public @ResponseBody String clone(@RequestParam(value = "commodityIds", required = true) Integer id) {
+		try {
+			commodityService.create(commodityService.getOne(id));
+			return Tools.getSuccessJson().toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return Tools.getFailJson("伺服器忙碌中").toString();
+		}
 	}
 
 }

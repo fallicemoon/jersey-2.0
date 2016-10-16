@@ -22,6 +22,32 @@
 		<c:import url="/WEB-INF/pages/header.jsp" />
 		<script type="text/javascript">
 
+	function init () {
+		<%--把checkbox清空--%>
+		$("input[name=commodityIds]:checked").prop("checked", false);
+		
+		<%--生成篩選條件的下拉式選單內容--%>
+		$(".filter").each(function(){
+			//生成空白的div塞到button後面
+			var button = $(this);
+			var div = $("<div>").addClass("checkboxDiv").addClass(button.attr("name"));
+			button.after(div);
+			//生成checkbox塞到div,先塞全選
+			var all = $("<input>").attr("type","checkbox")
+					.attr("name","all").prop("checked", true);
+			div.append(all.clone()).append("全選<br>");
+			var checkboxText = [];
+			$("div."+button.attr("name")+":not(.checkboxDiv)").each(function(){
+				if ($.inArray($(this).text(), checkboxText)==-1) {
+					var checkbox = $("<input>").attr("type","checkbox")
+					.attr("name",button.attr("name")).prop("checked", true).val($(this).text());
+					div.append(checkbox).append($(this).text()).append("<br>");
+					checkboxText.push($(this).text());
+				}
+			});
+		});
+	}
+		
 	function filter() {
 		$("tr").show();
 		$("button.filter").each(function(){
@@ -54,27 +80,7 @@
 	}
 
 	$(function(){
-		<%--把checkbox清空--%>
-		$("input[name=commodityIds]:checked").prop("checked", false);
-		
-		<%--生成篩選條件的下拉式選單內容--%>
-		$(".filter").each(function(){
-			//生成空白的div塞到button後面
-			var button = $(this);
-			var div = $("<div>").addClass("checkboxDiv").addClass(button.attr("name"));
-			button.after(div);
-			//生成checkbox塞到div,先塞全選
-			var all = $("<input>").attr("type","checkbox")
-					.attr("name","all").prop("checked", true)
-					.text("全選").insertAfter("<br>");
-			div.append(all.clone());
-			$("div."+button.attr("name")).each(function(){
-				var checkbox = $("<input>").attr("type","checkbox")
-					.attr("name",button.attr("name")).prop("checked", true)
-					.val($(this).text()).text($(this).text()).insertAfter("<br>");
-				div.append(checkbox);
-			});
-		});
+		init();
 		
 		<%--顯示下拉式篩選條件的按鈕們--%>
 		$(".checkboxDiv").prev().click(function(){
@@ -82,7 +88,7 @@
 		});
 		
 		<%--全選按鈕, 弄掉的話為全不選 --%>
-		$("input[name=all]").change(function(){
+		$("tr:first").on("change", "input[name=all]", function(){
 			var checked = $(this).prop("checked");
 			$(this).siblings().each(function(){
 				$(this).prop("checked", checked);
@@ -103,17 +109,30 @@
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
 			var button = $(this);
-			//first是圖片張數, 有button的是上架按鈕
-			var updateTd = button.parent().nextAll().not(":first, :has(button)");
-			var updateTdDiv = updateTd.children("div");
+			//把篩選收起來
+			$("div.checkboxDiv").hide();
+			//有button的是上架按鈕跟圖片張數
+			var updateTd = button.parent().nextAll().not(":has(button)");
+			//hide
+			var updateTdDiv = updateTd.find("div");
+			var updateTdHref = updateTd.children("a");
+			//show
 			var updateTdInput = updateTd.children("input");
 			var updateTdSelect = updateTd.children("select");
 			if (button.hasClass("btn-warning")) {
 				updateTdDiv.hide();
+				updateTdHref.hide();
 				updateTdSelect.show();
-				
-				updateTdInput.attr("type", "text").val($(this).prev().text());
-				updateTdInput.filter("[name=itemName]").val($(this).prev().children().text());
+				updateTdInput.each(function(){
+					//商品名稱跟超連結的屬性因為TD格式不同,另外處理
+					if ($(this).attr("name")=="itemName") {
+						$(this).attr("type", "text").val($(this).prev().children().text());
+					} else if ($(this).attr("name")=="link") {
+						$(this).attr("type", "text").val($(this).prev().attr("href"));
+					} else {
+						$(this).attr("type", "text").val($(this).prev().text());	
+					}
+				});
 				updateTdInput.filter("[name=cost]").attr("type", "number");
 				updateTdInput.filter("[name=sellPrice]").attr("type", "number");
 				button.removeClass("btn-warning").addClass("btn-success").text("確認修改");
@@ -144,25 +163,25 @@
 							updateTdDiv.each(function(){
 								$(this).text($(this).next().val());
 							});
-							updateTdDiv.show();
-							updateTdInput.attr("type", "hidden");
-							updateTdSelect.not("input").hide();
-							button.removeClass("btn-success").addClass("btn-warning").text("修改");		
 							alertify.success("修改商品屬性成功");
 						} else {
-							updateTdDiv.show();
-							updateTdInput.attr("type", "hidden");
-							updateTdSelect.not("input").hide();
-							button.removeClass("btn-success").addClass("btn-warning").text("修改");		
 							alertify.error(data.msg);
 						}
-					},
-					error : function(){
+						updateTdHref.show();
 						updateTdDiv.show();
 						updateTdInput.attr("type", "hidden");
-						updateTdSelect.not("input").hide();
+						updateTdSelect.hide();
+						button.removeClass("btn-success").addClass("btn-warning").text("修改");		
+						init();
+					},
+					error : function(){
+						updateTdHref.show();
+						updateTdDiv.show();
+						updateTdInput.attr("type", "hidden");
+						updateTdSelect.hide();
 						button.removeClass("btn-success").addClass("btn-warning").text("修改");		
 						alertify.error("修改商品屬性失敗");
+						init();
 					}
 				});
 		
@@ -274,9 +293,12 @@
 			$.ajax("/jersey/commodity/clone", {
 				type : "POST",
 				data : checked.eq(0),
-				success : function(){
-					alertify.success("複製成功");
-					location.reload();
+				success : function(data){
+					if(data.result=="success"){
+						location.reload();
+					} else {
+						alertify.error(data.msg);
+					}
 				},
 				error : function(){
 					alertify.error("複製失敗");
@@ -299,23 +321,25 @@
 	});
 		</script>
 		<span style="display: inline-block; width: 100px"></span>
+		<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 		<button id="create" type="button" class="btn btn-success" data-toggle="modal">新增</button>
 		<button id="delete" type="button" class="btn btn-danger" data-toggle="modal">刪除</button>
 		<button id="clone" type="button" class="btn btn-warning" data-toggle="modal">複製</button>
+		</c:if>
 		
 		<table border=1 width="1500px" class="table table-hover">
 			<thead>
 				<tr>
 						<th></th>
-						<th></th>
+						${sessionScope['scopedTarget.userSession'].admin ? '<th></th>':''}
 						<th>圖片</th>
 						<th>
-							<button type="button" class="btn btn-warning filter" name="itemName" data-toggle="modal">商品名稱</button>
+							<button type="button" class="btn btn-info filter" name="itemName" data-toggle="modal">商品名稱</button>
 						</th>
 						
 						<c:forEach items="${requestScope.commodityAttrList}" var="commodityAttrVO">
 							<th>
-								<button type="button" class="btn btn-warning filter" name="${commodityAttrVO.commodityAttr}" data-toggle="modal">${commodityAttrVO.commodityAttr}</button>
+								<button type="button" class="btn btn-info filter" name="${commodityAttrVO.commodityAttr}" data-toggle="modal">${commodityAttrVO.commodityAttr}</button>
 							</th>
 						</c:forEach>
 <!-- 						<th>Qty</th> -->
@@ -385,11 +409,12 @@
 						<div><c:out value="${vo.sellPrice}" /></div>
 						<input type="hidden" name="sellPrice" value="${vo.sellPrice}">
 					</td>
+					
+				<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 					<td>
 						<div><c:out value="${vo.cost}" /></div>
 						<input type="hidden" name="cost" value="${vo.cost}">
 					</td>
-				<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 					<td>
 						<c:choose>
 							<c:when test="${vo.authority=='admin'}">

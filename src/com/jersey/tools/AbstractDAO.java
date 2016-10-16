@@ -227,5 +227,10 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 	public List<E> getHelper(String[] columnNames, Criterion... criterions) {
 		return getHelper(columnNames, null, criterions);
 	}
+	
+	@Override
+	public List<E> getHelper(Order order, Criterion... criterions) {
+		return getHelper(null, order, criterions);
+	}
 
 }

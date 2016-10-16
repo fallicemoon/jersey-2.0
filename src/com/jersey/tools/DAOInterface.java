@@ -30,5 +30,7 @@ public interface DAOInterface<E extends AbstractVo> {
 	public List<E> getHelper(String[] columnNames);
 
 	public List<E> getHelper(String[] columnNames, Criterion... criterions);
+	
+	public List<E> getHelper(Order order, Criterion...criterions);
 
 }

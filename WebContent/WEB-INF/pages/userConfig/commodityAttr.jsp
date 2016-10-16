@@ -81,7 +81,7 @@
 							if(tr.length==0){
 								location.reload(true);
 								return;
-							}				
+							}
 							tr = tr.eq(0).clone();
 							tr.addClass(commodityAttrVO.commodityTypeId);
 							tr.find("td:nth-child(1) button[name=removeCommodityAttr]").val(data.commodityAttrId);

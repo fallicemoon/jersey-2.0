@@ -19,7 +19,6 @@ public class CommodityAttrVO extends AbstractVo{
 	private String commodityAttr;
 	private Set<CommodityAttrMappingVO> commodityAttrMappings = new LinkedHashSet<>();
 	private CommodityAttrAuthority commodityAttrAuthority;
-	private Integer order;
 	
 	public Integer getCommodityAttrId() {
 		return commodityAttrId;
@@ -50,12 +49,6 @@ public class CommodityAttrVO extends AbstractVo{
 	}
 	public void setCommodityAttrAuthority(CommodityAttrAuthority commodityAttrAuthority) {
 		this.commodityAttrAuthority = commodityAttrAuthority;
-	}
-	public Integer getOrder() {
-		return order;
-	}
-	public void setOrder(Integer order) {
-		this.order = order;
 	}
 	
 	@Override

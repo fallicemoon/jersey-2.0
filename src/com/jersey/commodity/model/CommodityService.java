@@ -1,11 +1,11 @@
 package com.jersey.commodity.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,7 +86,7 @@ public class CommodityService {
 	public CommodityVO create(CommodityVO vo) {
 		//新增空白的商品屬性值
 		List<CommodityAttrVO> commodityAttrVOs = userSession.getCommodityTypeAttrMap().get(vo.getCommodityTypeVO());
-		Set<CommodityAttrMappingVO> commodityAttrMappings = new HashSet<>();
+		SortedSet<CommodityAttrMappingVO> commodityAttrMappings = new TreeSet<>();
 		for (CommodityAttrVO commodityAttrVO : commodityAttrVOs) {
 			CommodityAttrMappingVO commodityAttrMappingVO = new CommodityAttrMappingVO();
 			commodityAttrMappingVO.setCommodityVO(vo);
@@ -125,12 +125,13 @@ public class CommodityService {
 		if (commodityVO!=null) {
 			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
 			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
-			//刪掉此權限不能看的屬性
+			//刪掉此權限不能看的屬性(adminHidden一定看不到)
 			Iterator<CommodityAttrMappingVO> iterator = commodityVO.getCommodityAttrMappings().iterator();
 			while (iterator.hasNext()) {
 				CommodityAttrMappingVO commodityAttrMappingVO = (CommodityAttrMappingVO) iterator.next();
 				List<CommodityAttrAuthority> authorities = CommodityAttrAuthority.getAllowByAuthority(userSession.getUserConfigVO().getAuthority());
-				if (!authorities.contains(commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttrAuthority())) {
+				CommodityAttrAuthority commodityAttrAuthority = commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttrAuthority();
+				if (!authorities.contains(commodityAttrAuthority) || commodityAttrAuthority==CommodityAttrAuthority.adminHidden) {
 					iterator.remove();
 				}
 			}

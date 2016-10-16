@@ -1,6 +1,6 @@
 package com.jersey.commodity.model;
 
-import java.util.Set;
+import java.util.SortedSet;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.tools.AbstractVo;
@@ -17,7 +17,7 @@ public class CommodityVO extends AbstractVo {
 	private String itemName;
 
 	private CommodityTypeVO commodityTypeVO;
-	private Set<CommodityAttrMappingVO> commodityAttrMappings;
+	private SortedSet<CommodityAttrMappingVO> commodityAttrMappings;
 
 	// private Integer qty;
 	private String link;
@@ -233,11 +233,11 @@ public class CommodityVO extends AbstractVo {
 		this.commodityTypeVO = commodityTypeVO;
 	}
 
-	public Set<CommodityAttrMappingVO> getCommodityAttrMappings() {
+	public SortedSet<CommodityAttrMappingVO> getCommodityAttrMappings() {
 		return commodityAttrMappings;
 	}
 
-	public void setCommodityAttrMappings(Set<CommodityAttrMappingVO> commodityAttrMappings) {
+	public void setCommodityAttrMappings(SortedSet<CommodityAttrMappingVO> commodityAttrMappings) {
 		this.commodityAttrMappings = commodityAttrMappings;
 	}
 

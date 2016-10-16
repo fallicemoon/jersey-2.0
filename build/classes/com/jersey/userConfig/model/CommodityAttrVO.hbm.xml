@@ -26,8 +26,6 @@
         	</type>
         </property>
         
-        <property name="order" column="order" />
-        
         <property name="createTime" column="create_time" />
         <property name="lastModifyTime" column="last_modify_time" />
     </class>
