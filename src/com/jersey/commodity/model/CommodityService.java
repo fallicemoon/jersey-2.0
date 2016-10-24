@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -84,19 +85,18 @@ public class CommodityService {
 	}
 
 	public CommodityVO create(CommodityVO vo) {
-		//新增空白的商品屬性值
-		List<CommodityAttrVO> commodityAttrVOs = userSession.getCommodityTypeAttrMap().get(vo.getCommodityTypeVO());
-		SortedSet<CommodityAttrMappingVO> commodityAttrMappings = new TreeSet<>();
-		for (CommodityAttrVO commodityAttrVO : commodityAttrVOs) {
-			CommodityAttrMappingVO commodityAttrMappingVO = new CommodityAttrMappingVO();
-			commodityAttrMappingVO.setCommodityVO(vo);
-			commodityAttrMappingVO.setCommodityAttrVO(commodityAttrVO);
-			commodityAttrMappings.add(commodityAttrMappingVO);
+		//如果vo沒有塞商品屬性值,就新增空白的商品屬性值
+		if (vo.getCommodityAttrMappings()==null || vo.getCommodityAttrMappings().size()==0) {
+			List<CommodityAttrVO> commodityAttrVOs = userSession.getCommodityTypeAttrMap().get(vo.getCommodityTypeVO());
+			SortedSet<CommodityAttrMappingVO> commodityAttrMappings = new TreeSet<>();
+			for (CommodityAttrVO commodityAttrVO : commodityAttrVOs) {
+				CommodityAttrMappingVO commodityAttrMappingVO = new CommodityAttrMappingVO();
+				commodityAttrMappingVO.setCommodityVO(vo);
+				commodityAttrMappingVO.setCommodityAttrVO(commodityAttrVO);
+				commodityAttrMappings.add(commodityAttrMappingVO);
+			}
+			vo.setCommodityAttrMappings(commodityAttrMappings);
 		}
-		vo.setCommodityAttrMappings(commodityAttrMappings);
-		//預設
-		vo.setAuthority(Authority.admin);
-		
 		return this.commodityDAO.create(vo);
 	}
 
@@ -121,8 +121,9 @@ public class CommodityService {
 	}
 	
 	public CommodityDisplayVO getCommodityDisplayVO (CommodityVO commodityVO) {
-		CommodityDisplayVO commodityDisplayVO = new CommodityDisplayVO();
+		CommodityDisplayVO commodityDisplayVO = null;
 		if (commodityVO!=null) {
+			commodityDisplayVO = new CommodityDisplayVO();
 			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
 			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
 			//刪掉此權限不能看的屬性(adminHidden一定看不到)
@@ -138,6 +139,22 @@ public class CommodityService {
 
 		}
 		return commodityDisplayVO;
+	}
+	
+	public List<CommodityDisplayVO> getCommodityDisplayVO (List<CommodityVO> list) {
+		List<CommodityDisplayVO> newList = new ArrayList<>();
+		for (CommodityVO commodityDisplayVO : list) {
+			newList.add(getCommodityDisplayVO(commodityDisplayVO));
+		}
+		return newList;
+	} 
+	
+	public List<CommodityDisplayVO> getCommodityDisplayVO (Set<CommodityVO> set) {
+		List<CommodityDisplayVO> newList = new ArrayList<>();
+		for (CommodityVO commodityDisplayVO : set) {
+			newList.add(getCommodityDisplayVO(commodityDisplayVO));
+		}
+		return newList;
 	}
 	
 	public CommodityAttrMappingVO getCommodityAttrMappingVO(Integer commodityAttrMappingId) {

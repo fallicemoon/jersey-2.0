@@ -38,11 +38,11 @@
 			div.append(all.clone()).append("全選<br>");
 			var checkboxText = [];
 			$("div."+button.attr("name")+":not(.checkboxDiv)").each(function(){
-				if ($.inArray($(this).text(), checkboxText)==-1) {
+				if ($.inArray($.trim($(this).text()), checkboxText)==-1) {
 					var checkbox = $("<input>").attr("type","checkbox")
-					.attr("name",button.attr("name")).prop("checked", true).val($(this).text());
-					div.append(checkbox).append($(this).text()).append("<br>");
-					checkboxText.push($(this).text());
+					.attr("name",button.attr("name")).prop("checked", true).val($.trim($(this).text()));
+					div.append(checkbox).append($.trim($(this).text())).append("<br>");
+					checkboxText.push($.trim($(this).text()));
 				}
 			});
 		});
@@ -58,7 +58,7 @@
 			}).toArray();
 			<%-- 只要有任何條件不符合就隱藏資料 --%>
 			$("div."+$(this).attr("name")+":not(.checkboxDiv)").each(function(){
-				if($.inArray($(this).text(), keep)==-1){
+				if($.inArray($.trim($(this).text()), keep)==-1){
 					$(this).closest("tr").hide();
 				}
 			});
@@ -163,6 +163,7 @@
 							updateTdDiv.each(function(){
 								$(this).text($(this).next().val());
 							});
+							init();
 							alertify.success("修改商品屬性成功");
 						} else {
 							alertify.error(data.msg);
@@ -172,7 +173,6 @@
 						updateTdInput.attr("type", "hidden");
 						updateTdSelect.hide();
 						button.removeClass("btn-success").addClass("btn-warning").text("修改");		
-						init();
 					},
 					error : function(){
 						updateTdHref.show();
@@ -181,7 +181,6 @@
 						updateTdSelect.hide();
 						button.removeClass("btn-success").addClass("btn-warning").text("修改");		
 						alertify.error("修改商品屬性失敗");
-						init();
 					}
 				});
 		
@@ -269,6 +268,7 @@
 							if (data.result=="success") {
 								alertify.success("刪除成功");
 								checked.parent().parent().remove();
+								init();
 							} else {
 								alertify.error(data.msg);
 							}
@@ -290,12 +290,14 @@
 				alertify.error("幹你媽的只能勾一筆啦");
 				return;
 			}
+			var tr = checked.eq(0).parents("tr");
 			$.ajax("/jersey/commodity/clone", {
 				type : "POST",
 				data : checked.eq(0),
 				success : function(data){
 					if(data.result=="success"){
-						location.reload();
+						$("table").append(tr.clone());
+						alertify.success("複製商品成功");
 					} else {
 						alertify.error(data.msg);
 					}
@@ -377,7 +379,6 @@
 				</tr>
 			</thead>
 
-
 			<c:forEach items="${commodityList}" var="vo">
 				<tr>
 					<td><input type="checkbox" name="commodityIds" value="${vo.commodityId}"></td>
@@ -388,7 +389,7 @@
 					</c:if>
 					<td>
 						<a href="/jersey/picture/${vo.commodityId}">
-							<button type="button" class="btn ${vo.pictureCount==0 ? 'btn-danger':'btn-success'}" data-toggle="modal">${vo.pictureCount}</button>
+							<button type="button" class="btn ${vo.pictureCount!=0 ? 'btn-success':'btn-danger'}" data-toggle="modal">${vo.pictureCount}</button>
 						</a>
 					</td>
 					<td>

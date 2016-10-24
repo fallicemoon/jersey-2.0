@@ -19,7 +19,7 @@
         </many-to-one>
         
 		<!--先照commodityAttrId排序 -->
-        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" sort="natural" cascade="save-update">
+        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" sort="natural" cascade="all">
         	<key><column name="commodity_id"></column></key>
         	<one-to-many class="com.jersey.commodity.model.CommodityAttrMappingVO" />
         </set>

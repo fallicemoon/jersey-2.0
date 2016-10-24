@@ -11,9 +11,9 @@
 <body>
   <c:import url="/WEB-INF/pages/header.jsp"/>
 
-  <form action="/jersey/SellCaseServlet" method="POST">
-  <input type="hidden" name="action" value="addSellCaseId">
-  <input type="hidden" name="sellCaseId" value="${param.sellCaseId}">
+  <form action="/jersey/sellCase/addPurchaseCase" method="POST">
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="sellCaseId" value="${requestScope.sellCaseId}">
   <table border=1 width="1500px" class="table table-hover">
     <thead>
     <tr>

@@ -110,6 +110,7 @@ public class PurchaseCaseController {
 	// 取得可以新增到進貨的商品
 	@RequestMapping(value = "/getCommodityList/{id}", method = RequestMethod.GET)
 	public String getCommodityList(@PathVariable("id") Integer purchaseCaseId, Map<String, Object> map) {
+		map.put("purchaseCaseId", purchaseCaseId);
 		// 取得已經在進貨單中的商品清單
 		map.put("commodityListInPurchaseCase", purchaseCaseService.getCommoditysByPurchaseCaseId(purchaseCaseId));
 		// 取得可以新增在進貨單中的商品清單

@@ -38,7 +38,8 @@ public class CommodityVO extends AbstractVo {
 
 	private Integer cost;
 	private Integer sellPrice;
-	private Authority authority;
+	//預設admin
+	private Authority authority = Authority.admin;
 	private Boolean isStored;
 
 	public Integer getCost() {

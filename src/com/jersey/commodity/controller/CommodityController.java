@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -34,7 +36,7 @@ public class CommodityController {
 	private static final String LIST = "commodity/list";
 	private static final String ADD = "commodity/add";
 //	private static final String UPDATE = "commodity/update";
-	private static final String REDIRECT_LIST = "redirect:getAll";
+//	private static final String REDIRECT_LIST = "redirect:getAll";
 
 	@Autowired
 	private CommodityService commodityService;
@@ -107,6 +109,8 @@ public class CommodityController {
 		//避免使用者沒有傳入數字
 		vo.setCost(vo.getCost()==null ? 0:vo.getCost());
 		vo.setSellPrice(vo.getSellPrice()==null ? 0:vo.getSellPrice());
+		//trim商品名稱
+		vo.setItemName(StringUtils.trimToEmpty(vo.getItemName()));
 		
 		commodityService.create(vo);
 		
@@ -203,10 +207,25 @@ public class CommodityController {
 	}
 
 	// 複製
-	@RequestMapping(value = "/clone", method = RequestMethod.POST)
+	@RequestMapping(value = "/clone", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public @ResponseBody String clone(@RequestParam(value = "commodityIds", required = true) Integer id) {
 		try {
-			commodityService.create(commodityService.getOne(id));
+			CommodityVO commodityVO = commodityService.getOne(id);
+			
+			//因為是複製, 所以把PK清掉
+			CommodityVO clone = new CommodityVO();
+			Tools.copyBeanProperties(commodityVO, clone, "commodityId", "commodityAttrMappings");
+			SortedSet<CommodityAttrMappingVO> commodityAttrMappings = new TreeSet<>();
+			if (commodityVO.getCommodityAttrMappings()!=null) {
+				for (CommodityAttrMappingVO oldVo : commodityVO.getCommodityAttrMappings()) {
+					CommodityAttrMappingVO newVo = new CommodityAttrMappingVO();
+					Tools.copyBeanProperties(oldVo, newVo, "commodityAttrMappingId", "commodityVO");
+					commodityAttrMappings.add(newVo);
+				};
+			}
+			clone.setCommodityAttrMappings(commodityAttrMappings);
+			
+			commodityService.create(clone);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

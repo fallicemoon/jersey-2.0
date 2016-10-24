@@ -48,6 +48,6 @@ public class CommodityAttrMappingVO extends AbstractVo implements Comparable<Com
 	@Override
 	public int compareTo(CommodityAttrMappingVO o) {
 		return this.commodityAttrVO.getCommodityAttrId()-o.commodityAttrVO.getCommodityAttrId();
-	}	
+	}
 
 }

@@ -19,7 +19,6 @@
     <thead>
     <tr>
       <th></th>
-      <th></th>
       <th>圖片</th>
       <th>商品編號/商品名稱</th>
       <td>販售平台</td>
@@ -32,11 +31,7 @@
   	  <td>
 		<input type="checkbox" name="commodityIds" value="${vo.commodityId}">
   	  </td>
-  	  <td>
-		<a href="/jersey/commodity/${vo.commodityId}"><button type="button" class="btn btn-warning">修改</button></a>
-  	  </td>
-  	  <c:if test="${requestScope.commodityIdPictureCount != 0}"><td><a href="/jersey/picture/${vo.commodityId}"><button type="button" class="btn btn-success" data-toggle="modal">${vo.pictureCount}</button></a></td></c:if> 
-  	  <c:if test="${requestScope.commodityIdPictureCount == 0}"><td><a href="/jersey/picture/${vo.commodityId}"><button type="button" class="btn btn-danger" data-toggle="modal">0</button></a></td></c:if>
+  	  <td><a href="/jersey/picture/${vo.commodityId}"><button type="button" class="btn ${vo.pictureCount!=0 ? 'btn-success':'btn-danger'}" data-toggle="modal">${vo.pictureCount}</button></a></td>
   	  
   	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" />
   	  		<c:if test="${!empty vo.link}"><a href="${vo.link}" target="_blank"> 連結</a></c:if>

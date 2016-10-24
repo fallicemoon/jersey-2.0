@@ -1,6 +1,7 @@
 package com.jersey.sellCase.model;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
@@ -26,7 +27,7 @@ public class SellCaseVO extends AbstractVo {
 	private Date shippingTime;
 	private Date closeTime;
 	private Boolean isChecked;
-	private Set<PurchaseCaseVO> purchaseCases;
+	private Set<PurchaseCaseVO> purchaseCases = new LinkedHashSet<>();
 
 	public Set<PurchaseCaseVO> getPurchaseCases() {
 		return this.purchaseCases;
