@@ -174,7 +174,7 @@ public class CommodityController {
 	public @ResponseBody String switchCommodity (@PathVariable("id") Integer id, @RequestBody String jsonString) {
 		try {
 			JSONObject json = new JSONObject(jsonString);
-			Authority authority = Authority.valueOf(json.get("commodityAuthority").toString());
+			Authority authority = Authority.valueOf(json.get("authority").toString());
 			CommodityVO commodityVO = commodityService.getOne(id);
 			if (commodityVO.getAuthority()!=authority) {
 				commodityVO.setAuthority(authority);
@@ -225,8 +225,10 @@ public class CommodityController {
 			}
 			clone.setCommodityAttrMappings(commodityAttrMappings);
 			
-			commodityService.create(clone);
-			return Tools.getSuccessJson().toString();
+			clone = commodityService.create(clone);
+			JSONObject json = Tools.getSuccessJson();
+			json.put("commodityId", clone.getCommodityId());
+			return json.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Tools.getFailJson("伺服器忙碌中").toString();

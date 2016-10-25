@@ -49,7 +49,12 @@ public class CommodityService {
 		return userSession.getCommodityTypeAttrMap().get(commodityTypeVO);
 	}
 
-	//取得所有商品
+	//取得所有商品(商品屬性調整時用)
+	public List<CommodityVO> getAll(CommodityTypeVO commodityTypeVO) {
+		return commodityDAO.getAll(userSession.getUserConfigVO().getAuthority(), commodityTypeVO);
+	}
+	
+	//按照分頁取得所有商品
 	public List<CommodityDisplayVO> getAll(CommodityTypeVO commodityTypeVO, Integer page) {
 		List<CommodityVO> oldList = commodityDAO.getAll(userSession.getUserConfigVO().getAuthority(), commodityTypeVO, userSession.getUserConfigVO().getCommodityPageSize(), page);
 		//刪掉不屬於此權限的屬性, 塞入圖片張數

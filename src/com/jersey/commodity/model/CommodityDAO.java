@@ -22,6 +22,26 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		super(CommodityVO.class, "commodityId");
 	}
 	
+	public List<CommodityVO> getAll (Authority authority, CommodityTypeVO commodityTypeVO) {
+		Session session = HibernateTools.getSession();
+		session.getTransaction().begin();
+		List<CommodityVO> list;
+		try {
+			Criteria criteria = session.createCriteria(CommodityVO.class);
+			if (authority==Authority.customer) {
+				criteria.add(Restrictions.eq("authority", authority));
+			}
+			criteria.add(Restrictions.eq("commodityTypeVO", commodityTypeVO));		
+			list = criteria.list();
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			list = new ArrayList<>();
+		}
+		return list;
+	}
+	
 	public List<CommodityVO> getAll (Authority authority, CommodityTypeVO commodityTypeVO, Integer pageSize, Integer page) {
 		Session session = HibernateTools.getSession();
 		session.getTransaction().begin();

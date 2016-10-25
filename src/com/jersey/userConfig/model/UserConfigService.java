@@ -3,6 +3,7 @@ package com.jersey.userConfig.model;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jersey.commodity.model.CommodityAttrMappingDAO;
+import com.jersey.commodity.model.CommodityAttrMappingVO;
+import com.jersey.commodity.model.CommodityService;
+import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.JerseyEnum.UserConfig;
 
 /**
@@ -29,6 +34,10 @@ public class UserConfigService {
 	private CommodityTypeDAO commodityTypeDAO;
 	@Autowired
 	private CommodityAttrDAO commodityAttrDAO;
+	@Autowired
+	private CommodityAttrMappingDAO commodityAttrMappingDAO;
+	@Autowired
+	private CommodityService commodityService;
 	
 	//使用者相關登入資訊
 	public void initAdminUserSessionUserConfig(UserSession userSession, String userName) {
@@ -57,7 +66,9 @@ public class UserConfigService {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(id);
 		initCommodityAttrMap(userSession);
-		commodityTypeDAO.delete(commodityTypeVO);
+		if (!commodityTypeDAO.delete(commodityTypeVO)) {
+			throw new RuntimeException();
+		}
 	}
 	
 	public void updateCommodityType (UserSession userSession, CommodityTypeVO commodityTypeVO) {
@@ -67,14 +78,28 @@ public class UserConfigService {
 	
 	public CommodityAttrVO createCommodityAttr (UserSession userSession, CommodityAttrVO commodityAttrVO) {
 		CommodityAttrVO result = commodityAttrDAO.create(commodityAttrVO);
+		//要把所有商品都新增上此一屬性值
+		List<CommodityVO> list = commodityService.getAll(commodityAttrVO.getCommodityTypeVO());
+		List<CommodityAttrMappingVO> commodityAttrMappingList = new ArrayList<>();
+		for (CommodityVO commodityVO : list) {
+			CommodityAttrMappingVO commodityAttrMappingVO = new CommodityAttrMappingVO();
+			commodityAttrMappingVO.setCommodityAttrVO(commodityAttrVO);
+			commodityAttrMappingVO.setCommodityAttrValue("");
+			commodityAttrMappingVO.setCommodityVO(commodityVO);
+			commodityAttrMappingVO.setCreateTime(new Date());
+			commodityAttrMappingVO.setLastModifyTime(new Date());
+			commodityAttrMappingList.add(commodityAttrMappingVO);
+		}
+		commodityAttrMappingDAO.create(commodityAttrMappingList);
 		initCommodityAttrMap(userSession);
 		return result;
 	}
 	
 	public void removeCommodityAttr (UserSession userSession, Integer id) {
-		CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
-		commodityAttrVO.setCommodityAttrId(id);
-		commodityAttrDAO.delete(commodityAttrVO);
+		CommodityAttrVO commodityAttrVO = commodityAttrDAO.getOne(id);
+		if (!commodityAttrDAO.delete(commodityAttrVO)) {
+			throw new RuntimeException();
+		}
 		initCommodityAttrMap(userSession);
 	}
 	

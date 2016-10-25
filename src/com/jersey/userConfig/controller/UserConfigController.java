@@ -141,7 +141,7 @@ public class UserConfigController {
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getSuccessJson().toString();
+			return Tools.getFailJson("刪除商品屬性失敗").toString();
 		}		
 	}
 	
@@ -153,7 +153,7 @@ public class UserConfigController {
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getSuccessJson().toString();
+			return Tools.getFailJson("刪除商品種類失敗").toString();
 		}		
 	}
 

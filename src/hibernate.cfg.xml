@@ -27,6 +27,9 @@
 
 		<!-- Enable Hibernate's automatic session context management -->
 		<property name="hibernate.current_session_context_class">thread</property>
+		
+		<!-- batch size -->   
+		<property name="hibernate.jdbc.batch_size">30</property>
 
 		<!-- c3p0 -->
 		<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>

@@ -19,15 +19,16 @@
 <title>商品</title>
 </head>
 <body>
+		
 		<c:import url="/WEB-INF/pages/header.jsp" />
 		<script type="text/javascript">
-
+		
 	function init () {
 		<%--把checkbox清空--%>
 		$("input[name=commodityIds]:checked").prop("checked", false);
 		
-		<%--生成篩選條件的下拉式選單內容--%>
-		$(".filter").each(function(){
+		<%--生成篩選條件的下拉式選單內容, 上架和是否在庫寫死不用動態生成--%>
+		$(".filter:not([name=commodityAuthority], [name=isStored])").each(function(){
 			//生成空白的div塞到button後面
 			var button = $(this);
 			var div = $("<div>").addClass("checkboxDiv").addClass(button.attr("name"));
@@ -46,8 +47,13 @@
 				}
 			});
 		});
-	}
 		
+		<%--上架和是否在庫的checkBox都勾起來--%>
+		$(".filter[name=commodityAuthority], .filter[name=isStored]").each(function(){
+			$(this).next().children().prop("checked", true);
+		});
+	}
+
 	function filter() {
 		$("tr").show();
 		$("button.filter").each(function(){
@@ -63,25 +69,10 @@
 				}
 			});
 		});
-
-// 		for ( var index in commodityAttr) {
-// 			var filterName = commodityAttr[index];
-			<%-- 從篩選條件中取得要保留的資料 --%>
-// 			var keep = $("input:checked[name='"+filterName+"']").map(function(){
-// 				return $(this).val();
-// 			}).toArray();
-			<%-- 只要有任何條件不符合就隱藏資料 --%>
-// 			$("."+filterName).not(".checkboxDiv").each(function(){
-// 				if($.inArray($(this).text(), keep)==-1){
-// 					$(this).closest("tr").hide();
-// 				}
-// 			});
-// 		}
 	}
 
 	$(function(){
 		init();
-		
 		<%--顯示下拉式篩選條件的按鈕們--%>
 		$(".checkboxDiv").prev().click(function(){
 			$(this).next().slideToggle("fast").css("padding-right","10px");
@@ -89,6 +80,7 @@
 		
 		<%--全選按鈕, 弄掉的話為全不選 --%>
 		$("tr:first").on("change", "input[name=all]", function(){
+			console.log("123");
 			var checked = $(this).prop("checked");
 			$(this).siblings().each(function(){
 				$(this).prop("checked", checked);
@@ -99,13 +91,21 @@
 		$("table tr:first").on("change", "[name!=commodityIds]", function(){
 			filter();
 		});
-
+		
+		<%--重置篩選條件--%>
+		$("button[name=reset]").click(function(){
+			$("tr").show();
+			$("input[type=checkbox]:not([name=commodityIds])").prop("checked", true);
+			$("div.checkboxDiv").slideUp();
+		});
+		
 		
 		<%--新增--%>
 		$("#create").click(function(){
 			location.href = "/jersey/commodity/${requestScope.commodityTypeId}";
 		});
 		
+		<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
 			var button = $(this);
@@ -186,12 +186,9 @@
 		
 			}
 		});
-// 		$("table").on("click", "button[name=update]", function(){
-// 			location.href = "/jersey/commodity/${requestScope.commodityTypeId}/"+$(this).val();
-// 		});
 
 		<%--商品上下架--%>
-		$(".commodityAuthority").click(function(){
+		$(".authority").click(function(){
 			var button = $(this);
 			var isUp;
 			var body = {};
@@ -199,12 +196,12 @@
 			if(button.hasClass("btn-warning")){
 				//未上架, 開始上架
 				button.prop("disabled", true).text(" 上架中").prepend(img);
-				body["commodityAuthority"] = "customer";
+				body["authority"] = "customer";
 				isUp = true;
 			}else if(button.hasClass("btn-success")){
 				//已上架, 開始下架
 				button.prop("disabled", true).text(" 下架中").prepend(img);
-				body["commodityAuthority"] = "admin";
+				body["authority"] = "admin";
 				isUp = false;
 			}
 			
@@ -235,6 +232,7 @@
 						}
 						alertify.error(data.msg);
 					}
+					init();
 				},
 				error : function(){
 					if (isUp) {
@@ -243,6 +241,7 @@
 						button.prop("disabled", false).text("已上架");
 					}
 					alertify.error("商品上下架切換失敗");
+					init();
 				}
 			});
 		});
@@ -290,13 +289,15 @@
 				alertify.error("幹你媽的只能勾一筆啦");
 				return;
 			}
-			var tr = checked.eq(0).parents("tr");
+			var tr = checked.eq(0).parents("tr").clone();
 			$.ajax("/jersey/commodity/clone", {
 				type : "POST",
 				data : checked.eq(0),
 				success : function(data){
 					if(data.result=="success"){
-						$("table").append(tr.clone());
+						tr.find("input").val(data.commodityId);
+						$("table").append(tr);
+						init();
 						alertify.success("複製商品成功");
 					} else {
 						alertify.error(data.msg);
@@ -307,6 +308,7 @@
 				}
 			});
 		});
+		</c:if>
 		
 		<%--標示出分頁標籤的當前分頁--%>
 		var pagePos = location.search.indexOf("page=")+"page=".length;
@@ -333,7 +335,9 @@
 			<thead>
 				<tr>
 						<th></th>
-						${sessionScope['scopedTarget.userSession'].admin ? '<th></th>':''}
+						<th>
+							<button type="button" class="btn btn-info" name="reset" data-toggle="modal">重置篩選條件</button>
+						</th>
 						<th>圖片</th>
 						<th>
 							<button type="button" class="btn btn-info filter" name="itemName" data-toggle="modal">商品名稱</button>
@@ -344,31 +348,19 @@
 								<button type="button" class="btn btn-info filter" name="${commodityAttrVO.commodityAttr}" data-toggle="modal">${commodityAttrVO.commodityAttr}</button>
 							</th>
 						</c:forEach>
-<!-- 						<th>Qty</th> -->
-<!-- 						<th> -->
-<!-- 							<button type="button" class="btn btn-warning" data-toggle="modal">player</button> -->
-<!-- 							<div class="player checkboxDiv"> -->
-<!-- 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/> -->
-<%-- 								<c:forEach items="${requestScope.players}" var="player"> --%>
-<!-- 									<input type="checkbox" name="player" -->
-<%-- 										value='<c:out value="${player}"/>' checked="checked">${player}&nbsp<br/> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</div> -->
-<!-- 						</th> -->
-
 						<th>售價</th>
 					<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 						<th>成本</th>
-						<th>						
-							<button type="button" class="btn btn-info" data-toggle="modal">銷售平台</button>
-							<div class="authority checkboxDiv">
+						<th>
+							<button type="button" class="btn btn-info filter" name="commodityAuthority" data-toggle="modal">銷售平台</button>
+							<div class="commodityAuthority checkboxDiv">
 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/>
 								<input type="checkbox" name="commodityAuthority" value="未上架" checked="checked">未上架&nbsp<br/>
 								<input type="checkbox" name="commodityAuthority" value="已上架" checked="checked">已上架&nbsp<br/>
 							</div>
 						</th>
 						<th>
-							<button type="button" class="btn btn-info" data-toggle="modal">是否仍在庫</button>
+							<button type="button" class="btn btn-info filter" name="isStored" data-toggle="modal">是否仍在庫</button>
 							<div class="checkboxDiv">
 								<input type="checkbox" name="all" checked="checked">全選&nbsp<br/>
 								<input type="checkbox" name="isStored" value="是" checked="checked">是&nbsp<br/>
@@ -382,11 +374,11 @@
 			<c:forEach items="${commodityList}" var="vo">
 				<tr>
 					<td><input type="checkbox" name="commodityIds" value="${vo.commodityId}"></td>
-					<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 					<td>
+						<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 						<button name="update" type="button" value="${vo.commodityId}" class="btn btn-warning">修改</button>
+						</c:if>
 					</td>
-					</c:if>
 					<td>
 						<a href="/jersey/picture/${vo.commodityId}">
 							<button type="button" class="btn ${vo.pictureCount!=0 ? 'btn-success':'btn-danger'}" data-toggle="modal">${vo.pictureCount}</button>
@@ -419,10 +411,10 @@
 					<td>
 						<c:choose>
 							<c:when test="${vo.authority=='admin'}">
-								<button class="btn btn-warning commodityAuthority">未上架</button>
+								<button class="btn btn-warning authority"><div class="commodityAuthority">未上架</div></button>
 							</c:when>
 							<c:when test="${vo.authority=='customer'}">
-								<button class="btn btn-success commodityAuthority">已上架</button>
+								<button class="btn btn-success authority"><div class="commodityAuthority">已上架</div></button>
 							</c:when>
 						</c:choose>
 					</td>
