@@ -94,7 +94,7 @@
 	    		
 	    		<%--修改--%>
 	    		$("table").on("click", "button[name=update]", function(){
-	    			location.href = "/jersey/sellCase/"+$(this).val();
+	    			location.href = "/jersey/sellCase/"+$(this).parent().prev().children().val();
 	    		});
 	    		
 	    		<%--刪除--%>

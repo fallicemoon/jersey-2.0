@@ -80,7 +80,6 @@
 		
 		<%--全選按鈕, 弄掉的話為全不選 --%>
 		$("tr:first").on("change", "input[name=all]", function(){
-			console.log("123");
 			var checked = $(this).prop("checked");
 			$(this).siblings().each(function(){
 				$(this).prop("checked", checked);
@@ -99,13 +98,21 @@
 			$("div.checkboxDiv").slideUp();
 		});
 		
+		<%--按背景網頁後把篩選條件收起來--%>
+		$("html").on("click", function(e){
+			if(!$(e.target).is("button.filter, .checkboxDiv, .checkboxDiv input")){
+				$(".checkboxDiv").slideUp();
+			}
+		});
 		
+		
+		
+		<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 		<%--新增--%>
 		$("#create").click(function(){
 			location.href = "/jersey/commodity/${requestScope.commodityTypeId}";
 		});
 		
-		<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
 		<%--修改--%>
 		$("table").on("click", "button[name=update]", function(){
 			var button = $(this);
@@ -128,7 +135,7 @@
 					if ($(this).attr("name")=="itemName") {
 						$(this).attr("type", "text").val($(this).prev().children().text());
 					} else if ($(this).attr("name")=="link") {
-						$(this).attr("type", "text").val($(this).prev().attr("href"));
+						$(this).attr("type", "text").val($(this).prev().children().attr("href"));
 					} else {
 						$(this).attr("type", "text").val($(this).prev().text());	
 					}
@@ -161,7 +168,20 @@
 					success : function(data) {
 						if (data.result=="success") {
 							updateTdDiv.each(function(){
-								$(this).text($(this).next().val());
+								//item的div外面有包一層超連結, 要另外處理
+								if ($(this).hasClass("itemName")) {
+									$(this).text($.trim($(this).parent().next().val()));
+								} else if ($(this).hasClass("link")) {
+									var link = $(this).next().val();
+									$(this).children().attr("href", link);
+									if ($.trim(link)) {
+										$(this).children().show();
+									} else {
+										$(this).children().hide();
+									}
+								} else {
+									$(this).text($.trim($(this).next().val()));	
+								}
 							});
 							init();
 							alertify.success("修改商品屬性成功");
@@ -388,7 +408,7 @@
 						<a href="/jersey/triple/commodity/${vo.commodityId}"><div class="itemName"><c:out value="${vo.itemName}" /></div></a>
 						<input type="hidden" name="itemName" value="<c:out value="${vo.itemName}" />">
 						
-						<a href="${vo.link}" target="_blank" ${empty vo.link? 'style="display:none"':''}>連結</a>
+						<div class="link"><a href="${vo.link}" target="_blank" ${empty vo.link? 'style="display:none"':''}>連結</a></div>
 						<input type="hidden" name="link" value="${vo.link}">
 					</td>
 					

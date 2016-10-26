@@ -37,11 +37,11 @@ public class SellCaseController {
 	
 	//for update sellCase用
 	@ModelAttribute
-	public void getCommodity (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
+	public void getSellCase (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
 		Set<String> keySet = pathVariableMap.keySet();
 		if(keySet.contains("id")){
-			String storeId = pathVariableMap.get("id");
-			map.put("sellCase", sellCaseService.getOne(Integer.valueOf(storeId)));
+			String sellCaseId = pathVariableMap.get("id");
+			map.put("sellCase", sellCaseService.getOne(Integer.valueOf(sellCaseId)));
 		}
 	}
 	
@@ -71,12 +71,29 @@ public class SellCaseController {
 	}
 	
 	//新增
-	@RequestMapping(value="", method=RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String create (SellCaseVO vo, Map<String, Object> map) {
+		//處理數字和boolean會null
+		if (vo.getIsChecked()==null) {
+			vo.setIsChecked(false);
+		}
+		if (vo.getIsShipping()==null) {
+			vo.setIsShipping(false);
+		}
+		if (vo.getCollected()==null) {
+			vo.setCollected(0);
+		}
+		if (vo.getIncome()==null) {
+			vo.setIncome(0);
+		}
+		if (vo.getTransportCost()==null) {
+			vo.setTransportCost(0);
+		}
+		
 		sellCaseService.create(vo);
 		List<SellCaseWithBenefitVO> list = new ArrayList<>();
 		list.add(sellCaseService.getSellCaseWithBenefitVo(vo));
-		map.put("purchaseCaseList", list);
+		map.put("sellCaseList", list);
 		return LIST;
 	}
 	
@@ -86,7 +103,7 @@ public class SellCaseController {
 		sellCaseService.update(vo);
 		List<SellCaseWithBenefitVO> list = new ArrayList<>();
 		list.add(sellCaseService.getSellCaseWithBenefitVo(vo));
-		map.put("purchaseCaseList", list);
+		map.put("sellCaseList", list);
 		return LIST;
 	}
 	

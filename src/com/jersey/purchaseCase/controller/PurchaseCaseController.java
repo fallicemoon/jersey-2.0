@@ -36,11 +36,11 @@ public class PurchaseCaseController {
 	
 	// for update purchaseCase用
 	@ModelAttribute
-	public void getPurchaseCase(Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
+	public void getPurchaseCase (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
 		Set<String> keySet = pathVariableMap.keySet();
 		if (keySet.contains("id")) {
-			String storeId = pathVariableMap.get("id");
-			map.put("purchaseCase", purchaseCaseService.getOne(Integer.valueOf(storeId)));
+			String purchaseCaseId = pathVariableMap.get("id");
+			map.put("purchaseCase", purchaseCaseService.getOne(Integer.valueOf(purchaseCaseId)));
 		}
 	}
 
@@ -69,9 +69,16 @@ public class PurchaseCaseController {
 		return UPDATE;
 	}
 
-	// 新增
+	//新增
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String create(PurchaseCaseVO vo, Map<String, Object> map) {
+		if (vo.getAgentCost()==null) {
+			vo.setAgentCost(0);
+		}
+		if (vo.getCost()==null) {
+			vo.setCost(0);
+		}
+		
 		purchaseCaseService.create(vo);
 		List<PurchaseCaseVO> list = new ArrayList<>();
 		list.add(vo);

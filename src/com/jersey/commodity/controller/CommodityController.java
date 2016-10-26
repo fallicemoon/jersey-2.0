@@ -128,8 +128,8 @@ public class CommodityController {
 		try {
 			JSONObject json = new JSONObject(jsonString);
 			CommodityVO commodityVO = commodityService.getOne(id);
-			commodityVO.setItemName(StringUtils.isEmpty(json.getString("itemName")) ? "":json.getString("itemName"));
-			commodityVO.setLink(StringUtils.isEmpty(json.getString("link")) ? "":json.getString("link"));
+			commodityVO.setItemName(StringUtils.isBlank(json.getString("itemName")) ? "":json.getString("itemName"));
+			commodityVO.setLink(StringUtils.isBlank(json.getString("link")) ? "":json.getString("link"));
 			try {
 				commodityVO.setCost(json.getInt("cost"));
 			} catch (Exception e) {
@@ -148,7 +148,7 @@ public class CommodityController {
 			for (CommodityAttrMappingVO commodityAttrMappingVO : commodityAttrMappings) {
 				String commodityAttrMappingId = commodityAttrMappingVO.getCommodityAttrMappingId().toString();
 				if (commodityAttrMap.keySet().contains(commodityAttrMappingId)){
-					commodityAttrMappingVO.setCommodityAttrValue(commodityAttrMap.get(commodityAttrMappingId).toString());
+					commodityAttrMappingVO.setCommodityAttrValue(StringUtils.trimToEmpty(commodityAttrMap.get(commodityAttrMappingId).toString()));
 				}
 			}
 			commodityService.update(commodityVO);

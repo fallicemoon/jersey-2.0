@@ -109,14 +109,14 @@
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">成本：</label>
     	<div class="col-sm-10">
-    	<input type="number" name="cost" value="${purchaseCase.cost}">請輸入數字!
+    	<input type="number" name="cost" value="0">請輸入數字!
     	</div>
     </div>
     
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">國際運費：</label>
     	<div class="col-sm-10">
-    	<input type="number" name="agentCost" value="${purchaseCase.agentCost}">請輸入數字!
+    	<input type="number" name="agentCost" value="0">請輸入數字!
     	</div>
     </div>
     

@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import com.jersey.commodity.model.CommodityAttrMappingVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.JerseyEnum.UserConfig;
+import com.jersey.tools.Tools;
 
 /**
  * 請不要在此class注入userSession, 會導致循環注入
@@ -38,6 +40,8 @@ public class UserConfigService {
 	private CommodityAttrMappingDAO commodityAttrMappingDAO;
 	@Autowired
 	private CommodityService commodityService;
+	
+	private static final String COMMODITY_ATTR_VALUE_REG = "[a-zA-Z\\d]*";
 	
 	//使用者相關登入資訊
 	public void initAdminUserSessionUserConfig(UserSession userSession, String userName) {
@@ -119,6 +123,26 @@ public class UserConfigService {
 	
 	public CommodityAttrVO getCommodityAttrVOByCommodityAttrId(Integer commodityAttrId){
 		return commodityAttrDAO.getOne(commodityAttrId);
+	}
+	
+	public JSONObject validateCommodityType (UserSession userSession, CommodityTypeVO commodityTypeVO) {
+		if (userSession.getCommodityTypeAttrStringMap().keySet().contains(commodityTypeVO.getCommodityType())) {
+			return Tools.getFailJson("已經有此商品種類");
+		}
+		if (!commodityTypeVO.getCommodityType().matches(COMMODITY_ATTR_VALUE_REG)) {
+			return Tools.getFailJson("商品種類只能有英文或數字");
+		}
+		return Tools.getSuccessJson();
+	}
+	
+	public JSONObject validateCommodityAttr (UserSession userSession, CommodityAttrVO commodityAttrVO) {
+		if (userSession.getCommodityTypeAttrStringMap().get(commodityAttrVO.getCommodityTypeVO().getCommodityType()).contains(commodityAttrVO.getCommodityAttr())) {
+			return Tools.getFailJson("已經有此商品屬性");
+		}
+		if (!commodityAttrVO.getCommodityAttr().matches(COMMODITY_ATTR_VALUE_REG)) {
+			return Tools.getFailJson("商品屬性只能有英文或數字或空白");
+		}
+		return Tools.getSuccessJson();
 	}
 	
 	

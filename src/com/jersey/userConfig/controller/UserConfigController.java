@@ -2,6 +2,7 @@ package com.jersey.userConfig.controller;
 
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,7 @@ public class UserConfigController {
 	
 	private static final String SYSTEM_PARAM = "userConfig/systemParam";
 	private static final String COMMODITY_ATTR = "userConfig/commodityAttr";
+	
 	
 	@Autowired
 	private UserConfigService userConfigService;
@@ -67,8 +69,9 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityType", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String createCommodityType (@RequestBody CommodityTypeVO commodityTypeVO) {
 		try {
-			if (userSession.getCommodityTypeAttrStringMap().keySet().contains(commodityTypeVO.getCommodityType())) {
-				return Tools.getFailJson("已經有此商品類別").toString();
+			JSONObject json = userConfigService.validateCommodityType(userSession, commodityTypeVO);
+			if ("fail".equals(json.getString("result"))) {
+				return json.toString();
 			}
 			commodityTypeVO = userConfigService.createCommodityType(userSession, commodityTypeVO);
 			return Tools.getSuccessJson().put("commodityTypeId", commodityTypeVO.getCommodityTypeId()).toString();
@@ -84,9 +87,11 @@ public class UserConfigController {
 		try {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
 			commodityAttrVO.setCommodityTypeVO(commodityTypeVO);
-			if (userSession.getCommodityTypeAttrStringMap().get(commodityTypeVO.getCommodityType()).contains(commodityAttrVO.getCommodityAttr())) {
-				return Tools.getFailJson("已經有此商品屬性").toString();
+			JSONObject json = userConfigService.validateCommodityAttr(userSession, commodityAttrVO);
+			if ("fail".equals(json.getString("result"))) {
+				return json.toString();
 			}
+			
 			CommodityAttrVO result = userConfigService.createCommodityAttr(userSession, commodityAttrVO);
 			return Tools.getSuccessJson()
 					.put("commodityAttrId", result.getCommodityAttrId())
@@ -106,7 +111,17 @@ public class UserConfigController {
 	public String updateCommodityType(@RequestBody String[] commodityType, @PathVariable("commodityTypeId") Integer commodityTypeId){
 		try {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
+			String oldCommodityType = commodityTypeVO.getCommodityType();
 			commodityTypeVO.setCommodityType(commodityType[0]);
+			
+			//如果新輸入的商品種類名稱和舊的不一樣就要檢查此商品種類名稱是否存在
+			if (!commodityTypeVO.getCommodityType().equals(oldCommodityType)) {
+				JSONObject json = userConfigService.validateCommodityType(userSession, commodityTypeVO);
+				if ("fail".equals(json.getString("result"))) {
+					return json.toString();
+				}
+			}
+			
 			userConfigService.updateCommodityType(userSession, commodityTypeVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
@@ -119,12 +134,23 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
 	public String updateCommodityAttr(@RequestBody String[] commodityAttrArray, @PathVariable("commodityAttrId") Integer commodityAttrId){
 		try {
-			String commodityAttr = commodityAttrArray[0];
+			String newCommodityAttr = commodityAttrArray[0];
 			CommodityAttrAuthority commodityAttrAuthority = CommodityAttrAuthority.valueOf(commodityAttrArray[1]);
 			CommodityAttrVO commodityAttrVO = userConfigService.getCommodityAttrVOByCommodityAttrId(commodityAttrId);
+			String oldCommodityAttr = commodityAttrVO.getCommodityAttr();
+			
 			commodityAttrVO.setCommodityAttrId(commodityAttrId);
-			commodityAttrVO.setCommodityAttr(commodityAttr);
+			commodityAttrVO.setCommodityAttr(newCommodityAttr);
 			commodityAttrVO.setCommodityAttrAuthority(commodityAttrAuthority);
+			
+			//如果新輸入的商品屬性名稱和舊的不一樣就要檢查此商品屬性名稱是否存在
+			if (!commodityAttrVO.getCommodityAttr().equals(oldCommodityAttr)) {
+				JSONObject json = userConfigService.validateCommodityAttr(userSession, commodityAttrVO);
+				if ("fail".equals(json.getString("result"))) {
+					return json.toString();
+				}
+			}
+			
 			userConfigService.updateCommodityAttr(userSession, commodityAttrVO);
 			return Tools.getSuccessJson().put("commodityAttrAuthorityShowName", commodityAttrAuthority.getShowName()).toString();
 		} catch (Exception e) {
