@@ -3,7 +3,6 @@ package com.jersey.purchaseCase.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,14 +34,14 @@ public class PurchaseCaseController {
 	private UserSession userSession;
 	
 	// for update purchaseCase用
-	@ModelAttribute
-	public void getPurchaseCase (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
-		Set<String> keySet = pathVariableMap.keySet();
-		if (keySet.contains("id")) {
-			String purchaseCaseId = pathVariableMap.get("id");
-			map.put("purchaseCase", purchaseCaseService.getOne(Integer.valueOf(purchaseCaseId)));
-		}
-	}
+//	@ModelAttribute
+//	public void getPurchaseCase (Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
+//		Set<String> keySet = pathVariableMap.keySet();
+//		if (keySet.contains("id")) {
+//			String purchaseCaseId = pathVariableMap.get("id");
+//			map.put("purchaseCase", purchaseCaseService.getOne(Integer.valueOf(purchaseCaseId)));
+//		}
+//	}
 
 	// 取得全部
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
@@ -72,13 +71,7 @@ public class PurchaseCaseController {
 	//新增
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String create(PurchaseCaseVO vo, Map<String, Object> map) {
-		if (vo.getAgentCost()==null) {
-			vo.setAgentCost(0);
-		}
-		if (vo.getCost()==null) {
-			vo.setCost(0);
-		}
-		
+		Tools.parseVoNullValue(vo);
 		purchaseCaseService.create(vo);
 		List<PurchaseCaseVO> list = new ArrayList<>();
 		list.add(vo);
@@ -90,6 +83,7 @@ public class PurchaseCaseController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public String update(@PathVariable("id") Integer id, @ModelAttribute("purchaseCase") PurchaseCaseVO vo,
 			Map<String, Object> map) {
+		Tools.parseVoNullValue(vo);
 		purchaseCaseService.update(vo);
 		List<PurchaseCaseVO> list = new ArrayList<>();
 		list.add(vo);

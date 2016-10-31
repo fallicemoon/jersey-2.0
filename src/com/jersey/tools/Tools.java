@@ -53,6 +53,30 @@ public class Tools {
 		return json;
 	}
 	
+	/**
+	 * spring MVC 所有checkBox的值都要call這方法
+	 * @param checkboxValue
+	 * @return
+	 */
+	public static void parseVoNullValue (Object vo) {
+		Field[] voFields = vo.getClass().getDeclaredFields();
+		for (Field field : voFields) {
+			try {
+				field.setAccessible(true);
+				if (field.get(vo)==null) {
+					if (field.getType()==Integer.class) {
+						field.set(vo, 0);
+					} else if (field.getType()==Boolean.class) {
+						field.set(vo, false);
+					}
+				}
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	} 
+	
 	
 	
 	
