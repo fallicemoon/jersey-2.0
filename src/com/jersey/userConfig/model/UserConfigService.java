@@ -90,8 +90,6 @@ public class UserConfigService {
 			commodityAttrMappingVO.setCommodityAttrVO(commodityAttrVO);
 			commodityAttrMappingVO.setCommodityAttrValue("");
 			commodityAttrMappingVO.setCommodityVO(commodityVO);
-			commodityAttrMappingVO.setCreateTime(new Date());
-			commodityAttrMappingVO.setLastModifyTime(new Date());
 			commodityAttrMappingList.add(commodityAttrMappingVO);
 		}
 		commodityAttrMappingDAO.create(commodityAttrMappingList);

@@ -9,11 +9,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jersey.accounting.model.AccountingService;
+import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseWithBenefitVO;
 
@@ -72,6 +75,20 @@ public class AccountingController {
 		map.put("totalBenefit", sellCaseService.getTotalBenefit(list));
 
 		return ACCOUNTING;
+	}
+
+	
+	//for AOP 不要出錯
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public String create(PurchaseCaseVO vo, Map<String, Object> map) {
+		return null;
+	}
+
+	// for AOP 不要出錯
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public String update(@PathVariable("id") Integer id, @ModelAttribute("purchaseCase") PurchaseCaseVO vo,
+			Map<String, Object> map) {
+		return null;
 	}
 
 }

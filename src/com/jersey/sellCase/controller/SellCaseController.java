@@ -73,23 +73,6 @@ public class SellCaseController {
 	//新增
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String create (SellCaseVO vo, Map<String, Object> map) {
-		//處理數字和boolean會null
-		if (vo.getIsChecked()==null) {
-			vo.setIsChecked(false);
-		}
-		if (vo.getIsShipping()==null) {
-			vo.setIsShipping(false);
-		}
-		if (vo.getCollected()==null) {
-			vo.setCollected(0);
-		}
-		if (vo.getIncome()==null) {
-			vo.setIncome(0);
-		}
-		if (vo.getTransportCost()==null) {
-			vo.setTransportCost(0);
-		}
-		
 		sellCaseService.create(vo);
 		List<SellCaseWithBenefitVO> list = new ArrayList<>();
 		list.add(sellCaseService.getSellCaseWithBenefitVo(vo));
