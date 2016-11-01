@@ -43,7 +43,7 @@
   <br><br><br>
   <div style="length:100%; bottom:9px; text-align:center;">
 		<div>
-  		<a href="/jersey/AccountingServlet"> <button type="button" class="btn btn-primary btn-lg">時間選單</button></a>
+  		<a href="/jersey/accounting/datePicker"> <button type="button" class="btn btn-primary btn-lg">時間選單</button></a>
   		</div>
   </div>
 

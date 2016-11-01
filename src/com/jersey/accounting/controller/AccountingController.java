@@ -2,6 +2,7 @@ package com.jersey.accounting.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jersey.accounting.model.AccountingService;
 import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseWithBenefitVO;
 
 @Controller
 @RequestMapping(value="/accounting")
 public class AccountingController {
+	
+	@Autowired
+	private AccountingService accountingService;
 
 	private final static String REDIRECT_DATE_PICKER = "redirect:datePicker";
 	private final static String DATE_PICKER = "accounting/datePicker";
@@ -28,7 +33,17 @@ public class AccountingController {
 
 	@RequestMapping(value = "/datePicker", method = RequestMethod.GET)
 	public String toDatePicker(Map<String, Object> map) {
-		System.out.println("123");
+		Calendar now = Calendar.getInstance();
+		Date end = now.getTime();
+		now.set(Calendar.DAY_OF_MONTH, 1);
+		now.set(Calendar.HOUR_OF_DAY, 0);
+		now.set(Calendar.MINUTE, 0);
+		now.set(Calendar.SECOND, 0);
+		Date start = now.getTime();
+		
+		//預設值為月初到今天
+		map.put("start", accountingService.parseDateToString(start));
+		map.put("end", accountingService.parseDateToString(end));
 		return DATE_PICKER;
 	}
 
@@ -40,7 +55,7 @@ public class AccountingController {
 		Date start = new Date();
 		Date end = new Date();
 		try {
-			start = sdf.parse(startString.replaceAll("AM", "上午").replaceAll("PM", "下午"));
+			start = accountingService.parseStringToDate(startString);
 		} catch (ParseException e) {
 			return REDIRECT_DATE_PICKER;
 		}
