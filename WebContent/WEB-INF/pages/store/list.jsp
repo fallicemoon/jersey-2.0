@@ -23,7 +23,7 @@
     		
     		<%--修改--%>
     		$("table").on("click", "button[name=update]", function(){
-    			location.href = "/jersey/store/"+$(this).val();
+    			location.href = "/jersey/store/"+$(this).parent().prev().children().val();
     		});
     		
     		<%--刪除--%>

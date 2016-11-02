@@ -43,7 +43,7 @@ public class StoreController {
 		Set<String> keySet = pathVariableMap.keySet();
 		if(keySet.contains("id")){
 			String storeId = pathVariableMap.get("id");
-			map.put("storeVO", storeService.getOne(Integer.valueOf(storeId)));
+			map.put("store", storeService.getOne(Integer.valueOf(storeId)));
 		}
 	}
 	
@@ -95,7 +95,7 @@ public class StoreController {
 		storeService.update(vo);
 		List<StoreVO> list = new ArrayList<>();
 		list.add(vo);
-		map.put("purchaseCaseList", list);
+		map.put("storeList", list);
 		//一次只能一個人動商店和托運公司清單
 		synchronized (this) {
 			//增加servletContext的store清單

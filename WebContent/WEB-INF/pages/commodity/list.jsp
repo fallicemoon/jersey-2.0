@@ -226,40 +226,40 @@
 			}
 			
 			var commodityId = button.closest("tr").find("input[name=commodityIds]").val();
+			var div = $("<div>").addClass("commodityAuthority");
 			$.ajax("/jersey/commodity/switchStatus/"+commodityId, {
 				type : "PUT",
 				data : JSON.stringify(body),
 				contentType : "application/json",
 				dataType : "json",
 				success : function(data) {
+					button.prop("disabled", false).empty();
 					if (data.result=="success") {
 						if (isUp) {
-							button.prop("disabled", false)
-								.removeClass("btn-warning")
-								.addClass("btn-success")
-								.text("已上架");
+							div.text("已上架");
+							button.removeClass("btn-warning").addClass("btn-success");
 						} else {
-							button.prop("disabled", false)
-								.removeClass("btn-success")
-								.addClass("btn-warning")
-								.text("未上架");
+							div.text("未上架");
+							button.removeClass("btn-success").addClass("btn-warning");
 						}
 					} else {
 						if (isUp) {
-							button.prop("disabled", false).text("未上架");
+							div.text("未上架");
 						} else {
-							button.prop("disabled", false).text("已上架");
+							div.text("已上架");
 						}
 						alertify.error(data.msg);
 					}
+					button.append(div);
 					init();
 				},
 				error : function(){
 					if (isUp) {
-						button.prop("disabled", false).text("未上架");
+						div.text("未上架");
 					} else {
-						button.prop("disabled", false).text("已上架");
+						div.text("已上架");
 					}
+					button.prop("disabled", false).append(div);
 					alertify.error("商品上下架切換失敗");
 					init();
 				}
