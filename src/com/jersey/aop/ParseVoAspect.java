@@ -14,6 +14,11 @@ import com.jersey.tools.Tools;
 @Aspect
 public class ParseVoAspect {
 	
+	/**
+	 * 1.防止SpringMVC前端傳進來的vo裡面的Integer和boolean為null
+	 * 2.塞入createTime和LastModifyTime
+	 * @param joinPoint
+	 */
 	@Before(value = "execution(public * *..*Service.create(..))")
 	public void beforeCreate (JoinPoint joinPoint) {
 		System.out.println("start aop beforeCreate...");
@@ -27,9 +32,13 @@ public class ParseVoAspect {
 		Tools.parseVoNullValue(abstractVo);
 		abstractVo.setCreateTime(new Date());
 		abstractVo.setLastModifyTime(new Date());
-
 	}
 	
+	/**
+	 * 1.防止SpringMVC前端傳進來的vo裡面的Integer和boolean為null
+	 * 2.塞入LastModifyTime
+	 * @param joinPoint
+	 */
 	@Before(value = "execution(public * *..*Service.update(..))")
 	public void beforeUpdate (JoinPoint joinPoint) {
 		System.out.println("start aop beforeUpdate...");
@@ -43,6 +52,6 @@ public class ParseVoAspect {
 		Tools.parseVoNullValue(abstractVo);
 		abstractVo.setLastModifyTime(new Date());
 	}
-	
+		
 
 }

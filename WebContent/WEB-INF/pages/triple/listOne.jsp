@@ -31,7 +31,7 @@
   	  <td>
 		<input type="checkbox" name="commodityIds" value="${vo.commodityId}">
   	  </td>
-  	  <td><a href="/jersey/picture/${vo.commodityId}"><button type="button" class="btn ${vo.pictureCount!=0 ? 'btn-success':'btn-danger'}" data-toggle="modal">${vo.pictureCount}</button></a></td>
+  	  <td><a href="/jersey/picture/${vo.commodityId}/getAll"><button type="button" class="btn ${vo.pictureCount!=0 ? 'btn-success':'btn-danger'}" data-toggle="modal">${vo.pictureCount}</button></a></td>
   	  
   	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" />
   	  		<c:if test="${!empty vo.link}"><a href="${vo.link}" target="_blank"> 連結</a></c:if>

@@ -400,7 +400,7 @@
 						</c:if>
 					</td>
 					<td>
-						<a href="/jersey/picture/${vo.commodityId}">
+						<a href="/jersey/picture/${vo.commodityId}/getAll">
 							<button type="button" class="btn ${vo.pictureCount!=0 ? 'btn-success':'btn-danger'}" data-toggle="modal">${vo.pictureCount}</button>
 						</a>
 					</td>

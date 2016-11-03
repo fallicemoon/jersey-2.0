@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.apache.commons.fileupload.FileUploadException;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,25 +36,29 @@ public class PictureController {
 
 	@Autowired
 	private PictureService pictureService;
-
 	@Autowired
 	private CommodityService commodityService;
 
-	@RequestMapping(value = "/{pictureId}", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/getOne/{pictureId}", method = RequestMethod.GET)
 	public void getPicture(@PathVariable("pictureId") Integer pictureId, HttpServletResponse response) {
 		response.setContentType(PICTURE_CONTENT_TYPE);
 		try {
-			pictureService.getPicrture(pictureId, response.getOutputStream());
+			if (pictureService.validateReadPicAuthority(pictureId)) {
+				pictureService.getPicrture(pictureId, response.getOutputStream());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public String getAll(@PathVariable("commodityId") Integer commodityId, Map<String, Object> map) {
-		Set<Integer> pictureIds = pictureService.getPictureIds(commodityId);
-		map.put("pictureIds", pictureIds);
-		map.put("commodity", commodityService.getOne(commodityId));
+		if (pictureService.validatePicPageAuthority(commodityId)) {
+			Set<Integer> pictureIds = pictureService.getPictureIds(commodityId);
+			map.put("pictureIds", pictureIds);
+			map.put("commodity", commodityService.getOne(commodityId));
+		}
 		return UPLOAD_PICTURE;
 	}
 

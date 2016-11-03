@@ -137,7 +137,6 @@ span {
 	</div>
 	</form>
 
-	<form action="/jersey/picture/${requestScope.commodity.commodityId}" method="POST">
 	<button id="delete" type="button" class="btn btn-danger">刪除</button>
 	<button id="download" type="button" class="btn btn-normal">下載</button>
 	<button id="downloadAll" type="button" class="btn btn-normal">全部下載</button>
@@ -148,14 +147,13 @@ span {
 			<c:if test="${status.index%4 == 0}"><tr></c:if>
 			<td>
 			<input type="checkbox" name="pictureIds" value="${pictureId}" id="${pictureId}" style="margin-left:200px"><br>
-			<a href="/jersey/picture/${requestScope.commodity.commodityId}/${pictureId}" class="lightbox">
-				<img src="/jersey/picture/${requestScope.commodity.commodityId}/${pictureId}" class="picture">
+			<a href="/jersey/picture/${requestScope.commodity.commodityId}/getOne/${pictureId}" class="lightbox">
+				<img src="/jersey/picture/${requestScope.commodity.commodityId}/getOne/${pictureId}" class="picture">
 			</a>
 			</td>
 			<c:if test="${status.index%4 == 3}"></tr></c:if>
 		</c:forEach>
 	</table>
-	</form>
 	
 </body>
 </html>

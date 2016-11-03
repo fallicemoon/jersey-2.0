@@ -27,14 +27,21 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jersey.commodity.model.CommodityDAO;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.HibernateTools;
+import com.jersey.tools.JerseyEnum.Authority;
+import com.jersey.userConfig.model.UserSession;
 
 @Service
 public class PictureService {
 	
 	@Autowired
+	private CommodityDAO commodityDAO;
+	@Autowired
 	private PictureDAO pictureDAO;
+	@Autowired
+	private UserSession userSession;
 
 	// 單檔上限30MB
 	private final Long singleFileSizeMax = 31457280L;
@@ -197,6 +204,20 @@ public class PictureService {
 
 	public void deletePictures(Integer[] pictureIds) {
 		pictureDAO.delete(pictureIds);
+	}
+	
+	//權限控管
+	public boolean validatePicPageAuthority (Integer commodityId) {
+		Authority commodityAuthority = userSession.getUserConfigVO().getAuthority();
+		Authority userAuthority = commodityDAO.getOne(commodityId).getAuthority();
+		return commodityAuthority==Authority.customer || userAuthority==Authority.admin;
+	}
+	
+	//權限控管
+	public boolean validateReadPicAuthority (Integer pictureId) {
+		Authority commodityAuthority = userSession.getUserConfigVO().getAuthority();
+		Authority userAuthority = pictureDAO.getOne(pictureId).getCommodityVO().getAuthority();
+		return commodityAuthority==Authority.customer || userAuthority==Authority.admin;
 	}
 
 	private List<PictureVO> parseFormToPictureVO(List<FileItem> fileItems) throws FileUploadException, IOException {

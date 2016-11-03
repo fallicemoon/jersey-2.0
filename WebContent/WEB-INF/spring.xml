@@ -18,6 +18,24 @@
 	<mvc:default-servlet-handler/>
 	<mvc:view-controller path="/welcomeSecretLogin" view-name="login"/>
 	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<!-- 攔截非admin用戶 -->
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/welcomeSecretLogin"/>
+			<mvc:exclude-mapping path="/secretLogin"/>
+			<mvc:exclude-mapping path="/index.html"/>
+			<mvc:exclude-mapping path="/commodity/*/getAll"/>
+			<mvc:exclude-mapping path="/lib/**"/>
+			<mvc:exclude-mapping path="/pic/**"/>
+			<mvc:exclude-mapping path="/picture/*/getOne/*"/>
+			<mvc:exclude-mapping path="/picture/*/getAll"/>
+			<mvc:exclude-mapping path="/picture/*/download"/>
+			<mvc:exclude-mapping path="/picture/*/downloadAll"/>
+			<bean class="com.jersey.interceptor.AuthorityInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

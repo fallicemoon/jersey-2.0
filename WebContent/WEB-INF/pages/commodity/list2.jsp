@@ -318,12 +318,12 @@
 					</td>
 					<c:if test="${vo.pictureCount!=0}">
 						<td><a
-							href="/jersey/picture/${vo.commodityId}"><button
+							href="/jersey/picture/${vo.commodityId}/getAll"><button
 									type="button" class="btn btn-success" data-toggle="modal">${vo.pictureCount}</button></a></td>
 					</c:if>
 					<c:if test="${vo.pictureCount==0}">
 						<td><a
-							href="/jersey/picture/${vo.commodityId}"><button
+							href="/jersey/picture/${vo.commodityId}/getAll"><button
 									type="button" class="btn btn-danger" data-toggle="modal">0</button></a></td>
 					</c:if>
 
