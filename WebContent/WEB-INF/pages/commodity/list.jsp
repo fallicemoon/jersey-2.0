@@ -24,6 +24,11 @@
 		<script type="text/javascript">
 		
 	function init () {
+		<%--調整input的寬度要跟表格一樣寬, 更新資料時頁面才不會被撐開--%>
+		$("input[type=hidden]").each(function(){
+			$(this).width($(this).parent().width());
+		});
+		
 		<%--把checkbox清空--%>
 		$("input[name=commodityIds]:checked").prop("checked", false);
 		
@@ -368,9 +373,9 @@
 								<button type="button" class="btn btn-info filter" name="${commodityAttrVO.commodityAttr}" data-toggle="modal">${commodityAttrVO.commodityAttr}</button>
 							</th>
 						</c:forEach>
-						<th>售價</th>
+						<th><button type="button" class="btn" name="sellPrice" data-toggle="modal">售價</button></th>
 					<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
-						<th>成本</th>
+						<th><button type="button" class="btn" name="cost" data-toggle="modal">成本</button></th>
 						<th>
 							<button type="button" class="btn btn-info filter" name="commodityAuthority" data-toggle="modal">銷售平台</button>
 							<div class="commodityAuthority checkboxDiv">

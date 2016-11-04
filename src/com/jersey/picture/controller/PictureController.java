@@ -31,7 +31,7 @@ import com.jersey.tools.Tools;
 public class PictureController {
 	private final static String COMMODITY_ID = "{commodityId}";
 	private final static String PICTURE_CONTENT_TYPE = "image/*";
-	private final static String REDIRECT_PICTURE = "redirect:/picture/{commodityId}";
+	private final static String REDIRECT_PICTURE = "redirect:/picture/{commodityId}/getAll";
 	private final static String UPLOAD_PICTURE = "picture/uploadPicture";
 
 	@Autowired

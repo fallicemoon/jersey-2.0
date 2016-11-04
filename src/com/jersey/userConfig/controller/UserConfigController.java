@@ -50,7 +50,7 @@ public class UserConfigController {
 			if (value<=0 || value>100) {
 				return Tools.getFailJson("分頁筆數不得小於0或大於100").toString();
 			}
-			userConfigService.updateUserConfig(userSession, userConfig, value);
+			userConfigService.updateUserConfig(userConfig, value);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,11 +69,11 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityType", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
 	public String createCommodityType (@RequestBody CommodityTypeVO commodityTypeVO) {
 		try {
-			JSONObject json = userConfigService.validateCommodityType(userSession, commodityTypeVO);
+			JSONObject json = userConfigService.validateCommodityType(commodityTypeVO);
 			if ("fail".equals(json.getString("result"))) {
 				return json.toString();
 			}
-			commodityTypeVO = userConfigService.createCommodityType(userSession, commodityTypeVO);
+			commodityTypeVO = userConfigService.createCommodityType(commodityTypeVO);
 			return Tools.getSuccessJson().put("commodityTypeId", commodityTypeVO.getCommodityTypeId()).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,12 +87,12 @@ public class UserConfigController {
 		try {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
 			commodityAttrVO.setCommodityTypeVO(commodityTypeVO);
-			JSONObject json = userConfigService.validateCommodityAttr(userSession, commodityAttrVO);
+			JSONObject json = userConfigService.validateCommodityAttr(commodityAttrVO);
 			if ("fail".equals(json.getString("result"))) {
 				return json.toString();
 			}
 			
-			CommodityAttrVO result = userConfigService.createCommodityAttr(userSession, commodityAttrVO);
+			CommodityAttrVO result = userConfigService.createCommodityAttr(commodityAttrVO);
 			return Tools.getSuccessJson()
 					.put("commodityAttrId", result.getCommodityAttrId())
 					.put("commodityType", result.getCommodityTypeVO().getCommodityType())
@@ -116,13 +116,13 @@ public class UserConfigController {
 			
 			//如果新輸入的商品種類名稱和舊的不一樣就要檢查此商品種類名稱是否存在
 			if (!commodityTypeVO.getCommodityType().equals(oldCommodityType)) {
-				JSONObject json = userConfigService.validateCommodityType(userSession, commodityTypeVO);
+				JSONObject json = userConfigService.validateCommodityType(commodityTypeVO);
 				if ("fail".equals(json.getString("result"))) {
 					return json.toString();
 				}
 			}
 			
-			userConfigService.updateCommodityType(userSession, commodityTypeVO);
+			userConfigService.updateCommodityType(commodityTypeVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,13 +145,13 @@ public class UserConfigController {
 			
 			//如果新輸入的商品屬性名稱和舊的不一樣就要檢查此商品屬性名稱是否存在
 			if (!commodityAttrVO.getCommodityAttr().equals(oldCommodityAttr)) {
-				JSONObject json = userConfigService.validateCommodityAttr(userSession, commodityAttrVO);
+				JSONObject json = userConfigService.validateCommodityAttr(commodityAttrVO);
 				if ("fail".equals(json.getString("result"))) {
 					return json.toString();
 				}
 			}
 			
-			userConfigService.updateCommodityAttr(userSession, commodityAttrVO);
+			userConfigService.updateCommodityAttr(commodityAttrVO);
 			return Tools.getSuccessJson().put("commodityAttrAuthorityShowName", commodityAttrAuthority.getShowName()).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -163,7 +163,7 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
 	public String removeCommodityAttr (@PathVariable("commodityAttrId") Integer commodityAttrId, Map<String, Object> map) {
 		try {
-			userConfigService.removeCommodityAttr(userSession, commodityAttrId);
+			userConfigService.removeCommodityAttr(commodityAttrId);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,7 +175,7 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityType/{commodityTypeId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
 	public String removeCommodityType (@PathVariable("commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
 		try {
-			userConfigService.removeCommodityType(userSession, commodityTypeId);
+			userConfigService.removeCommodityType(commodityTypeId);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,7 +1,10 @@
 package com.jersey.member.controller;
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +32,21 @@ public class MemberController {
 	
 	//秘密接口, 只有admin才會知道
 	@RequestMapping(value="/secretLogin", method=RequestMethod.POST)
-	public String login (MemberVO memberVO, Map<String, Object> map) {
+	public String login (MemberVO memberVO, Map<String, Object> map, HttpServletRequest request) {
 		boolean result = memberService.login(memberVO);
 		if (result) {
+			//登入後更換sessionId
+			Map<String, Object> sessionAttributes = new HashMap<>();
+			Enumeration<String> enumeration = request.getSession().getAttributeNames();
+			while (enumeration.hasMoreElements()) {
+				String key = enumeration.nextElement();
+				sessionAttributes.put(key, request.getSession().getAttribute(key));
+			}
+			request.getSession().invalidate();
+			for (String key : sessionAttributes.keySet()) {
+				request.getSession().setAttribute(key, sessionAttributes.get(key));
+			}
+			
 			return REDIRECT_INDEX;
 		} else {
 			map.put("errorMessage", "帳號密碼打錯了");

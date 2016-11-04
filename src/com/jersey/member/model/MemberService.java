@@ -17,7 +17,7 @@ public class MemberService {
 	public boolean login (MemberVO memberVO) {
 		//TODO 帳號驗證, 多用戶
 		if ("jersey".equals(memberVO.getUserName()) && "white".equals(memberVO.getPassword())) {
-			userConfigService.initAdminUserSessionUserConfig(userSession, "jersey");
+			userConfigService.initAdminUserSessionUserConfig("jersey");
 			return true;
 		} else {
 			return false;

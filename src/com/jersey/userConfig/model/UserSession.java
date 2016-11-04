@@ -1,5 +1,7 @@
 package com.jersey.userConfig.model;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,9 @@ import com.jersey.tools.JerseyEnum.Authority;
 public class UserSession{
 	
 	@Autowired
-	private UserConfigService userConfigService;
+	CommodityTypeDAO commodityTypeDAO;
+	@Autowired
+	CommodityAttrDAO commodityAttrDAO;
 	
 	private UserConfigVO userConfigVO;
 	private Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap;
@@ -28,7 +32,7 @@ public class UserSession{
 		userConfigVO = new UserConfigVO();
 		userConfigVO.setAuthority(Authority.customer);
 		userConfigVO.setCommodityPageSize(50);
-		userConfigService.initCustomerUserSessionUserConfig(this);
+		this.initCustomerCommodityAttrMap();
 	} 
 	
 	public boolean isAdmin() {
@@ -54,6 +58,20 @@ public class UserSession{
 		this.commodityTypeAttrStringMap = commodityTypeAttrStringMap;
 	}
 	
-	
+	private void initCustomerCommodityAttrMap () {
+		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = new LinkedHashMap<>();
+		Map<String, List<String>> commodityTypeAttrStringMap = new LinkedHashMap<>();
+		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll(Authority.customer)) {
+			List<CommodityAttrVO> commodityAttrList = commodityAttrDAO.getCommodityAttrByCommodityType(Authority.customer, commodityTypeVO);
+			commodityTypeAttrMap.put(commodityTypeVO, commodityAttrList);
+			List<String> commodityAttrStringList = new ArrayList<>();
+			for (CommodityAttrVO commodityAttrVO : commodityAttrList) {
+				commodityAttrStringList.add(commodityAttrVO.getCommodityAttr());
+			}
+			commodityTypeAttrStringMap.put(commodityTypeVO.getCommodityType(), commodityAttrStringList);
+		}
+		this.setCommodityTypeAttrMap(commodityTypeAttrMap);
+		this.setCommodityTypeAttrStringMap(commodityTypeAttrStringMap);
+	}
 
 }
