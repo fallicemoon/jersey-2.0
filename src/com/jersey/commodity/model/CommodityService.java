@@ -23,11 +23,12 @@ import com.jersey.userConfig.model.UserSession;
 @Service
 public class CommodityService {
 
-	
 	@Autowired
 	private CommodityDAO commodityDAO;
 	@Autowired
 	private CommodityAttrMappingDAO commodityAttrMappingDAO;
+	@Autowired
+	private PictureDAO pictureDAO;
 	@Autowired
 	private UserSession userSession;
 	
@@ -116,12 +117,10 @@ public class CommodityService {
 
 
 	public Map<Integer, Integer> getCommodityIdPictureCountMap() {
-		PictureDAO pictureDAO = new PictureDAO();
 		return pictureDAO.getCommodityIdPictureCountMap();
 	}
 
 	public Integer getCommodityIdPictureCount(Integer commodityId) {
-		PictureDAO pictureDAO = new PictureDAO();
 		return pictureDAO.getCommodityIdPictureCount(commodityId);
 	}
 	

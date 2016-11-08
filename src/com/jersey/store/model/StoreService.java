@@ -41,8 +41,8 @@ public class StoreService {
 		storeDAO.update(vo);
 	}
 	
-	public void delete(Integer... ids) {
-		storeDAO.delete(ids);
+	public boolean delete(Integer... ids) {
+		return storeDAO.delete(ids);
 	}
 
 	public Long getTotalCount() {

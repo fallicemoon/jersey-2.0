@@ -1,6 +1,5 @@
 package com.jersey.picture.model;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,7 +7,6 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +16,6 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
@@ -94,21 +91,21 @@ public class PictureService {
 		}
 	}
 
-	public Map<Integer, String> getPictureBase64(Integer commodityId) throws IOException {
-		List<PictureVO> list = pictureDAO.getPicturesByCommodityId(commodityId);
-		Map<Integer, String> pictures = new LinkedHashMap<Integer, String>();
-
-		try {
-			for (PictureVO vo : list) {
-				String pictureBase64 = parseInputStreamToBase64(vo.getPicture().getBinaryStream());
-				pictures.put(vo.getPictureId(), pictureBase64);
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return pictures;
-	}
+//	public Map<Integer, String> getPictureBase64(Integer commodityId) throws IOException {
+//		List<PictureVO> list = pictureDAO.getPicturesByCommodityId(commodityId);
+//		Map<Integer, String> pictures = new LinkedHashMap<Integer, String>();
+//
+//		try {
+//			for (PictureVO vo : list) {
+//				String pictureBase64 = parseInputStreamToBase64(vo.getPicture().getBinaryStream());
+//				pictures.put(vo.getPictureId(), pictureBase64);
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return pictures;
+//	}
 
 	public void getPicturesZip(String[] pictureIds, OutputStream os) throws IOException {
 		ZipOutputStream zos = new ZipOutputStream(os);
@@ -202,8 +199,8 @@ public class PictureService {
 		os.close();
 	}
 
-	public void deletePictures(Integer[] pictureIds) {
-		pictureDAO.delete(pictureIds);
+	public boolean deletePictures(Integer[] pictureIds) {
+		return pictureDAO.delete(pictureIds);
 	}
 	
 	//權限控管
@@ -222,7 +219,6 @@ public class PictureService {
 
 	private List<PictureVO> parseFormToPictureVO(List<FileItem> fileItems) throws FileUploadException, IOException {
 		List<PictureVO> list = new ArrayList<PictureVO>();
-
 		FileItem picture = null;
 		Integer commodityId = null;
 		for (FileItem fileItem : fileItems) {
@@ -256,17 +252,17 @@ public class PictureService {
 		return list;
 	}
 
-	private String parseInputStreamToBase64(InputStream is) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		byte[] b = new byte[1024];
-		int length = -1;
-		while ((length = is.read(b)) != -1) {
-			baos.write(b, 0, length);
-		}
-
-		byte[] pictureByteArray = baos.toByteArray();
-		Base64 base64 = new Base64();
-		String picture = base64.encodeToString(pictureByteArray);
-		return picture;
-	}
+//	private String parseInputStreamToBase64(InputStream is) throws IOException {
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		byte[] b = new byte[1024];
+//		int length = -1;
+//		while ((length = is.read(b)) != -1) {
+//			baos.write(b, 0, length);
+//		}
+//
+//		byte[] pictureByteArray = baos.toByteArray();
+//		Base64 base64 = new Base64();
+//		String picture = base64.encodeToString(pictureByteArray);
+//		return picture;
+//	}
 }

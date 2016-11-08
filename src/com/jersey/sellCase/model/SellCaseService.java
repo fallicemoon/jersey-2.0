@@ -18,14 +18,16 @@ import com.jersey.tools.Tools;
 public class SellCaseService {
 	
 	@Autowired
-	private SellCaseDAO dao;
+	private PurchaseCaseDAO purchaseCaseDAO;
+	@Autowired
+	private SellCaseDAO sellCaseDAO;
 
 	public List<SellCaseWithBenefitVO> getAll(Integer pageSize, Integer page) {
-		return getSellCaseWithBenefitVOList(dao.getAll(pageSize, page));
+		return getSellCaseWithBenefitVOList(sellCaseDAO.getAll(pageSize, page));
 	}
 
 	public SellCaseVO getOne(Integer id) {
-		return dao.getOne(id);
+		return sellCaseDAO.getOne(id);
 	}
 
 	public SellCaseVO create(SellCaseVO vo) {
@@ -39,7 +41,7 @@ public class SellCaseService {
 			vo.setCloseTime(new Date());
 		}
 		
-		return this.dao.create(vo);
+		return this.sellCaseDAO.create(vo);
 	}
 
 	public SellCaseVO update(SellCaseVO vo) {
@@ -52,50 +54,47 @@ public class SellCaseService {
 		if ((vo.getUncollected() == 0) && (vo.getIsChecked())) {
 			vo.setCloseTime(new Date());
 		}
-		return this.dao.update(vo);
+		return this.sellCaseDAO.update(vo);
 	}
 
 	public boolean delete(Integer[] ids) {
-		return this.dao.delete(ids);
+		return this.sellCaseDAO.delete(ids);
 	}
 
 	public Set<PurchaseCaseVO> getPurchaseCasesBySellCaseId(Integer id) {
-		SellCaseVO sellCaseVO = this.dao.getOne(id);
+		SellCaseVO sellCaseVO = this.sellCaseDAO.getOne(id);
 		if (sellCaseVO != null)
 			return sellCaseVO.getPurchaseCases();
 		return new HashSet<PurchaseCaseVO>();
 	}
 
 	public List<PurchaseCaseVO> getPurchaseCasesBySellCaseIdIsNull() {
-		PurchaseCaseDAO purchaseCaseDAO = new PurchaseCaseDAO();
 		return purchaseCaseDAO.getPurchaseCasesBySellCaseIdIsNull();
 	}
 
 	public void addSellCaseIdToPurchaseCases(Integer sellCaseId, Integer[] purchaseCaseIds) {
-		PurchaseCaseDAO purchaseCaseDAO = new PurchaseCaseDAO();
 		purchaseCaseDAO.updateSellCaseId(sellCaseId, purchaseCaseIds);
 	}
 
 	public void deleteSellCaseIdFromPurchaseCases(Integer[] purchaseCaseIds) {
-		PurchaseCaseDAO purchaseCaseDAO = new PurchaseCaseDAO();
 		purchaseCaseDAO.deleteSellCaseId(purchaseCaseIds);
 	}
 
 	public List<SellCaseWithBenefitVO> getUncollectedNotZero() {
-		return getSellCaseWithBenefitVOList(dao.getUncollectedNotZero());
+		return getSellCaseWithBenefitVOList(sellCaseDAO.getUncollectedNotZero());
 	}
 
 	public List<SellCaseWithBenefitVO> getIsClosed() {
-		return getSellCaseWithBenefitVOList(dao.getIsClosed());
+		return getSellCaseWithBenefitVOList(sellCaseDAO.getIsClosed());
 	}
 
 	public List<SellCaseWithBenefitVO> getNotClosed() {
-		return getSellCaseWithBenefitVOList(dao.getNotClosed());
+		return getSellCaseWithBenefitVOList(sellCaseDAO.getNotClosed());
 	}
 
 	public List<SellCaseWithBenefitVO> getBetweenCloseTime(Date start, Date end) {
 		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return getSellCaseWithBenefitVOList(dao.getBetweenCloseTime(start, end));
+		return getSellCaseWithBenefitVOList(sellCaseDAO.getBetweenCloseTime(start, end));
 //		List<SellCaseVO> list = new ArrayList<SellCaseVO>();
 //
 //		for (Object[] object : sellCaseList) {
@@ -168,7 +167,7 @@ public class SellCaseService {
 	}
 
 	public Long getTotalCount() {
-		return dao.getTotalCount();
+		return sellCaseDAO.getTotalCount();
 	}
 	
 	

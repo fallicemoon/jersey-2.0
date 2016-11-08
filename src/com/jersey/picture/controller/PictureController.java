@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -99,14 +98,13 @@ public class PictureController {
 			for (int i = 0; i < storeIds.size(); i++) {
 				ids[i] = Integer.valueOf(storeIds.get(i).toString());
 			}
-			pictureService.deletePictures(ids);
+			if (pictureService.deletePictures(ids)) {
+				throw new Exception();
+			}
 			return Tools.getSuccessJson().toString();
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return Tools.getFailJson("刪除失敗").toString();
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return Tools.getFailJson("刪除失敗").toString();			
 		}
 	}
 	

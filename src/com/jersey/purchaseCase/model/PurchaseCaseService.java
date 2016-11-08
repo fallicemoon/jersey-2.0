@@ -14,57 +14,56 @@ import com.jersey.commodity.model.CommodityVO;
 public class PurchaseCaseService {
 	
 	@Autowired
-	private PurchaseCaseDAO dao;
+	private CommodityDAO commodityDAO;
+	@Autowired
+	private PurchaseCaseDAO purchaseCaseDAO;
 
 	public List<PurchaseCaseVO> getAll(Integer pageSize, Integer page) {
-		return dao.getAll(pageSize, page);
+		return purchaseCaseDAO.getAll(pageSize, page);
 	}
 
 	public List<PurchaseCaseVO> getAllOfNotComplete() {
-		return this.dao.getAllOfNotProgress("進貨完成");
+		return this.purchaseCaseDAO.getAllOfNotProgress("進貨完成");
 	}
 
 	public PurchaseCaseVO getOne(Integer id) {
-		return this.dao.getOne(id);
+		return this.purchaseCaseDAO.getOne(id);
 	}
 
 	public PurchaseCaseVO create(PurchaseCaseVO vo) {
-		return this.dao.create(vo);
+		return this.purchaseCaseDAO.create(vo);
 	}
 
 	public PurchaseCaseVO update(PurchaseCaseVO vo) {
-		return this.dao.update(vo);
+		return this.purchaseCaseDAO.update(vo);
 	}
 
 	public boolean delete(Integer[] ids) {
-		return this.dao.delete(ids);
+		return this.purchaseCaseDAO.delete(ids);
 	}
 
 	public Set<CommodityVO> getCommoditysByPurchaseCaseId(Integer id) {
-		PurchaseCaseVO vo = this.dao.getOne(id);
+		PurchaseCaseVO vo = this.purchaseCaseDAO.getOne(id);
 		if (vo != null)
 			return vo.getCommoditys();
 		return new HashSet<>();
 	}
 
 	public List<CommodityVO> getCommoditysByPurchaseCaseIdIsNull() {
-		CommodityDAO commodityDAO = new CommodityDAO();
 		return commodityDAO.getByPurchaseCaseIdIsNull();
 	}
 
 	public void addPurchaseCaseIdToCommoditys(Integer purchaseCaseId, Integer[] commodityIds) {
-		CommodityDAO commodityDAO = new CommodityDAO();
 		PurchaseCaseVO purchaseCaseVO = getOne(purchaseCaseId);
 		commodityDAO.updatePurchaseCaseId(purchaseCaseVO, commodityIds);
 	}
 
 	public void deletePurchasCaseIdFromCommoditys(Integer[] commodityIds) {
-		CommodityDAO commodityDAO = new CommodityDAO();
 		commodityDAO.deletePurchaseCaseId(commodityIds);
 	}
 
 	public Long getTotalCount() {
-		return dao.getTotalCount();
+		return purchaseCaseDAO.getTotalCount();
 	}
 }
 

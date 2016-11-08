@@ -99,7 +99,9 @@ public class SellCaseController {
 			for (int i = 0; i < sellCaseIds.length; i++) {
 				ids[i] = Integer.valueOf(sellCaseIds[i]);
 			}
-			sellCaseService.delete(ids);
+			if (sellCaseService.delete(ids)) {
+				throw new Exception();
+			}
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
