@@ -3,15 +3,16 @@ package com.jersey.userConfig.model;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jersey.commodity.model.CommodityAttrMappingDAO;
 import com.jersey.commodity.model.CommodityAttrMappingVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
@@ -33,13 +34,11 @@ public class UserConfigService {
 	@Autowired
 	private CommodityAttrDAO commodityAttrDAO;
 	@Autowired
-	private CommodityAttrMappingDAO commodityAttrMappingDAO;
-	@Autowired
 	private CommodityService commodityService;
 	@Autowired
 	private UserSession userSession;
 	
-	private static final String COMMODITY_ATTR_VALUE_REG = "[a-zA-Z\\d]*";
+	private static final String COMMODITY_ATTR_VALUE_REG = "[\u4e00-\u9fa5_a-zA-Z\\d]{1,30}";
 	
 	//使用者相關登入資訊
 	public void initAdminUserSessionUserConfig(String userName) {
@@ -79,10 +78,9 @@ public class UserConfigService {
 	}
 	
 	public CommodityAttrVO createCommodityAttr (CommodityAttrVO commodityAttrVO) {
-		CommodityAttrVO result = commodityAttrDAO.create(commodityAttrVO);
-		//要把所有商品都新增上此一屬性值
 		List<CommodityVO> list = commodityService.getAll(commodityAttrVO.getCommodityTypeVO());
-		List<CommodityAttrMappingVO> commodityAttrMappingList = new ArrayList<>();
+		//要把所有商品都新增上此一屬性值
+		Set<CommodityAttrMappingVO> commodityAttrMappingList = new HashSet<>();
 		for (CommodityVO commodityVO : list) {
 			CommodityAttrMappingVO commodityAttrMappingVO = new CommodityAttrMappingVO();
 			commodityAttrMappingVO.setCommodityAttrVO(commodityAttrVO);
@@ -90,7 +88,8 @@ public class UserConfigService {
 			commodityAttrMappingVO.setCommodityVO(commodityVO);
 			commodityAttrMappingList.add(commodityAttrMappingVO);
 		}
-		commodityAttrMappingDAO.create(commodityAttrMappingList);
+		commodityAttrVO.setCommodityAttrMappings(commodityAttrMappingList);
+		CommodityAttrVO result = commodityAttrDAO.create(commodityAttrVO);
 		initCommodityAttrMap();
 		return result;
 	}
@@ -126,7 +125,7 @@ public class UserConfigService {
 			return Tools.getFailJson("已經有此商品種類");
 		}
 		if (!commodityTypeVO.getCommodityType().matches(COMMODITY_ATTR_VALUE_REG)) {
-			return Tools.getFailJson("商品種類只能有英文或數字");
+			return Tools.getFailJson("商品種類長度為1~30,且只能有中文、英文、數字、底線");
 		}
 		return Tools.getSuccessJson();
 	}
@@ -136,7 +135,7 @@ public class UserConfigService {
 			return Tools.getFailJson("已經有此商品屬性");
 		}
 		if (!commodityAttrVO.getCommodityAttr().matches(COMMODITY_ATTR_VALUE_REG)) {
-			return Tools.getFailJson("商品屬性只能有英文或數字或空白");
+			return Tools.getFailJson("商品屬性長度為1~30,且只能有中文、英文、數字、底線");
 		}
 		return Tools.getSuccessJson();
 	}

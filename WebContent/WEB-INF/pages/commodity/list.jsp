@@ -221,12 +221,12 @@
 			if(button.hasClass("btn-warning")){
 				//未上架, 開始上架
 				button.prop("disabled", true).text(" 上架中").prepend(img);
-				body["authority"] = "customer";
+				body["authority"] = "CUSTOMER";
 				isUp = true;
 			}else if(button.hasClass("btn-success")){
 				//已上架, 開始下架
 				button.prop("disabled", true).text(" 下架中").prepend(img);
-				body["authority"] = "admin";
+				body["authority"] = "ADMIN";
 				isUp = false;
 			}
 			
@@ -435,10 +435,10 @@
 					</td>
 					<td>
 						<c:choose>
-							<c:when test="${vo.authority=='admin'}">
+							<c:when test="${vo.authority=='ADMIN'}">
 								<button class="btn btn-warning authority"><div class="commodityAuthority">未上架</div></button>
 							</c:when>
-							<c:when test="${vo.authority=='customer'}">
+							<c:when test="${vo.authority=='CUSTOMER'}">
 								<button class="btn btn-success authority"><div class="commodityAuthority">已上架</div></button>
 							</c:when>
 						</c:choose>

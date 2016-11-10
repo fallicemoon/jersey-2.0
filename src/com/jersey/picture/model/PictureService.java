@@ -32,7 +32,9 @@ import com.jersey.userConfig.model.UserSession;
 
 @Service
 public class PictureService {
-	
+
+	@Autowired
+	private HibernateTools hibernateTools;
 	@Autowired
 	private CommodityDAO commodityDAO;
 	@Autowired
@@ -207,14 +209,14 @@ public class PictureService {
 	public boolean validatePicPageAuthority (Integer commodityId) {
 		Authority commodityAuthority = userSession.getUserConfigVO().getAuthority();
 		Authority userAuthority = commodityDAO.getOne(commodityId).getAuthority();
-		return commodityAuthority==Authority.customer || userAuthority==Authority.admin;
+		return commodityAuthority==Authority.CUSTOMER || userAuthority==Authority.ADMIN;
 	}
 	
 	//權限控管
 	public boolean validateReadPicAuthority (Integer pictureId) {
 		Authority commodityAuthority = userSession.getUserConfigVO().getAuthority();
 		Authority userAuthority = pictureDAO.getOne(pictureId).getCommodityVO().getAuthority();
-		return commodityAuthority==Authority.customer || userAuthority==Authority.admin;
+		return commodityAuthority==Authority.CUSTOMER || userAuthority==Authority.ADMIN;
 	}
 
 	private List<PictureVO> parseFormToPictureVO(List<FileItem> fileItems) throws FileUploadException, IOException {
@@ -243,7 +245,7 @@ public class PictureService {
 			String extensionName = fileName.substring(fileName.lastIndexOf(".") + 1);
 			if ((!extensionName.equalsIgnoreCase("jpg")) && (!extensionName.equalsIgnoreCase("gif")) && (!extensionName.equalsIgnoreCase("png")))
 				throw new FileUploadException("副檔名須為jpg, gif, png 三者其中之一");
-			Blob blob = HibernateTools.getBlob(picture.get());
+			Blob blob = hibernateTools.getBlob(picture.get());
 			pictureVO.setPicture(blob);
 			pictureVO.setFileName(fileName);
 

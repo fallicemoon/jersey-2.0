@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.tools.AbstractDAO;
@@ -13,6 +14,9 @@ import com.jersey.tools.HibernateTools;
 @Repository
 public class CommodityAttrMappingDAO extends AbstractDAO<CommodityAttrMappingVO> {
 
+	@Autowired
+	private HibernateTools hibernateTools;
+	
 	public CommodityAttrMappingDAO() {
 		super(CommodityAttrMappingVO.class, "commodityAttrMappingId");
 	}
@@ -26,7 +30,7 @@ public class CommodityAttrMappingDAO extends AbstractDAO<CommodityAttrMappingVO>
 	}
 	
 	public void create (List<CommodityAttrMappingVO> list) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.beginTransaction();
 		try {
 			for (int i = 0; i < list.size(); i++) {

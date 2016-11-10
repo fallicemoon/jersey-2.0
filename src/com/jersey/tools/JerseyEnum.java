@@ -7,11 +7,11 @@ import java.util.List;
 public class JerseyEnum {
 
 	public enum StoreType {
-		store, shippingCompany;
+		STORE, SHIPPING_COMPANY;
 	}
 	
 	public enum Authority {
-		admin("管理員"), customer("顧客");
+		ADMIN("管理員"), CUSTOMER("顧客");
 		private String showName;
 		private Authority (String showName) {
 			this.showName = showName;
@@ -22,13 +22,13 @@ public class JerseyEnum {
 	}
 	
 	public enum CommodityAttrStatus {
-		show, hidden;
+		SHOW, HIDDEN;
 	}
 	
 	public enum CommodityAttrAuthority {
-		admin(CommodityAttrStatus.show, "管理員", Authority.admin), 
-		adminHidden(CommodityAttrStatus.hidden,"管理員(隱藏)", Authority.admin), 
-		customer(CommodityAttrStatus.show, "顧客", Authority.admin, Authority.customer);
+		ADMIN(CommodityAttrStatus.SHOW, "管理員", Authority.ADMIN), 
+		ADMIN_HIDDEN(CommodityAttrStatus.HIDDEN,"管理員(隱藏)", Authority.ADMIN), 
+		CUSTOMER(CommodityAttrStatus.SHOW, "顧客", Authority.ADMIN, Authority.CUSTOMER);
 		
 		private List<Authority> allowAuthority;
 		private CommodityAttrStatus commodityAttrStatus;
@@ -60,14 +60,14 @@ public class JerseyEnum {
 	}
 	
 	public enum UserConfigType {
-		systemParam
+		SYSTEM_PARAM
 	}
 
 	public enum UserConfig {
-		commodityPageSize(UserConfigType.systemParam, Integer.class), 
-		purchaseCasePageSize(UserConfigType.systemParam, Integer.class), 
-		sellCasePageSize(UserConfigType.systemParam, Integer.class), 
-		storePageSize(UserConfigType.systemParam, Integer.class);
+		COMMODITY_PAGE_SIZE(UserConfigType.SYSTEM_PARAM, Integer.class), 
+		PURCHASE_CASE_PAGE_SIZE(UserConfigType.SYSTEM_PARAM, Integer.class), 
+		SELL_CASE_PAGE_SIZE(UserConfigType.SYSTEM_PARAM, Integer.class), 
+		STORE_PAGE_SIZE(UserConfigType.SYSTEM_PARAM, Integer.class);
 		
 		private UserConfigType userConfigType;
 		private Class<?> dataType;

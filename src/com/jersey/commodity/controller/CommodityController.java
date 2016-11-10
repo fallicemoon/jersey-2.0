@@ -68,7 +68,7 @@ public class CommodityController {
 		Iterator<CommodityAttrVO> commodityAttrVOIterator = commodityTypeAttrMap.get(commodityTypeVO).iterator();
 		while (commodityAttrVOIterator.hasNext()) {
 			CommodityAttrVO commodityAttrVO = commodityAttrVOIterator.next();
-			if(commodityAttrVO.getCommodityAttrAuthority()==CommodityAttrAuthority.adminHidden){
+			if(commodityAttrVO.getCommodityAttrAuthority()==CommodityAttrAuthority.ADMIN_HIDDEN){
 				commodityAttrVOIterator.remove();
 			}
 		}

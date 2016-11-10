@@ -22,7 +22,7 @@ public class StoreDAOTest {
 	
 	@Test
 	public void getStoreListByType () {
-		list = storeDAO.getStoreListByType(StoreType.store);
+		list = storeDAO.getStoreListByType(StoreType.STORE);
 	}
 	
 	@After

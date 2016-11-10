@@ -31,7 +31,7 @@
   	  </td>
   	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" /><c:if test="${vo.link != null}"><a href="${vo.link}" target="_blank">連結</a></c:if>
   	  		<c:if test="${vo.link == null}"></c:if></td>
-  	  <td>${vo.authority=='admin' ? '未上架':'已上架'}</td>
+  	  <td>${vo.authority=='ADMIN' ? '未上架':'已上架'}</td>
   	  <td>${vo.isStored ? '是':'否'}</td>
   	</tr>
   	</c:forEach>
@@ -61,7 +61,7 @@
   	  </td>
   	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" /><c:if test="${vo.link != null}"><a href="${vo.link}" target="_blank">連結</a></c:if>
   	  		<c:if test="${vo.link == null}"></c:if></td>
-  	  <td>${vo.authority=='admin' ? '未上架':'已上架'}</td>
+  	  <td>${vo.authority=='ADMIN' ? '未上架':'已上架'}</td>
   	  <td>${vo.isStored ? '是':'否'}</td>
   	</tr>
   	</c:forEach>

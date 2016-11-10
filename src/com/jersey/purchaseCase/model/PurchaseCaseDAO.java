@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.sellCase.model.SellCaseVO;
@@ -13,6 +14,9 @@ import com.jersey.tools.HibernateTools;
 
 @Repository
 public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
+
+	@Autowired
+	private HibernateTools hibernateTools;
 	
 //	private static final String GET_ALL = "select p.purchaseCaseId as purchaseCaseId, p.sellCaseVO as sellCaseVO, p.store as store,"
 //			+ "p.progress as progress, p.shippingCompany as shippingCompany, p.trackingNumber as trackingNumber,"
@@ -151,7 +155,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 	}
 
 	public boolean updateSellCaseId(Integer sellCaseId, Integer[] purchaseCaseIds) {
-		Session session = HibernateTools.getSessionFactory().getCurrentSession();
+		Session session = hibernateTools.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
 			SellCaseVO sellCaseVO = new SellCaseVO();
@@ -180,7 +184,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 	}
 
 	public boolean deleteSellCaseId(Integer[] purchaseCaseIds) {
-		Session session = HibernateTools.getSessionFactory().getCurrentSession();
+		Session session = hibernateTools.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
 
@@ -209,7 +213,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 	//先刪掉商品再刪進貨
 	@Override
 	public boolean delete(Integer[] ids) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		try {
 			session.beginTransaction();
 			session.createQuery("delete from CommodityVO vo where vo.purchaseCaseVO.purchaseCaseId in (:ids)").setParameterList("ids", ids).executeUpdate();

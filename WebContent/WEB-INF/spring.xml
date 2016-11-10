@@ -36,6 +36,58 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close"> 
+        <property name="driverClass" value="org.mariadb.jdbc.Driver" />
+     	<property name="jdbcUrl" value="jdbc:mariadb://localhost:3307/jersey" />
+     	<property name="user" value="root" />
+     	<property name="password" value="qwerty" />
+        <property name="maxPoolSize" value="50" />
+     	<property name="minPoolSize" value="10" />
+     	<property name="maxStatements" value="100" />
+     	<property name="idleConnectionTestPeriod" value="300" />
+    </bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" destroy-method="destroy">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/jersey/commodity/model/CommodityVO.hbm.xml</value>
+				<value>com/jersey/purchaseCase/model/PurchaseCaseVO.hbm.xml</value>
+				<value>com/jersey/sellCase/model/SellCaseVO.hbm.xml</value>
+				<value>com/jersey/store/model/StoreVO.hbm.xml</value>
+				<value>com/jersey/picture/model/PictureVO.hbm.xml</value>
+				<value>com/jersey/userConfig/model/UserConfigVO.hbm.xml</value>
+				<value>com/jersey/userConfig/model/CommodityAttrVO.hbm.xml</value>
+				<value>com/jersey/commodity/model/CommodityAttrMappingVO.hbm.xml
+				</value>
+				<value>com/jersey/userConfig/model/CommodityTypeVO.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<!--是否要顯示實際操作資料庫時的SQL -->
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- Disable the second-level cache -->
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+				<!--交易管理類型, 以下使用JDBC Transaction -->
+				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
+				<!-- Enable Hibernate's automatic session context management -->
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<!-- batch size -->
+				<prop key="hibernate.jdbc.batch_size">30</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"> 
+        <property name="sessionFactory"> 
+            <ref bean="sessionFactory"/> 
+        </property>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

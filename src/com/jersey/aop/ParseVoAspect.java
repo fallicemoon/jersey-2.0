@@ -19,7 +19,7 @@ public class ParseVoAspect {
 	 * 2.塞入createTime和LastModifyTime
 	 * @param joinPoint
 	 */
-	@Before(value = "execution(public * *..*Service.create(..))")
+	@Before(value = "execution(public * *..*Service.create*(..))")
 	public void beforeCreate (JoinPoint joinPoint) {
 		System.out.println("start aop beforeCreate...");
 		Object[] args = joinPoint.getArgs();
@@ -39,7 +39,7 @@ public class ParseVoAspect {
 	 * 2.塞入LastModifyTime
 	 * @param joinPoint
 	 */
-	@Before(value = "execution(public * *..*Service.update(..))")
+	@Before(value = "execution(public * *..*Service.update*(..))")
 	public void beforeUpdate (JoinPoint joinPoint) {
 		System.out.println("start aop beforeUpdate...");
 		Object[] args = joinPoint.getArgs();

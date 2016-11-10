@@ -36,7 +36,7 @@
   	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" />
   	  		<c:if test="${!empty vo.link}"><a href="${vo.link}" target="_blank"> 連結</a></c:if>
   	  		<c:if test="${empty vo.link}"></c:if></td>
-  	  <td>${vo.authority=='admin' ? '未上架':'已上架'}</td>
+  	  <td>${vo.authority=='ADMIN' ? '未上架':'已上架'}</td>
   	  <c:if test="${vo.isStored}"><td>是</td></c:if>
   	  <c:if test="${!vo.isStored}"><td>否</td></c:if>
   	</tr>

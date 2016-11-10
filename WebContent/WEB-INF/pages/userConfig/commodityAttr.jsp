@@ -31,7 +31,11 @@
 			init();
 			//ajax結束後將按鈕恢復
 			$(document).ajaxComplete(function(){
+				var select = $("select[name=commodityTypeId]");
+				var selected = select.find(":selected").val();
 				init();
+				//新增商品屬性的下拉式選單值不要變, 這樣比較直覺
+				select.find("option[value="+ selected +"]").prop("selected", true);
 			});
 			
 			<%--新增商品種類--%>
@@ -323,6 +327,8 @@
 						</div>
 						<div class="col-sm-1">
 							<button id="prepareUpdateCommodityType" class="btn btn-warning">修改商品種類名稱</button>
+						</div>
+						<div class="col-sm-1">
 							<button id="updateCommodityType" class="btn btn-success">確認修改</button>
 						</div>
 						<div class="col-sm-1">

@@ -34,10 +34,10 @@ public class UserConfigController {
 	
 	@RequestMapping(value="/systemParam", method=RequestMethod.GET)
 	public String getSystemParam (Map<String, Object> map) {
-		map.put(UserConfig.commodityPageSize.toString(), userSession.getUserConfigVO().getCommodityPageSize());
-		map.put(UserConfig.purchaseCasePageSize.toString(), userSession.getUserConfigVO().getPurchaseCasePageSize());
-		map.put(UserConfig.sellCasePageSize.toString(), userSession.getUserConfigVO().getSellCasePageSize());
-		map.put(UserConfig.storePageSize.toString(), userSession.getUserConfigVO().getStorePageSize());
+		map.put(UserConfig.COMMODITY_PAGE_SIZE.toString(), userSession.getUserConfigVO().getCommodityPageSize());
+		map.put(UserConfig.PURCHASE_CASE_PAGE_SIZE.toString(), userSession.getUserConfigVO().getPurchaseCasePageSize());
+		map.put(UserConfig.SELL_CASE_PAGE_SIZE.toString(), userSession.getUserConfigVO().getSellCasePageSize());
+		map.put(UserConfig.STORE_PAGE_SIZE.toString(), userSession.getUserConfigVO().getStorePageSize());
 		return SYSTEM_PARAM;
 	}
 	

@@ -11,6 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.commodity.model.CommodityVO;
@@ -19,6 +20,9 @@ import com.jersey.tools.HibernateTools;
 
 @Repository
 public class PictureDAO extends AbstractDAO<PictureVO> {
+	
+	@Autowired
+	private HibernateTools hibernateTools;
 	// private DataSource ds;
 	// private Connection connection;
 	// private PreparedStatement preparedStatement;
@@ -149,7 +153,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	}
 
 	public Map<Integer, Integer> getCommodityIdPictureCountMap() {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.beginTransaction();
 		List<Map<String, Object>> result;
 		try {
@@ -173,7 +177,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	}
 
 	public Integer getCommodityIdPictureCount(Integer commodityId) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.beginTransaction();
 
 		Integer count;
@@ -202,7 +206,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	}
 	
 	private Integer getSequenceId (CommodityVO commodityVO) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.beginTransaction();
 		try {
 			Integer sequenceId = (Integer)session.createQuery(GET_NEXT_SEQUENCE_ID).setParameter("commodityVO", commodityVO).uniqueResult();

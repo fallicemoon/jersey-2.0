@@ -46,8 +46,8 @@ public class jerseyContextListener implements ServletContextListener {
 		// 塞入商店和託運公司
 		//TODO cache
 		ServletContext servletContext = servletContextEvent.getServletContext();
-		servletContext.setAttribute(StoreType.store.toString(), storeService.getStoreSetByType(StoreType.store));
-		servletContext.setAttribute(StoreType.shippingCompany.toString(), storeService.getStoreSetByType(StoreType.shippingCompany));
+		servletContext.setAttribute(StoreType.STORE.toString(), storeService.getStoreSetByType(StoreType.STORE));
+		servletContext.setAttribute(StoreType.SHIPPING_COMPANY.toString(), storeService.getStoreSetByType(StoreType.SHIPPING_COMPANY));
 		servletContext.setAttribute("authority", Authority.values());
 		servletContext.setAttribute("commodityAttrAuthority", CommodityAttrAuthority.values());
 		// 塞入使用者設定

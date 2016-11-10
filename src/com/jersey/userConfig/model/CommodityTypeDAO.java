@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.tools.AbstractDAO;
@@ -16,17 +17,20 @@ import com.jersey.tools.JerseyEnum.Authority;
 @Repository
 public class CommodityTypeDAO extends AbstractDAO<CommodityTypeVO> {
 
+	@Autowired
+	private HibernateTools hibernateTools;
+	
 	public CommodityTypeDAO() {
 		super(CommodityTypeVO.class, "commodityTypeId");
 	}
 	
 	public List<CommodityTypeVO> getAll (Authority authority) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.getTransaction().begin();
 		List<CommodityTypeVO> list;
 		try {
 			Query query;
-			if (authority==Authority.customer) {
+			if (authority==Authority.CUSTOMER) {
 				query = session.createQuery("from CommodityTypeVO vo where vo.authority=:authority").setParameter("authority", authority);
 			} else {
 				query = session.createQuery("from CommodityTypeVO");

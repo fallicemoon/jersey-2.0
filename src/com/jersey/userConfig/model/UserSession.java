@@ -30,13 +30,13 @@ public class UserSession{
 	@PostConstruct
 	public void init () {
 		userConfigVO = new UserConfigVO();
-		userConfigVO.setAuthority(Authority.customer);
+		userConfigVO.setAuthority(Authority.CUSTOMER);
 		userConfigVO.setCommodityPageSize(50);
 		this.initCustomerCommodityAttrMap();
 	} 
 	
 	public boolean isAdmin() {
-		return userConfigVO.getAuthority()==Authority.admin;
+		return userConfigVO.getAuthority()==Authority.ADMIN;
 	}
 
 	public UserConfigVO getUserConfigVO() {
@@ -61,8 +61,8 @@ public class UserSession{
 	private void initCustomerCommodityAttrMap () {
 		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = new LinkedHashMap<>();
 		Map<String, List<String>> commodityTypeAttrStringMap = new LinkedHashMap<>();
-		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll(Authority.customer)) {
-			List<CommodityAttrVO> commodityAttrList = commodityAttrDAO.getCommodityAttrByCommodityType(Authority.customer, commodityTypeVO);
+		for (CommodityTypeVO commodityTypeVO : commodityTypeDAO.getAll(Authority.CUSTOMER)) {
+			List<CommodityAttrVO> commodityAttrList = commodityAttrDAO.getCommodityAttrByCommodityType(Authority.CUSTOMER, commodityTypeVO);
 			commodityTypeAttrMap.put(commodityTypeVO, commodityAttrList);
 			List<String> commodityAttrStringList = new ArrayList<>();
 			for (CommodityAttrVO commodityAttrVO : commodityAttrList) {

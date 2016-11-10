@@ -118,8 +118,8 @@ public class StoreController {
 			if (storeService.delete(ids)) {
 				throw new Exception();
 			}
-			servletContext.setAttribute(StoreType.store.toString(), storeService.getStoreSetByType(StoreType.store));
-			servletContext.setAttribute(StoreType.shippingCompany.toString(), storeService.getStoreSetByType(StoreType.shippingCompany));
+			servletContext.setAttribute(StoreType.STORE.toString(), storeService.getStoreSetByType(StoreType.STORE));
+			servletContext.setAttribute(StoreType.SHIPPING_COMPANY.toString(), storeService.getStoreSetByType(StoreType.SHIPPING_COMPANY));
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

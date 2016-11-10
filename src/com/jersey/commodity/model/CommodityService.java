@@ -83,7 +83,7 @@ public class CommodityService {
 
 	public CommodityVO getOne(Integer commodityId) {
 		CommodityVO commodityVO = this.commodityDAO.getOne(commodityId);
-		if (userSession.getUserConfigVO().getAuthority()==Authority.customer && commodityVO.getAuthority()!=Authority.customer) {
+		if (userSession.getUserConfigVO().getAuthority()==Authority.CUSTOMER && commodityVO.getAuthority()!=Authority.CUSTOMER) {
 			commodityVO = null;
 		}
 		return commodityVO;
@@ -136,7 +136,7 @@ public class CommodityService {
 				CommodityAttrMappingVO commodityAttrMappingVO = (CommodityAttrMappingVO) iterator.next();
 				List<CommodityAttrAuthority> authorities = CommodityAttrAuthority.getAllowByAuthority(userSession.getUserConfigVO().getAuthority());
 				CommodityAttrAuthority commodityAttrAuthority = commodityAttrMappingVO.getCommodityAttrVO().getCommodityAttrAuthority();
-				if (!authorities.contains(commodityAttrAuthority) || commodityAttrAuthority==CommodityAttrAuthority.adminHidden) {
+				if (!authorities.contains(commodityAttrAuthority) || commodityAttrAuthority==CommodityAttrAuthority.ADMIN_HIDDEN) {
 					iterator.remove();
 				}
 			}

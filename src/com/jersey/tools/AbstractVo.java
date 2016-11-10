@@ -9,8 +9,8 @@ public abstract class AbstractVo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -8875731174904349257L;
-	private Date createTime;
-	private Date lastModifyTime;
+	private Date createTime = new Date();
+	private Date lastModifyTime = new Date();
 	
 	public Date getCreateTime() {
 		return createTime;

@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
@@ -18,17 +19,20 @@ import com.jersey.userConfig.model.CommodityTypeVO;
 @Repository
 public class CommodityDAO extends AbstractDAO<CommodityVO> {
 
+	@Autowired
+	private HibernateTools hibernateTools;
+	
 	public CommodityDAO() {
 		super(CommodityVO.class, "commodityId");
 	}
 	
 	public List<CommodityVO> getAll (Authority authority, CommodityTypeVO commodityTypeVO) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.getTransaction().begin();
 		List<CommodityVO> list;
 		try {
 			Criteria criteria = session.createCriteria(CommodityVO.class);
-			if (authority==Authority.customer) {
+			if (authority==Authority.CUSTOMER) {
 				criteria.add(Restrictions.eq("authority", authority));
 			}
 			criteria.add(Restrictions.eq("commodityTypeVO", commodityTypeVO));		
@@ -43,12 +47,12 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	}
 	
 	public List<CommodityVO> getAll (Authority authority, CommodityTypeVO commodityTypeVO, Integer pageSize, Integer page) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.getTransaction().begin();
 		List<CommodityVO> list;
 		try {
 			Criteria criteria = session.createCriteria(CommodityVO.class);
-			if (authority==Authority.customer) {
+			if (authority==Authority.CUSTOMER) {
 				criteria.add(Restrictions.eq("authority", authority));
 			}
 			criteria.add(Restrictions.eq("commodityTypeVO", commodityTypeVO));
@@ -188,7 +192,7 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	}
 
 	public void updatePurchaseCaseId(PurchaseCaseVO purchaseCaseVO, Integer[] commodityIds) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.getTransaction().begin();
 		try {
 			for (Integer commodityId : commodityIds) {
@@ -211,7 +215,7 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	}
 
 	public void deletePurchaseCaseId(Integer[] commodityIds) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		session.getTransaction().begin();
 		try {
 			for (Integer commodityId : commodityIds) {
@@ -236,7 +240,7 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	//先刪掉圖片再刪商品
 	@Override
 	public boolean delete(Integer[] ids) {
-		Session session = HibernateTools.getSession();
+		Session session = hibernateTools.getSession();
 		try {
 			session.beginTransaction();
 			session.createQuery("delete from PictureVO vo where vo.commodityVO.commodityId in (:ids)").setParameterList("ids", ids).executeUpdate();
