@@ -47,10 +47,10 @@
 	<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">商品分頁筆數(1~100)：</label>
 		<div class="col-sm-1">
-			${requestScope.commodityPageSize}
+			${requestScope.COMMODITY_PAGE_SIZE}
 		</div>
 		<div class="col-sm-1">
-			<input type="number" max="100" min="0" name="commodityPageSize" value="${requestScope.commodityPageSize}">
+			<input type="number" max="100" min="0" name="commodityPageSize" value="${requestScope.COMMODITY_PAGE_SIZE}">
 		</div>
 		<div class="col-sm-1">
 			<button type="button" class="btn btn-warning">更新</button>
@@ -60,10 +60,10 @@
 	<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">進貨分頁筆數(1~100)：</label>
 		<div class="col-sm-1">
-			${requestScope.purchaseCasePageSize}
+			${requestScope.PURCHASE_CASE_PAGE_SIZE}
 		</div>
 		<div class="col-sm-1">
-			<input type="number" max="100" min="0" name="purchaseCasePageSize" value="${requestScope.purchaseCasePageSize}">
+			<input type="number" max="100" min="0" name="purchaseCasePageSize" value="${requestScope.PURCHASE_CASE_PAGE_SIZE}">
 		</div>
 		<div class="col-sm-1">
 			<button type="button" class="btn btn-warning">更新</button>
@@ -73,10 +73,10 @@
 		<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">出貨分頁筆數(1~100)：</label>
 		<div class="col-sm-1">
-			${requestScope.sellCasePageSize}
+			${requestScope.SELL_CASE_PAGE_SIZE}
 		</div>
 		<div class="col-sm-1">
-			<input type="number" max="100" min="0" name="sellCasePageSize" value="${requestScope.sellCasePageSize}">
+			<input type="number" max="100" min="0" name="sellCasePageSize" value="${requestScope.SELL_CASE_PAGE_SIZE}">
 		</div>
 		<div class="col-sm-1">
 			<button type="button" class="btn btn-warning">更新</button>
@@ -86,10 +86,10 @@
 	<div class="row">
 		<label for="inputEmail3" class="col-sm-1 control-label">商店分頁筆數(1~100)：</label>
 		<div class="col-sm-1">
-			${requestScope.storePageSize}
+			${requestScope.STORE_PAGE_SIZE}
 		</div>
 		<div class="col-sm-1">
-			<input type="number" max="100" min="0" name="storePageSize" value="${requestScope.storePageSize}">
+			<input type="number" max="100" min="0" name="storePageSize" value="${requestScope.STORE_PAGE_SIZE}">
 		</div>
 		<div class="col-sm-1">
 			<button type="button" class="btn btn-warning">更新</button>

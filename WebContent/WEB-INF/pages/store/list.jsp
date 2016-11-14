@@ -95,8 +95,8 @@
 		<button name="update" type="button" class="btn btn-warning" data-toggle="modal">修改</button>
   	  </td>
   	  <td>${vo.storeId} - <c:out value="${vo.name}" /></td>
-  	  <c:if test="${vo.type=='store'}"><td>商店</td></c:if>
-  	  <c:if test="${vo.type=='shippingCompany'}"><td>託運公司</td></c:if>
+  	  <c:if test="${vo.type=='STORE'}"><td>商店</td></c:if>
+  	  <c:if test="${vo.type=='SHIPPING_COMPANY'}"><td>託運公司</td></c:if>
   	</tr>
   	</c:forEach>
   </table>

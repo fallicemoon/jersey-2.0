@@ -99,7 +99,8 @@ public class StoreController {
 		//一次只能一個人動商店和托運公司清單
 		synchronized (this) {
 			//增加servletContext的store清單
-			Set<StoreVO> storeList = (Set<StoreVO>) servletContext.getAttribute(vo.getType().toString());
+			String name = vo.getType()==StoreType.STORE?"store":"shippingCompany";
+			Set<StoreVO> storeList = (Set<StoreVO>) servletContext.getAttribute(name);
 			storeList.add(vo);
 			servletContext.setAttribute(vo.getType().toString(), storeList);
 		}
@@ -118,8 +119,8 @@ public class StoreController {
 			if (storeService.delete(ids)) {
 				throw new Exception();
 			}
-			servletContext.setAttribute(StoreType.STORE.toString(), storeService.getStoreSetByType(StoreType.STORE));
-			servletContext.setAttribute(StoreType.SHIPPING_COMPANY.toString(), storeService.getStoreSetByType(StoreType.SHIPPING_COMPANY));
+			servletContext.setAttribute("store", storeService.getStoreSetByType(StoreType.STORE));
+			servletContext.setAttribute("shippingCompany", storeService.getStoreSetByType(StoreType.SHIPPING_COMPANY));
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

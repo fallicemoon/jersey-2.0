@@ -17,8 +17,8 @@
     <label for="inputEmail3" class="col-sm-2 control-label">商家類型：</label>
     	<div class="col-sm-10">
     	<select name="type" class="form-control" style="width: 14%">
-    		<option value="store" selected="selected">商店</option>
-    		<option value="shippingCompany">託運公司</option>
+    		<option value="STORE" selected="selected">商店</option>
+    		<option value="SHIPPING_COMPANY">託運公司</option>
     	</select>
     	</div>
     </div>
