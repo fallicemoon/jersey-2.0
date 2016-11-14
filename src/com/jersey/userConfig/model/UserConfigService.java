@@ -140,7 +140,9 @@ public class UserConfigService {
 		return Tools.getSuccessJson();
 	}
 	
-	
+	/**
+	 * 此方法不會過濾掉ADMIN_HIDDEN(ADMIN_HIDDEN只是頁面上看不到，理論上session裡面還是要有)
+	 */
 	private void initCommodityAttrMap () {
 		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = new LinkedHashMap<>();
 		Map<String, List<String>> commodityTypeAttrStringMap = new LinkedHashMap<>();

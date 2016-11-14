@@ -74,6 +74,7 @@ public class CommodityAttrVO extends AbstractVo{
 			return false;
 		return true;
 	}
+
 	
 
 	

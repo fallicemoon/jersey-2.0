@@ -64,8 +64,9 @@ public class CommodityController {
 				commodityTypeVO = vo;
 			}
 		}
-		//把adminHidden的拿掉
-		Iterator<CommodityAttrVO> commodityAttrVOIterator = commodityTypeAttrMap.get(commodityTypeVO).iterator();
+		//把adminHidden的拿掉，但不能影響到session裡面的map
+		List<CommodityAttrVO> temp = new ArrayList<>(commodityTypeAttrMap.get(commodityTypeVO));
+		Iterator<CommodityAttrVO> commodityAttrVOIterator = temp.iterator();
 		while (commodityAttrVOIterator.hasNext()) {
 			CommodityAttrVO commodityAttrVO = commodityAttrVOIterator.next();
 			if(commodityAttrVO.getCommodityAttrAuthority()==CommodityAttrAuthority.ADMIN_HIDDEN){
@@ -74,7 +75,8 @@ public class CommodityController {
 		}
 		
 		map.put("commodityTypeId", commodityTypeId);
-		map.put("commodityAttrList", commodityTypeAttrMap.get(commodityTypeVO));
+		map.put("commodityAttrList", temp);
+		//ADMIN_HIDDEN有拿掉了，不用再拿
 		map.put("commodityList", commodityService.getAll(commodityTypeVO, page));
 		map.put("pages", commodityService.getPages(commodityTypeVO));
 		return LIST;

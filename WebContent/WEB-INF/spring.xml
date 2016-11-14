@@ -60,8 +60,7 @@
 				<value>com/jersey/picture/model/PictureVO.hbm.xml</value>
 				<value>com/jersey/userConfig/model/UserConfigVO.hbm.xml</value>
 				<value>com/jersey/userConfig/model/CommodityAttrVO.hbm.xml</value>
-				<value>com/jersey/commodity/model/CommodityAttrMappingVO.hbm.xml
-				</value>
+				<value>com/jersey/commodity/model/CommodityAttrMappingVO.hbm.xml</value>
 				<value>com/jersey/userConfig/model/CommodityTypeVO.hbm.xml</value>
 			</list>
 		</property>
