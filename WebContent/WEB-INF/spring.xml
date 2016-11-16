@@ -28,6 +28,7 @@
 			<mvc:exclude-mapping path="/commodity/*/getAll"/>
 			<mvc:exclude-mapping path="/lib/**"/>
 			<mvc:exclude-mapping path="/pic/**"/>
+			<!-- 取得圖片相關的檢查在pictureController裡面做 -->
 			<mvc:exclude-mapping path="/picture/*/getOne/*"/>
 			<mvc:exclude-mapping path="/picture/*/getAll"/>
 			<mvc:exclude-mapping path="/picture/*/download"/>

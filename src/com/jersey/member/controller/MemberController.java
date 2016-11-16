@@ -66,10 +66,10 @@ public class MemberController {
 	public String welcome (Map<String, Object> map) {
 		if (userSession.isAdmin()) {
 			//賣家, 可以使用完整功能
-			map.put("commodityTypeVOList", userSession.getCommodityTypeAttrMap().keySet());
+			//map.put("commodityTypeVOList", userSession.getCommodityTypeAttrMap().keySet());
 		} else {
 			//一般使用者
-			map.put("commodityTypeVOList", userSession.getCommodityTypeAttrMap().keySet());
+			//map.put("commodityTypeVOList", userSession.getCommodityTypeAttrMap().keySet());
 		}
 		return INDEX;
 	}

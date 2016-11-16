@@ -24,8 +24,8 @@
   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">商品
   <span class="caret"></span></button>
   <ul class="dropdown-menu">
-  	<c:forEach items="${sessionScope.commodityTypeVOList}" var="commodityTypeVO">
-  		<li><a href="/jersey/commodity/${commodityTypeVO.commodityTypeId}/getAll">${commodityTypeVO.commodityType}</a></li>
+  	<c:forEach items="${sessionScope['scopedTarget.userSession'].commodityTypeAttrMap}" var="commodityTypeAttr">
+  		<li><a href="/jersey/commodity/${commodityTypeAttr.key.commodityTypeId}/getAll">${commodityTypeAttr.key.commodityType}</a></li>
   	</c:forEach>
   </ul>
 </div>

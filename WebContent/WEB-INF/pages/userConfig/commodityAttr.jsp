@@ -29,6 +29,7 @@
 		
 		$(function(){
 			init();
+			
 			//ajax結束後將按鈕恢復
 			$(document).ajaxComplete(function(){
 				var select = $("select[name=commodityTypeId]");
@@ -37,6 +38,21 @@
 				//新增商品屬性的下拉式選單值不要變, 這樣比較直覺
 				select.find("option[value="+ selected +"]").prop("selected", true);
 			});
+			
+			//重新整理頁面後要跳出alert
+			if(sessionStorage.isCreateCommodityType){
+				alertify.success("新增商品種類成功");
+				sessionStorage.removeItem("isCreateCommodityType");
+			} else if (sessionStorage.isUpdateCommodityType) {
+				alertify.success("商品種類修改成功");
+				sessionStorage.removeItem("isUpdateCommodityType");
+			} else if (sessionStorage.isDeleteCommodityType) {
+				alertify.success("刪除商品種類成功");
+				sessionStorage.removeItem("isDeleteCommodityType");
+			} else if (sessionStorage.isCreateFirstCommodityAttr) {
+				alertify.success("新增商品屬性成功");
+				sessionStorage.removeItem("isCreateFirstCommodityAttr");
+			}
 			
 			<%--新增商品種類--%>
 			$("#createCommodityType").click(function(){
@@ -52,9 +68,12 @@
 					dataType : "json",
 					success : function(data) {
 						if (data.result=="success") {
-							alertify.success("新增商品種類成功");
-							var option = $("<option>").val(data.commodityTypeId).text(commodityAttrVO.commodityType);
-							$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").append(option);
+// 							alertify.success("新增商品種類成功");
+// 							var option = $("<option>").val(data.commodityTypeId).text(commodityAttrVO.commodityType);
+// 							$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").append(option);
+							//重新整理，這樣子上面的商品下拉式選單裡面商品才會長出來
+							sessionStorage.isCreateCommodityType = true;
+							location.reload();
 						} else {
 							alertify.error(data.msg);
 						}
@@ -80,12 +99,12 @@
 					dataType : "json",
 					success : function(data) {
 						if (data.result=="success") {
-							alertify.success("新增商品屬性成功");
 							var tr = $("tr").has("td");
 							if(tr.length==0){
-								location.reload(true);
-								return;
+								sessionStorage.isCreateFirstCommodityAttr = true;
+								location.reload();
 							}
+							alertify.success("新增商品屬性成功");
 							tr = tr.eq(0).clone();
 							tr.addClass(commodityAttrVO.commodityTypeId);
 							tr.find("td:nth-child(1) button[name=removeCommodityAttr]").val(data.commodityAttrId);
@@ -135,11 +154,14 @@
 					dataType : "json",
 					success : function(data) {
 						if (data.result=="success") {
-							alertify.success("商品種類修改成功");
-							$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").find("option[value="+commodityTypeId+"]").text(pushData[0]);
-							$("td").filter(function(){
-								return $(this).text() == oldCommodityType;
-							}).text(pushData[0]);
+// 							alertify.success("商品種類修改成功");
+// 							$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").find("option[value="+commodityTypeId+"]").text(pushData[0]);
+// 							$("td").filter(function(){
+// 								return $(this).text() == oldCommodityType;
+// 							}).text(pushData[0]);
+							//重新整理，這樣子上面的商品下拉式選單裡面商品才會長出來
+							sessionStorage.isUpdateCommodityType = true;
+							location.reload();
 						} else {
 							alertify.error(data.msg);
 						}
@@ -241,11 +263,14 @@
 							dataType : "json",
 							success : function(data) {
 								if (data.result=="success") {
-									alertify.success("刪除商品種類成功");
-									$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").find("option[value="+commodityTypeId+"]").remove();
-									$("td").filter(function(){
-										return $(this).text() == commodtiyType;
-									}).parent().remove();
+// 									alertify.success("刪除商品種類成功");
+// 									$("select[name=commodityTypeId]").add(".prepareUpdateCommodityType").find("option[value="+commodityTypeId+"]").remove();
+// 									$("td").filter(function(){
+// 										return $(this).text() == commodtiyType;
+// 									}).parent().remove();
+									//重新整理，這樣子上面的商品下拉式選單裡面商品才會長出來
+									sessionStorage.isDeleteCommodityType = true;
+									location.reload();
 								} else {
 									alertify.error(data.msg);
 								}
