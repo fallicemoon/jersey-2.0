@@ -11,6 +11,13 @@
 <body>
 	<c:import url="/WEB-INF/pages/header.jsp" />
 	<script type="text/javascript">
+		
+		//商品種類和權限對應的陣列
+		var commodityTypeToAuthority = {};
+		<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
+		commodityTypeToAuthority[${commodityAttr.key.commodityTypeId}] = '${commodityAttr.key.authority}';
+		</c:forEach>
+		
 		function init () {
 			//讓所有select恢復預設值
 			$("select option:nth-child(1)").prop("selected", true);
@@ -29,7 +36,6 @@
 		
 		$(function(){
 			init();
-			
 			//ajax結束後將按鈕恢復
 			$(document).ajaxComplete(function(){
 				var select = $("select[name=commodityTypeId]");
@@ -138,15 +144,17 @@
 				$(this).add(".prepareUpdateCommodityType").hide();
 				$("#updateCommodityType").add(".updateCommodityType").show();
 				$("input.updateCommodityType").val($(".prepareUpdateCommodityType option:selected").text());
+				$("select.updateCommodityType").val(commodityTypeToAuthority[$(".prepareUpdateCommodityType option:selected").val()]);
 			});
 			
-			//商品種類名稱修改
+			//商品種類修改
 			$("#updateCommodityType").click(function(){
 				var option = $(this).parents("div.row").find("option:selected");
 				var commodityTypeId = option.val();
 				var oldCommodityType = option.text();
 				var pushData = [];
 				pushData.push($(this).parents("div.row").find("input").val());
+				pushData.push($(this).parents("div.row").find("select[name=authority]").val());
 				$.ajax("/jersey/userConfig/commodityType/"+commodityTypeId, {
 					type : "PUT",
 					data : JSON.stringify(pushData),
@@ -282,12 +290,11 @@
 					}
 				});
 			});
-
-			
 			
 			
 		});
 	</script>
+	
 	<br/><br/>
 	<!-- 新增商品種類 -->
 	<div class="row">
@@ -349,6 +356,13 @@
 								</c:forEach>
 							</select>
 							<input class="form-control updateCommodityType" type="text" name="commodityType">
+						</div>
+						<div class="col-sm-1">
+							<select class="form-control updateCommodityType" name="authority">
+								<c:forEach items="${applicationScope.authority}" var="authority">
+									<option value="${authority}">${authority.showName}</option>
+								</c:forEach>
+							</select>
 						</div>
 						<div class="col-sm-1">
 							<button id="prepareUpdateCommodityType" class="btn btn-warning">修改商品種類名稱</button>

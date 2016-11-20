@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.JerseyEnum.UserConfig;
 import com.jersey.tools.Tools;
@@ -113,6 +114,7 @@ public class UserConfigController {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
 			String oldCommodityType = commodityTypeVO.getCommodityType();
 			commodityTypeVO.setCommodityType(commodityType[0]);
+			commodityTypeVO.setAuthority(Authority.valueOf(commodityType[1]));
 			
 			//如果新輸入的商品種類名稱和舊的不一樣就要檢查此商品種類名稱是否存在
 			if (!commodityTypeVO.getCommodityType().equals(oldCommodityType)) {

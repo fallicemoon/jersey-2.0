@@ -66,10 +66,10 @@ public class UserConfigService {
 	public void removeCommodityType (Integer id) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(id);
-		initCommodityAttrMap();
 		if (!commodityTypeDAO.delete(commodityTypeVO)) {
 			throw new RuntimeException();
 		}
+		initCommodityAttrMap();
 	}
 	
 	public void updateCommodityType (CommodityTypeVO commodityTypeVO) {
