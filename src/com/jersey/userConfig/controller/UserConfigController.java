@@ -165,7 +165,9 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
 	public String removeCommodityAttr (@PathVariable("commodityAttrId") Integer commodityAttrId, Map<String, Object> map) {
 		try {
-			userConfigService.removeCommodityAttr(commodityAttrId);
+			CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
+			commodityAttrVO.setCommodityAttrId(commodityAttrId);
+			userConfigService.removeCommodityAttr(commodityAttrVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -177,7 +179,9 @@ public class UserConfigController {
 	@RequestMapping(value="/commodityType/{commodityTypeId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
 	public String removeCommodityType (@PathVariable("commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
 		try {
-			userConfigService.removeCommodityType(commodityTypeId);
+			CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
+			commodityTypeVO.setCommodityTypeId(commodityTypeId);
+			userConfigService.removeCommodityType(commodityTypeVO);
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

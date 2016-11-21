@@ -122,7 +122,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
-			return null;
+			throw e;
 		}
 	}
 
@@ -137,23 +137,23 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
-			return null;
+			throw e;
 		}
 	}
 
 	@Override
-	public boolean delete(E vo) {
+	public E delete(E vo) {
 		Session session = hibernateTools.getSession();
 		try {
 			session.beginTransaction();
 			session.delete(vo);
 			session.getTransaction().commit();
-			return true;
+			return vo;
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
+			throw e;
 		}
-		return false;
 	}
 
 	@Override

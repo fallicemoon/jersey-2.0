@@ -63,12 +63,8 @@ public class UserConfigService {
 		return result;
 	}
 	
-	public void removeCommodityType (Integer id) {
-		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
-		commodityTypeVO.setCommodityTypeId(id);
-		if (!commodityTypeDAO.delete(commodityTypeVO)) {
-			throw new RuntimeException();
-		}
+	public void removeCommodityType (CommodityTypeVO commodityTypeVO) {
+		commodityTypeDAO.delete(commodityTypeVO);
 		initCommodityAttrMap();
 	}
 	
@@ -94,11 +90,8 @@ public class UserConfigService {
 		return result;
 	}
 	
-	public void removeCommodityAttr (Integer id) {
-		CommodityAttrVO commodityAttrVO = commodityAttrDAO.getOne(id);
-		if (!commodityAttrDAO.delete(commodityAttrVO)) {
-			throw new RuntimeException();
-		}
+	public void removeCommodityAttr (CommodityAttrVO commodityAttrVO) {
+		commodityAttrDAO.delete(commodityAttrVO);
 		initCommodityAttrMap();
 	}
 	
@@ -157,8 +150,7 @@ public class UserConfigService {
 		}
 		userSession.setCommodityTypeAttrMap(commodityTypeAttrMap);
 		userSession.setCommodityTypeAttrStringMap(commodityTypeAttrStringMap);
-	}
-	
+	}	
 	
 
 

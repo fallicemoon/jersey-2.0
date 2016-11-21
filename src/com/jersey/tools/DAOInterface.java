@@ -19,7 +19,7 @@ public interface DAOInterface<E extends AbstractVo> {
 
 	public E update(E vo);
 
-	public boolean delete(E vo);
+	public E delete(E vo);
 
 	public boolean delete(Integer[] ids);
 
