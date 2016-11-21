@@ -100,7 +100,7 @@ span {
 		<p style="color: red">${error}</p>
 	</c:forEach>
     
-  <table id="commodity" class="table table-hover">
+  <table border=1 width="1500px" id="commodity" class="table table-hover">
     <thead>
     <tr>
       <th>商品編號/商品名稱</th>

@@ -32,6 +32,7 @@ public class PictureController {
 	private final static String PICTURE_CONTENT_TYPE = "image/*";
 	private final static String REDIRECT_PICTURE = "redirect:/picture/{commodityId}/getAll";
 	private final static String UPLOAD_PICTURE = "picture/uploadPicture";
+	private final static String INDEX = "redirect:/index.html";
 
 	@Autowired
 	private PictureService pictureService;
@@ -57,8 +58,9 @@ public class PictureController {
 			Set<Integer> pictureIds = pictureService.getPictureIds(commodityId);
 			map.put("pictureIds", pictureIds);
 			map.put("commodity", commodityService.getOne(commodityId));
+			return UPLOAD_PICTURE;
 		}
-		return UPLOAD_PICTURE;
+		return INDEX;
 	}
 
 	@RequestMapping(value = "/uploadPicture", method = RequestMethod.POST)
@@ -98,7 +100,7 @@ public class PictureController {
 			for (int i = 0; i < storeIds.size(); i++) {
 				ids[i] = Integer.valueOf(storeIds.get(i).toString());
 			}
-			if (pictureService.deletePictures(ids)) {
+			if (!pictureService.deletePictures(ids)) {
 				throw new Exception();
 			}
 			return Tools.getSuccessJson().toString();

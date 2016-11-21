@@ -207,15 +207,15 @@ public class PictureService {
 	
 	//權限控管
 	public boolean validatePicPageAuthority (Integer commodityId) {
-		Authority commodityAuthority = userSession.getUserConfigVO().getAuthority();
-		Authority userAuthority = commodityDAO.getOne(commodityId).getAuthority();
+		Authority userAuthority = userSession.getUserConfigVO().getAuthority();
+		Authority commodityAuthority = commodityDAO.getOne(commodityId).getAuthority();
 		return commodityAuthority==Authority.CUSTOMER || userAuthority==Authority.ADMIN;
 	}
 	
 	//權限控管
 	public boolean validateReadPicAuthority (Integer pictureId) {
-		Authority commodityAuthority = userSession.getUserConfigVO().getAuthority();
-		Authority userAuthority = pictureDAO.getOne(pictureId).getCommodityVO().getAuthority();
+		Authority userAuthority = userSession.getUserConfigVO().getAuthority();
+		Authority commodityAuthority = pictureDAO.getOne(pictureId).getCommodityVO().getAuthority();
 		return commodityAuthority==Authority.CUSTOMER || userAuthority==Authority.ADMIN;
 	}
 

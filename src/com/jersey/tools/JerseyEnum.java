@@ -91,7 +91,11 @@ public class JerseyEnum {
 		}
 	}
 	
-	
+	public enum systemParam {
+		COMMODITY_ID, 
+		PURCHASE_CASE_ID,
+		SELL_CASE_ID
+	}
 	
 	
 	
