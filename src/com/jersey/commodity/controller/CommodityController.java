@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.commodity.model.CommodityAttrMappingVO;
-import com.jersey.commodity.model.CommodityDisplayVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.JerseyEnum.Authority;
@@ -36,7 +35,7 @@ public class CommodityController {
 	private static final String LIST = "commodity/list";
 	private static final String ADD = "commodity/add";
 //	private static final String UPDATE = "commodity/update";
-//	private static final String REDIRECT_LIST = "redirect:getAll";
+	private static final String REDIRECT_LIST = "redirect:getAll";
 
 	@Autowired
 	private CommodityService commodityService;
@@ -101,7 +100,7 @@ public class CommodityController {
 //	}
 
 	// 新增
-	@RequestMapping(value = "/{commodityTypeId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/{commodityTypeId}/", method = RequestMethod.POST)
 	public String create(@PathVariable("commodityTypeId") Integer commodityTypeId, CommodityVO vo, Map<String, Object> map) {
 		//新增商品
 		vo.setIsStored(true);
@@ -116,12 +115,12 @@ public class CommodityController {
 		
 		commodityService.create(vo);
 		
-		List<CommodityDisplayVO> list = new ArrayList<>();
-		list.add(commodityService.getCommodityDisplayVO(vo));
-		map.put("commodityList", list);
-		map.put("commodityTypeId", commodityTypeId);
-		map.put("commodityAttrList", userSession.getCommodityTypeAttrMap().get(commodityTypeVO));
-		return LIST;
+//		List<CommodityDisplayVO> list = new ArrayList<>();
+//		list.add(commodityService.getCommodityDisplayVO(vo));
+//		map.put("commodityList", list);
+//		map.put("commodityTypeId", commodityTypeId);
+//		map.put("commodityAttrList", userSession.getCommodityTypeAttrMap().get(commodityTypeVO));
+		return REDIRECT_LIST;
 	}
 
 	// 修改

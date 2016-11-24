@@ -12,7 +12,7 @@
 <c:import url="/WEB-INF/pages/header.jsp"/>
 
 	<br/><br/>
-	<form action="/jersey/store" method="post" class="form-horizontal">
+	<form action="/jersey/store/" method="post" class="form-horizontal">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">商家類型：</label>
     	<div class="col-sm-10">

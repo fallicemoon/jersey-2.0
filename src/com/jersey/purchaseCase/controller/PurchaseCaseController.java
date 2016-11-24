@@ -1,7 +1,5 @@
 package com.jersey.purchaseCase.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +26,7 @@ public class PurchaseCaseController {
 	private static final String UPDATE = "purchaseCase/update";
 	private static final String ADD_COMMODITY = "purchaseCase/addCommodity";
 	private static final String REDIRECT_ADD_COMMODITY = "redirect:getCommodityList/{id}";
+	private static final String REDIRECT_LIST = "redirect:getAll";
 
 	@Autowired
 	private PurchaseCaseService purchaseCaseService;
@@ -70,13 +69,13 @@ public class PurchaseCaseController {
 	}
 
 	//新增
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String create(PurchaseCaseVO vo, Map<String, Object> map) {
 		purchaseCaseService.create(vo);
-		List<PurchaseCaseVO> list = new ArrayList<>();
-		list.add(vo);
-		map.put("purchaseCaseList", list);
-		return LIST;
+//		List<PurchaseCaseVO> list = new ArrayList<>();
+//		list.add(vo);
+//		map.put("purchaseCaseList", list);
+		return REDIRECT_LIST;
 	}
 
 	// 修改
@@ -84,10 +83,10 @@ public class PurchaseCaseController {
 	public String update(@PathVariable("id") Integer id, @ModelAttribute("purchaseCase") PurchaseCaseVO vo,
 			Map<String, Object> map) {
 		purchaseCaseService.update(vo);
-		List<PurchaseCaseVO> list = new ArrayList<>();
-		list.add(vo);
-		map.put("purchaseCaseList", list);
-		return LIST;
+//		List<PurchaseCaseVO> list = new ArrayList<>();
+//		list.add(vo);
+//		map.put("purchaseCaseList", list);
+		return REDIRECT_LIST;
 	}
 
 	// 刪除多筆
@@ -99,7 +98,9 @@ public class PurchaseCaseController {
 			for (int i = 0; i < purchaseCaseIds.length; i++) {
 				ids[i] = Integer.valueOf(purchaseCaseIds[i]);
 			}
-			purchaseCaseService.delete(ids);
+			if (!purchaseCaseService.delete(ids)) {
+				throw new Exception();
+			}
 			return Tools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();

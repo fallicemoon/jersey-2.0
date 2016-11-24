@@ -1,6 +1,8 @@
 package commodity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -24,13 +26,16 @@ public class CommodityDAOTest {
 	
 	@Test
 	public void getByPurchaseCaseIdIsNull () {
-		list = commodityDAO.getByPurchaseCaseIdIsNull();
-		System.out.println(list);
+		Map<Class<?>, String> map = new HashMap<>();
+		map.put(Exception.class, Exception.class.getName());
+		map.put(RuntimeException.class, RuntimeException.class.getName());
+		//map.put(ArithmeticException.class, ArithmeticException.class.getName());
+		System.out.println(map.get(ArithmeticException.class));
 	}
 	
 	@Test
 	public void getOne () {
-		System.out.println(commodityDAO.getOne(85));
+		//System.out.println(commodityDAO.getOne(85));
 	}
 	
 

@@ -1,7 +1,5 @@
 package com.jersey.store.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,6 +27,7 @@ public class StoreController {
 	private static final String LIST = "store/list";
 	private static final String ADD = "store/add";
 	private static final String UPDATE = "store/update";
+	private static final String REDIRECT_LIST = "redirect:getAll";
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -76,35 +75,36 @@ public class StoreController {
 	@RequestMapping(value="", method=RequestMethod.POST)
 	public String create (StoreVO vo, Map<String, Object> map) {
 		storeService.create(vo);
-		List<StoreVO> list = new ArrayList<>();
-		list.add(vo);
-		map.put("storeList", list);
-		//一次只能一個人動商店和托運公司清單
-		synchronized (this) {
-			//增加servletContext的store清單
-			Set<StoreVO> storeList = (Set<StoreVO>) servletContext.getAttribute(vo.getType().toString());
-			storeList.add(vo);
-			servletContext.setAttribute(vo.getType().toString(), storeList);
-		}
-		return LIST;
-	}
-	
-	//修改
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public String update (@PathVariable("id") Integer id, @ModelAttribute(value="store") StoreVO vo, Map<String, Object> map) {
-		storeService.update(vo);
-		List<StoreVO> list = new ArrayList<>();
-		list.add(vo);
-		map.put("storeList", list);
+//		List<StoreVO> list = new ArrayList<>();
+//		list.add(vo);
+//		map.put("storeList", list);
 		//一次只能一個人動商店和托運公司清單
 		synchronized (this) {
 			//增加servletContext的store清單
 			String name = vo.getType()==StoreType.STORE?"store":"shippingCompany";
 			Set<StoreVO> storeList = (Set<StoreVO>) servletContext.getAttribute(name);
 			storeList.add(vo);
-			servletContext.setAttribute(vo.getType().toString(), storeList);
+			servletContext.setAttribute(name, storeList);
 		}
-		return LIST;
+		return REDIRECT_LIST;
+	}
+	
+	//修改
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	public String update (@PathVariable("id") Integer id, @ModelAttribute(value="store") StoreVO vo, Map<String, Object> map) {
+		storeService.update(vo);
+//		List<StoreVO> list = new ArrayList<>();
+//		list.add(vo);
+//		map.put("storeList", list);
+		//一次只能一個人動商店和托運公司清單
+		synchronized (this) {
+			//增加servletContext的store清單
+			String name = vo.getType()==StoreType.STORE?"store":"shippingCompany";
+			Set<StoreVO> storeList = (Set<StoreVO>) servletContext.getAttribute(name);
+			storeList.add(vo);
+			servletContext.setAttribute(name, storeList);
+		}
+		return REDIRECT_LIST;
 	}
 	
 	// 刪除多筆
@@ -116,7 +116,7 @@ public class StoreController {
 			for (int i = 0; i < storeIds.length; i++) {
 				ids[i] = Integer.valueOf(storeIds[i]);
 			}
-			if (storeService.delete(ids)) {
+			if (!storeService.delete(ids)) {
 				throw new Exception();
 			}
 			servletContext.setAttribute("store", storeService.getStoreSetByType(StoreType.STORE));

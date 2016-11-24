@@ -29,6 +29,7 @@ public class SellCaseController {
 	private static final String UPDATE = "sellCase/update";
 	private static final String ADD_PURCHASE_CASE = "sellCase/addPurchaseCase";
 	private static final String REDIRECT_ADD_PURCHASE_CASE = "redirect:getPurchaseCaseList/{id}";
+	private static final String REDIRECT_LIST = "redirect:getAll";
 	
 	@Autowired
 	private SellCaseService sellCaseService;
@@ -71,23 +72,23 @@ public class SellCaseController {
 	}
 	
 	//新增
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String create (SellCaseVO vo, Map<String, Object> map) {
 		sellCaseService.create(vo);
-		List<SellCaseWithBenefitVO> list = new ArrayList<>();
-		list.add(sellCaseService.getSellCaseWithBenefitVo(vo));
-		map.put("sellCaseList", list);
-		return LIST;
+//		List<SellCaseWithBenefitVO> list = new ArrayList<>();
+//		list.add(sellCaseService.getSellCaseWithBenefitVo(vo));
+//		map.put("sellCaseList", list);
+		return REDIRECT_LIST;
 	}
 	
 	//修改
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	public String update (@PathVariable("id") Integer id, @ModelAttribute("sellCase") SellCaseVO vo, Map<String, Object> map) {
 		sellCaseService.update(vo);
-		List<SellCaseWithBenefitVO> list = new ArrayList<>();
-		list.add(sellCaseService.getSellCaseWithBenefitVo(vo));
-		map.put("sellCaseList", list);
-		return LIST;
+//		List<SellCaseWithBenefitVO> list = new ArrayList<>();
+//		list.add(sellCaseService.getSellCaseWithBenefitVo(vo));
+//		map.put("sellCaseList", list);
+		return REDIRECT_LIST;
 	}
 	
 	// 刪除多筆
@@ -99,7 +100,7 @@ public class SellCaseController {
 			for (int i = 0; i < sellCaseIds.length; i++) {
 				ids[i] = Integer.valueOf(sellCaseIds[i]);
 			}
-			if (sellCaseService.delete(ids)) {
+			if (!sellCaseService.delete(ids)) {
 				throw new Exception();
 			}
 			return Tools.getSuccessJson().toString();
