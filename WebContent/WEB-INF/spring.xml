@@ -63,6 +63,7 @@
 				<value>com/jersey/userConfig/model/CommodityAttrVO.hbm.xml</value>
 				<value>com/jersey/commodity/model/CommodityAttrMappingVO.hbm.xml</value>
 				<value>com/jersey/userConfig/model/CommodityTypeVO.hbm.xml</value>
+				<value>com/jersey/systemParam/model/SystemParamVO.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
