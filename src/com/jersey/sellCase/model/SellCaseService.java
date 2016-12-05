@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.jersey.purchaseCase.model.PurchaseCaseDAO;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 
 @Service
 public class SellCaseService {
@@ -128,7 +128,7 @@ public class SellCaseService {
 		SellCaseWithBenefitVO sellCaseWithBenefitVo = null;
 		if (sellCaseVO != null) {
 			sellCaseWithBenefitVo = new SellCaseWithBenefitVO();
-			Tools.copyBeanProperties(sellCaseVO, sellCaseWithBenefitVo);
+			JerseyTools.copyBeanProperties(sellCaseVO, sellCaseWithBenefitVo);
 			
 			Integer costs = 0;
 			Integer agentCosts = 0;

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.jersey.picture.model.PictureDAO;
 import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserConfigVO;
@@ -128,7 +128,7 @@ public class CommodityService {
 		CommodityDisplayVO commodityDisplayVO = null;
 		if (commodityVO!=null) {
 			commodityDisplayVO = new CommodityDisplayVO();
-			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
+			JerseyTools.copyBeanProperties(commodityVO, commodityDisplayVO);
 			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
 			//刪掉此權限不能看的屬性(adminHidden一定看不到)
 			Iterator<CommodityAttrMappingVO> iterator = commodityVO.getCommodityAttrMappings().iterator();

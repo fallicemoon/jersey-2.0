@@ -58,32 +58,16 @@ public class JerseyEnum {
 		}
 		
 	}
-	
-	public enum UserConfigType {
-		SYSTEM_PARAM
-	}
 
 	public enum UserConfig {
-		COMMODITY_PAGE_SIZE(UserConfigType.SYSTEM_PARAM, Integer.class), 
-		PURCHASE_CASE_PAGE_SIZE(UserConfigType.SYSTEM_PARAM, Integer.class), 
-		SELL_CASE_PAGE_SIZE(UserConfigType.SYSTEM_PARAM, Integer.class), 
-		STORE_PAGE_SIZE(UserConfigType.SYSTEM_PARAM, Integer.class);
+		COMMODITY_PAGE_SIZE(Integer.class), 
+		PURCHASE_CASE_PAGE_SIZE(Integer.class), 
+		SELL_CASE_PAGE_SIZE(Integer.class), 
+		STORE_PAGE_SIZE(Integer.class);
 		
-		private UserConfigType userConfigType;
 		private Class<?> dataType;
-		private UserConfig (UserConfigType userConfigType, Class<?> dataType) {
-			this.userConfigType = userConfigType;
+		private UserConfig (Class<?> dataType) {
 			this.dataType = dataType;
-		}
-		
-		public List<UserConfig> getAllByUserConfigType (UserConfigType userConfigType) {
-			List<UserConfig> list = new ArrayList<>();
-			for (UserConfig userConfig : UserConfig.values()) {
-				if (userConfig.userConfigType==userConfigType) {
-					list.add(userConfig);
-				}
-			}
-			return list;
 		}
 		
 		public Class<?> getDataType() {
@@ -91,10 +75,29 @@ public class JerseyEnum {
 		}
 	}
 	
-	public enum systemParam {
-		COMMODITY_ID, 
-		PURCHASE_CASE_ID,
-		SELL_CASE_ID
+	public enum PrimaryKey {
+		COMMODITY_ID("CY", 6),
+		PURCHASE_CASE_ID("PC", 6),
+		SELL_CASE_ID("SC", 6),
+		STORE_ID("SE", 6),
+		PICTURE_ID("PE", 6),
+		USER_CONFIG_ID("UC", 6),
+		COMMODITY_ATTR_ID("CA", 6),
+		COMMODITY_ATTR_MAPPING_ID("CM", 6),
+		COMMODITY_TYPE_ID("CT", 6);
+		
+		private String prefix;
+		private Integer length;
+		private PrimaryKey (String prefix, Integer length) {
+			this.prefix = prefix;
+			this.length = length;
+		}
+		public String getPrefix() {
+			return prefix;
+		}
+		public Integer getLength() {
+			return length;
+		}
 	}
 	
 	

@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.json.JSONObject;
 
-public class Tools {
+public class JerseyTools {
 
 	private static final String serialVersionUID = "serialVersionUID";
 
@@ -75,7 +75,9 @@ public class Tools {
 			}
 			
 		}
-	} 
+	}
+	
+
 	
 	
 	

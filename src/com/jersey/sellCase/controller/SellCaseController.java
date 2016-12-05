@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseVO;
 import com.jersey.sellCase.model.SellCaseWithBenefitVO;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 import com.jersey.userConfig.model.UserSession;
 
 @Controller
@@ -103,10 +103,10 @@ public class SellCaseController {
 			if (!sellCaseService.delete(ids)) {
 				throw new Exception();
 			}
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("刪除失敗").toString();
+			return JerseyTools.getFailJson("刪除失敗").toString();
 		}
 	}
 	

@@ -17,7 +17,7 @@ import com.jersey.commodity.model.CommodityAttrMappingVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.JerseyEnum.UserConfig;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 
 /**
  * 
@@ -115,22 +115,22 @@ public class UserConfigService {
 	
 	public JSONObject validateCommodityType (CommodityTypeVO commodityTypeVO) {
 		if (userSession.getCommodityTypeAttrStringMap().keySet().contains(commodityTypeVO.getCommodityType())) {
-			return Tools.getFailJson("已經有此商品種類");
+			return JerseyTools.getFailJson("已經有此商品種類");
 		}
 		if (!commodityTypeVO.getCommodityType().matches(COMMODITY_ATTR_VALUE_REG)) {
-			return Tools.getFailJson("商品種類長度為1~30,且只能有中文、英文、數字、底線");
+			return JerseyTools.getFailJson("商品種類長度為1~30,且只能有中文、英文、數字、底線");
 		}
-		return Tools.getSuccessJson();
+		return JerseyTools.getSuccessJson();
 	}
 	
 	public JSONObject validateCommodityAttr (CommodityAttrVO commodityAttrVO) {
 		if (userSession.getCommodityTypeAttrStringMap().get(commodityAttrVO.getCommodityTypeVO().getCommodityType()).contains(commodityAttrVO.getCommodityAttr())) {
-			return Tools.getFailJson("已經有此商品屬性");
+			return JerseyTools.getFailJson("已經有此商品屬性");
 		}
 		if (!commodityAttrVO.getCommodityAttr().matches(COMMODITY_ATTR_VALUE_REG)) {
-			return Tools.getFailJson("商品屬性長度為1~30,且只能有中文、英文、數字、底線");
+			return JerseyTools.getFailJson("商品屬性長度為1~30,且只能有中文、英文、數字、底線");
 		}
-		return Tools.getSuccessJson();
+		return JerseyTools.getSuccessJson();
 	}
 	
 	/**

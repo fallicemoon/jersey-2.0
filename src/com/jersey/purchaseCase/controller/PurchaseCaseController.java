@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.purchaseCase.model.PurchaseCaseService;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 import com.jersey.userConfig.model.UserSession;
 
 @Controller
@@ -101,10 +101,10 @@ public class PurchaseCaseController {
 			if (!purchaseCaseService.delete(ids)) {
 				throw new Exception();
 			}
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("刪除失敗").toString();
+			return JerseyTools.getFailJson("刪除失敗").toString();
 		}
 	}
 

@@ -24,7 +24,7 @@ import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserSession;
@@ -153,10 +153,10 @@ public class CommodityController {
 				}
 			}
 			commodityService.update(commodityVO);
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("此筆商品更新失敗").toString();
+			return JerseyTools.getFailJson("此筆商品更新失敗").toString();
 		}
 
 	}
@@ -181,10 +181,10 @@ public class CommodityController {
 				commodityVO.setAuthority(authority);
 				commodityService.update(commodityVO);
 			}
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("此筆商品上下架切換失敗").toString();
+			return JerseyTools.getFailJson("此筆商品上下架切換失敗").toString();
 		}
 	}
 
@@ -198,12 +198,12 @@ public class CommodityController {
 				ids[i] = Integer.valueOf(commodityIds[i]);
 			}
 			if(!commodityService.delete(ids)){
-				return Tools.getFailJson("刪除失敗").toString();
+				return JerseyTools.getFailJson("刪除失敗").toString();
 			}
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("刪除失敗").toString();
+			return JerseyTools.getFailJson("刪除失敗").toString();
 		}
 	}
 
@@ -215,24 +215,24 @@ public class CommodityController {
 			
 			//因為是複製, 所以把PK清掉
 			CommodityVO clone = new CommodityVO();
-			Tools.copyBeanProperties(commodityVO, clone, "commodityId", "commodityAttrMappings");
+			JerseyTools.copyBeanProperties(commodityVO, clone, "commodityId", "commodityAttrMappings");
 			SortedSet<CommodityAttrMappingVO> commodityAttrMappings = new TreeSet<>();
 			if (commodityVO.getCommodityAttrMappings()!=null) {
 				for (CommodityAttrMappingVO oldVo : commodityVO.getCommodityAttrMappings()) {
 					CommodityAttrMappingVO newVo = new CommodityAttrMappingVO();
-					Tools.copyBeanProperties(oldVo, newVo, "commodityAttrMappingId", "commodityVO");
+					JerseyTools.copyBeanProperties(oldVo, newVo, "commodityAttrMappingId", "commodityVO");
 					commodityAttrMappings.add(newVo);
 				};
 			}
 			clone.setCommodityAttrMappings(commodityAttrMappings);
 			
 			clone = commodityService.create(clone);
-			JSONObject json = Tools.getSuccessJson();
+			JSONObject json = JerseyTools.getSuccessJson();
 			json.put("commodityId", clone.getCommodityId());
 			return json.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("伺服器忙碌中").toString();
+			return JerseyTools.getFailJson("伺服器忙碌中").toString();
 		}
 	}
 

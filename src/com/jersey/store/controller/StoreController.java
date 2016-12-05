@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jersey.store.model.StoreService;
 import com.jersey.store.model.StoreVO;
 import com.jersey.tools.JerseyEnum.StoreType;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 import com.jersey.userConfig.model.UserSession;
 
 @Controller
@@ -121,10 +121,10 @@ public class StoreController {
 			}
 			servletContext.setAttribute("store", storeService.getStoreSetByType(StoreType.STORE));
 			servletContext.setAttribute("shippingCompany", storeService.getStoreSetByType(StoreType.SHIPPING_COMPANY));
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("刪除失敗").toString();
+			return JerseyTools.getFailJson("刪除失敗").toString();
 		}
 	}
 

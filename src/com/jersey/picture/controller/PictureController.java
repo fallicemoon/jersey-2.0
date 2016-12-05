@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.picture.model.PictureService;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 
 @Controller
 @RequestMapping("/picture/{commodityId}")
@@ -103,10 +103,10 @@ public class PictureController {
 			if (!pictureService.deletePictures(ids)) {
 				throw new Exception();
 			}
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("刪除失敗").toString();
+			return JerseyTools.getFailJson("刪除失敗").toString();
 		}
 	}
 	

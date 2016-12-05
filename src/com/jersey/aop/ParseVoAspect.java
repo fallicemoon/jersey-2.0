@@ -8,7 +8,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 import com.jersey.tools.AbstractVo;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 
 @Component
 @Aspect
@@ -29,7 +29,7 @@ public class ParseVoAspect {
 				abstractVo = (AbstractVo)object;
 			}
 		}
-		Tools.parseVoNullValue(abstractVo);
+		JerseyTools.parseVoNullValue(abstractVo);
 		abstractVo.setCreateTime(new Date());
 		abstractVo.setLastModifyTime(new Date());
 	}
@@ -49,7 +49,7 @@ public class ParseVoAspect {
 				abstractVo = (AbstractVo)object;
 			}
 		}
-		Tools.parseVoNullValue(abstractVo);
+		JerseyTools.parseVoNullValue(abstractVo);
 		abstractVo.setLastModifyTime(new Date());
 	}
 		

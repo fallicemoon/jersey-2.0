@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.JerseyEnum.UserConfig;
-import com.jersey.tools.Tools;
+import com.jersey.tools.JerseyTools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserConfigService;
@@ -49,13 +49,13 @@ public class UserConfigController {
 			UserConfig userConfig = UserConfig.valueOf(type);
 			Integer value = Integer.valueOf(values[0]);
 			if (value<=0 || value>100) {
-				return Tools.getFailJson("分頁筆數不得小於0或大於100").toString();
+				return JerseyTools.getFailJson("分頁筆數不得小於0或大於100").toString();
 			}
 			userConfigService.updateUserConfig(userConfig, value);
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("修改參數失敗").toString();
+			return JerseyTools.getFailJson("修改參數失敗").toString();
 		}
 	}
 	
@@ -75,10 +75,10 @@ public class UserConfigController {
 				return json.toString();
 			}
 			commodityTypeVO = userConfigService.createCommodityType(commodityTypeVO);
-			return Tools.getSuccessJson().put("commodityTypeId", commodityTypeVO.getCommodityTypeId()).toString();
+			return JerseyTools.getSuccessJson().put("commodityTypeId", commodityTypeVO.getCommodityTypeId()).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("新增商品類別失敗").toString();
+			return JerseyTools.getFailJson("新增商品類別失敗").toString();
 		}
 	}
 	
@@ -94,7 +94,7 @@ public class UserConfigController {
 			}
 			
 			CommodityAttrVO result = userConfigService.createCommodityAttr(commodityAttrVO);
-			return Tools.getSuccessJson()
+			return JerseyTools.getSuccessJson()
 					.put("commodityAttrId", result.getCommodityAttrId())
 					.put("commodityType", result.getCommodityTypeVO().getCommodityType())
 					.put("commodityAttr", result.getCommodityAttr())
@@ -103,7 +103,7 @@ public class UserConfigController {
 					.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("新增商品屬性失敗").toString();
+			return JerseyTools.getFailJson("新增商品屬性失敗").toString();
 		}
 	}
 	
@@ -125,10 +125,10 @@ public class UserConfigController {
 			}
 			
 			userConfigService.updateCommodityType(commodityTypeVO);
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("更新商品類別失敗").toString();
+			return JerseyTools.getFailJson("更新商品類別失敗").toString();
 		}
 	}
 	
@@ -154,10 +154,10 @@ public class UserConfigController {
 			}
 			
 			userConfigService.updateCommodityAttr(commodityAttrVO);
-			return Tools.getSuccessJson().put("commodityAttrAuthorityShowName", commodityAttrAuthority.getShowName()).toString();
+			return JerseyTools.getSuccessJson().put("commodityAttrAuthorityShowName", commodityAttrAuthority.getShowName()).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("更新商品屬性失敗").toString();
+			return JerseyTools.getFailJson("更新商品屬性失敗").toString();
 		}
 	}
 	
@@ -168,10 +168,10 @@ public class UserConfigController {
 			CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
 			commodityAttrVO.setCommodityAttrId(commodityAttrId);
 			userConfigService.removeCommodityAttr(commodityAttrVO);
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("刪除商品屬性失敗").toString();
+			return JerseyTools.getFailJson("刪除商品屬性失敗").toString();
 		}		
 	}
 	
@@ -182,10 +182,10 @@ public class UserConfigController {
 			CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 			commodityTypeVO.setCommodityTypeId(commodityTypeId);
 			userConfigService.removeCommodityType(commodityTypeVO);
-			return Tools.getSuccessJson().toString();
+			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Tools.getFailJson("刪除商品種類失敗").toString();
+			return JerseyTools.getFailJson("刪除商品種類失敗").toString();
 		}		
 	}
 
