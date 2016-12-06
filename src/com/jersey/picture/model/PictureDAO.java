@@ -91,7 +91,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	// return list;
 	// }
 
-	public List<PictureVO> getPictureIds(Integer commodityId) {
+	public List<PictureVO> getPictureIds(String commodityId) {
 		String[] columnNames = new String[] { "pictureId" };
 		CommodityVO commodityVO = new CommodityVO();
 		commodityVO.setCommodityId(commodityId);
@@ -124,7 +124,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	// return vo;
 	// }
 
-	public List<PictureVO> getPicturesByCommodityId(Integer commodityId) {
+	public List<PictureVO> getPicturesByCommodityId(String commodityId) {
 		CommodityVO commodityVO = new CommodityVO();
 		commodityVO.setCommodityId(commodityId);
 		return getHelper(null, Order.asc("sequenceId"), Restrictions.eq("commodityVO", commodityVO));
@@ -152,7 +152,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 		// return list;
 	}
 
-	public Map<Integer, Integer> getCommodityIdPictureCountMap() {
+	public Map<String, Integer> getCommodityIdPictureCountMap() {
 		Session session = hibernateTools.getSession();
 		session.beginTransaction();
 		List<Map<String, Object>> result;
@@ -167,7 +167,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 			e.printStackTrace();
 		}
 
-		Map<Integer, Integer> resultMap = new HashMap<>();
+		Map<String, Integer> resultMap = new HashMap<>();
 		for (Map<String, Object> map : result) {
 			CommodityVO commodityVO = (CommodityVO) map.get("commodityVO");
 			Long count = (Long) map.get("count");
@@ -176,7 +176,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 		return resultMap;
 	}
 
-	public Integer getCommodityIdPictureCount(Integer commodityId) {
+	public Integer getCommodityIdPictureCount(String commodityId) {
 		Session session = hibernateTools.getSession();
 		session.beginTransaction();
 

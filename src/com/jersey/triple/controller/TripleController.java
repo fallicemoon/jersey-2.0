@@ -8,22 +8,19 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jersey.commodity.model.CommodityDisplayVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
-import com.jersey.commodity.model.CommodityDisplayVO;
 import com.jersey.purchaseCase.model.PurchaseCaseService;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseVO;
 import com.jersey.sellCase.model.SellCaseWithBenefitVO;
 import com.jersey.triple.model.TripleService;
-import com.jersey.userConfig.model.CommodityAttrVO;
-import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserSession;
 
 @Controller
@@ -44,7 +41,7 @@ public class TripleController {
 	private UserSession userSession;
 		
 	@RequestMapping(value = "/commodity/{id}", method = RequestMethod.GET)
-	public String commodity (@PathVariable("id") Integer commodityId, Map<String, Object> map) {
+	public String commodity (@PathVariable("id") String commodityId, Map<String, Object> map) {
 		List<CommodityDisplayVO> commodityList = new ArrayList<>();
 		List<PurchaseCaseVO> purchaseCaseList = new ArrayList<>();
 		List<SellCaseWithBenefitVO> sellCaseWithBenefitList = new ArrayList<>();
@@ -60,7 +57,7 @@ public class TripleController {
 	}
 	
 	@RequestMapping(value = "/purchaseCase/{id}", method = RequestMethod.GET)
-	public String purchaseCase (@PathVariable("id") Integer purchaseCaseId, Map<String, Object> map) {
+	public String purchaseCase (@PathVariable("id") String purchaseCaseId, Map<String, Object> map) {
 		Set<CommodityDisplayVO> commoditys = new LinkedHashSet<>();
 		List<PurchaseCaseVO> purchaseCaseList = new ArrayList<>();
 		List<SellCaseWithBenefitVO> sellCaseList = new ArrayList<>();
@@ -77,7 +74,7 @@ public class TripleController {
 	}
 	
 	@RequestMapping(value = "/sellCase/{id}", method = RequestMethod.GET)
-	public String sellCase (@PathVariable("id") Integer sellCaseId, Map<String, Object> map) {
+	public String sellCase (@PathVariable("id") String sellCaseId, Map<String, Object> map) {
 		Set<CommodityDisplayVO> commoditys = new LinkedHashSet<>();
 		Set<PurchaseCaseVO> purchaseCases = new LinkedHashSet<>();
 		List<SellCaseWithBenefitVO> sellCaseList = new ArrayList<>();

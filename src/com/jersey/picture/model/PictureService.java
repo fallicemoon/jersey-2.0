@@ -64,17 +64,17 @@ public class PictureService {
 		}
 	}
 
-	public Set<Integer> getPictureIds(Integer commodityId) {
+	public Set<String> getPictureIds(String commodityId) {
 		List<PictureVO> list = pictureDAO.getPictureIds(commodityId);
 
-		Set<Integer> set = new TreeSet<>();
+		Set<String> set = new TreeSet<>();
 		for (PictureVO pictureVO : list) {
 			set.add(pictureVO.getPictureId());
 		}
 		return set;
 	}
 
-	public void getPicrture(Integer pictureId, OutputStream os) {
+	public void getPicrture(String pictureId, OutputStream os) {
 		try {
 			InputStream is = pictureDAO.getOne(pictureId).getPicture().getBinaryStream();
 			byte[] b = new byte[4096];
@@ -116,7 +116,7 @@ public class PictureService {
 			//處理fileName可能會有重複的問題
 			Map<String, PictureVO> fileNameAndPictureMap = new HashMap<>();
 			for (String pictureId : pictureIds) {
-				PictureVO vo = pictureDAO.getOne(Integer.valueOf(pictureId));
+				PictureVO vo = pictureDAO.getOne(pictureId);
 				PictureVO previous = fileNameAndPictureMap.put(vo.getFileName(), vo);
 				if (previous!=null) {
 					int i = 2;
@@ -155,7 +155,7 @@ public class PictureService {
 		os.close();
 	}
 
-	public void getPicturesZip(Integer commodityId, OutputStream os) throws IOException {
+	public void getPicturesZip(String commodityId, OutputStream os) throws IOException {
 		List<PictureVO> list = pictureDAO.getPicturesByCommodityId(commodityId);
 		ZipOutputStream zos = new ZipOutputStream(os);
 
@@ -206,14 +206,14 @@ public class PictureService {
 	}
 	
 	//權限控管
-	public boolean validatePicPageAuthority (Integer commodityId) {
+	public boolean validatePicPageAuthority (String commodityId) {
 		Authority userAuthority = userSession.getUserConfigVO().getAuthority();
 		Authority commodityAuthority = commodityDAO.getOne(commodityId).getAuthority();
 		return commodityAuthority==Authority.CUSTOMER || userAuthority==Authority.ADMIN;
 	}
 	
 	//權限控管
-	public boolean validateReadPicAuthority (Integer pictureId) {
+	public boolean validateReadPicAuthority (String pictureId) {
 		Authority userAuthority = userSession.getUserConfigVO().getAuthority();
 		Authority commodityAuthority = pictureDAO.getOne(pictureId).getCommodityVO().getAuthority();
 		return commodityAuthority==Authority.CUSTOMER || userAuthority==Authority.ADMIN;
@@ -222,11 +222,11 @@ public class PictureService {
 	private List<PictureVO> parseFormToPictureVO(List<FileItem> fileItems) throws FileUploadException, IOException {
 		List<PictureVO> list = new ArrayList<PictureVO>();
 		FileItem picture = null;
-		Integer commodityId = null;
+		String commodityId = null;
 		for (FileItem fileItem : fileItems) {
 			if (fileItem.isFormField() && fileItem.getFieldName().equals("commodityId")) {
 				try {
-					commodityId = Integer.valueOf(fileItem.getString("UTF-8"));
+					commodityId = fileItem.getString("UTF-8");
 				} catch (NumberFormatException e) {
 					throw new FileUploadException("商品ID格式錯誤");
 				}

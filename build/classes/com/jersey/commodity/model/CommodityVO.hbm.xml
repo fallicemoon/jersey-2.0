@@ -6,7 +6,7 @@
     <class name="com.jersey.commodity.model.CommodityVO" table="commodity" >
         
         <id name="commodityId" column="commodity_id">
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
         
         <many-to-one name="purchaseCaseVO" class="com.jersey.purchaseCase.model.PurchaseCaseVO" lazy="false">

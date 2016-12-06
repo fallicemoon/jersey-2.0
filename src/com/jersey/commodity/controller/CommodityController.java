@@ -54,12 +54,12 @@ public class CommodityController {
 
 	//根據商品種類和登入者權限取得商品, 根據使用者權限取得商品屬性
 	@RequestMapping(value = "/{commodityTypeId}/getAll", method = RequestMethod.GET)
-	public String getAll(Map<String, Object> map, @PathVariable(value="commodityTypeId") Integer commodityTypeId,
+	public String getAll(Map<String, Object> map, @PathVariable(value="commodityTypeId") String commodityTypeId,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
 		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = userSession.getCommodityTypeAttrMap();
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		for (CommodityTypeVO vo : commodityTypeAttrMap.keySet()) {
-			if (vo.getCommodityTypeId()==commodityTypeId) {
+			if (vo.getCommodityTypeId().equals(commodityTypeId)) {
 				commodityTypeVO = vo;
 			}
 		}
@@ -83,7 +83,7 @@ public class CommodityController {
 
 	// 準備新增
 	@RequestMapping(value = "/{commodityTypeId}", method = RequestMethod.GET)
-	public String get(@PathVariable(value="commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
+	public String get(@PathVariable(value="commodityTypeId") String commodityTypeId, Map<String, Object> map) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		commodityTypeVO.setCommodityTypeId(commodityTypeId);
 		map.put("commodityTypeId", commodityTypeId);
@@ -101,7 +101,7 @@ public class CommodityController {
 
 	// 新增
 	@RequestMapping(value = "/{commodityTypeId}/", method = RequestMethod.POST)
-	public String create(@PathVariable("commodityTypeId") Integer commodityTypeId, CommodityVO vo, Map<String, Object> map) {
+	public String create(@PathVariable("commodityTypeId") String commodityTypeId, CommodityVO vo, Map<String, Object> map) {
 		//新增商品
 		vo.setIsStored(true);
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
@@ -125,7 +125,7 @@ public class CommodityController {
 
 	// 修改
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces="application/json;charset=UTF-8", consumes="application/json;charset=UTF-8")
-	public @ResponseBody String update(@PathVariable("id") Integer id, @RequestBody String jsonString) {
+	public @ResponseBody String update(@PathVariable("id") String id, @RequestBody String jsonString) {
 		try {
 			JSONObject json = new JSONObject(jsonString);
 			CommodityVO commodityVO = commodityService.getOne(id);
@@ -172,7 +172,7 @@ public class CommodityController {
 	
 	//商品上下架
 	@RequestMapping(value="/switchStatus/{id}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8" )
-	public @ResponseBody String switchCommodity (@PathVariable("id") Integer id, @RequestBody String jsonString) {
+	public @ResponseBody String switchCommodity (@PathVariable("id") String id, @RequestBody String jsonString) {
 		try {
 			JSONObject json = new JSONObject(jsonString);
 			Authority authority = Authority.valueOf(json.get("authority").toString());
@@ -209,7 +209,7 @@ public class CommodityController {
 
 	// 複製
 	@RequestMapping(value = "/clone", method = RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public @ResponseBody String clone(@RequestParam(value = "commodityIds", required = true) Integer id) {
+	public @ResponseBody String clone(@RequestParam(value = "commodityIds", required = true) String id) {
 		try {
 			CommodityVO commodityVO = commodityService.getOne(id);
 			

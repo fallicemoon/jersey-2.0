@@ -3,7 +3,6 @@ package com.jersey.commodity.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -81,7 +80,7 @@ public class CommodityService {
 		return commodityDAO.getTotalCount(userSession.getUserConfigVO().getAuthority(), commodityTypeVO);
 	}
 
-	public CommodityVO getOne(Integer commodityId) {
+	public CommodityVO getOne(String commodityId) {
 		CommodityVO commodityVO = this.commodityDAO.getOne(commodityId);
 		if (userSession.getUserConfigVO().getAuthority()==Authority.CUSTOMER && commodityVO.getAuthority()!=Authority.CUSTOMER) {
 			commodityVO = null;
@@ -113,14 +112,8 @@ public class CommodityService {
 	public boolean delete(Integer[] ids) {
 		return this.commodityDAO.delete(ids);
 	}
-	
 
-
-	public Map<Integer, Integer> getCommodityIdPictureCountMap() {
-		return pictureDAO.getCommodityIdPictureCountMap();
-	}
-
-	public Integer getCommodityIdPictureCount(Integer commodityId) {
+	public Integer getCommodityIdPictureCount(String commodityId) {
 		return pictureDAO.getCommodityIdPictureCount(commodityId);
 	}
 	
@@ -161,7 +154,7 @@ public class CommodityService {
 		return newList;
 	}
 	
-	public CommodityAttrMappingVO getCommodityAttrMappingVO(Integer commodityAttrMappingId) {
+	public CommodityAttrMappingVO getCommodityAttrMappingVO(String commodityAttrMappingId) {
 		return commodityAttrMappingDAO.getOne(commodityAttrMappingId);
 	}
 	

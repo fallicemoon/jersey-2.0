@@ -20,7 +20,7 @@ public class StoreService {
 		return storeDAO.getAll(pageSize, page);
 	}
 	
-	public StoreVO getOne(Integer id) {
+	public StoreVO getOne(String id) {
 		return storeDAO.getOne(id);
 	}
 	

@@ -13,7 +13,7 @@ public interface DAOInterface<E extends AbstractVo> {
 
 	public Long getTotalCount(Criterion... criterions);
 
-	public E getOne(Integer id);
+	public E getOne(String id);
 
 	public E create(E vo);
 

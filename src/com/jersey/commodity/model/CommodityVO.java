@@ -12,7 +12,7 @@ public class CommodityVO extends AbstractVo {
 	 * 
 	 */
 	private static final long serialVersionUID = 5376904358224813395L;
-	private Integer commodityId;
+	private String commodityId;
 	private PurchaseCaseVO purchaseCaseVO;
 	private String itemName;
 
@@ -82,11 +82,11 @@ public class CommodityVO extends AbstractVo {
 		this.authority = authority;
 	}
 
-	public Integer getCommodityId() {
+	public String getCommodityId() {
 		return this.commodityId;
 	}
 
-	public void setCommodityId(Integer commodityId) {
+	public void setCommodityId(String commodityId) {
 		this.commodityId = commodityId;
 	}
 

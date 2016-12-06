@@ -84,7 +84,7 @@ public class UserConfigController {
 	
 	@ResponseBody
 	@RequestMapping(value="/commodityAttr/{commodityTypeId}", method=RequestMethod.POST, produces="application/json;charset=UTF-8")
-	public String createCommodityAttr (@RequestBody CommodityAttrVO commodityAttrVO, @PathVariable("commodityTypeId") Integer commodityTypeId) {
+	public String createCommodityAttr (@RequestBody CommodityAttrVO commodityAttrVO, @PathVariable("commodityTypeId") String commodityTypeId) {
 		try {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
 			commodityAttrVO.setCommodityTypeVO(commodityTypeVO);
@@ -109,7 +109,7 @@ public class UserConfigController {
 	
 	@ResponseBody
 	@RequestMapping(value="/commodityType/{commodityTypeId}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
-	public String updateCommodityType(@RequestBody String[] commodityType, @PathVariable("commodityTypeId") Integer commodityTypeId){
+	public String updateCommodityType(@RequestBody String[] commodityType, @PathVariable("commodityTypeId") String commodityTypeId){
 		try {
 			CommodityTypeVO commodityTypeVO = userConfigService.getCommodityTypeVOByCommodityTypeId(commodityTypeId);
 			String oldCommodityType = commodityTypeVO.getCommodityType();
@@ -134,7 +134,7 @@ public class UserConfigController {
 	
 	@ResponseBody
 	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.PUT, produces="application/json;charset=UTF-8")
-	public String updateCommodityAttr(@RequestBody String[] commodityAttrArray, @PathVariable("commodityAttrId") Integer commodityAttrId){
+	public String updateCommodityAttr(@RequestBody String[] commodityAttrArray, @PathVariable("commodityAttrId") String commodityAttrId){
 		try {
 			String newCommodityAttr = commodityAttrArray[0];
 			CommodityAttrAuthority commodityAttrAuthority = CommodityAttrAuthority.valueOf(commodityAttrArray[1]);
@@ -163,7 +163,7 @@ public class UserConfigController {
 	
 	@ResponseBody
 	@RequestMapping(value="/commodityAttr/{commodityAttrId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
-	public String removeCommodityAttr (@PathVariable("commodityAttrId") Integer commodityAttrId, Map<String, Object> map) {
+	public String removeCommodityAttr (@PathVariable("commodityAttrId") String commodityAttrId, Map<String, Object> map) {
 		try {
 			CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
 			commodityAttrVO.setCommodityAttrId(commodityAttrId);
@@ -177,7 +177,7 @@ public class UserConfigController {
 	
 	@ResponseBody
 	@RequestMapping(value="/commodityType/{commodityTypeId}", method=RequestMethod.DELETE, produces="application/json;charset=UTF-8")
-	public String removeCommodityType (@PathVariable("commodityTypeId") Integer commodityTypeId, Map<String, Object> map) {
+	public String removeCommodityType (@PathVariable("commodityTypeId") String commodityTypeId, Map<String, Object> map) {
 		try {
 			CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 			commodityTypeVO.setCommodityTypeId(commodityTypeId);

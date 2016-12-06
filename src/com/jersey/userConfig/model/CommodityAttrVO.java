@@ -14,16 +14,16 @@ public class CommodityAttrVO extends AbstractVo{
 	 */
 	private static final long serialVersionUID = 7656268428089108516L;
 
-	private Integer commodityAttrId;
+	private String commodityAttrId;
 	private CommodityTypeVO commodityTypeVO;
 	private String commodityAttr;
 	private Set<CommodityAttrMappingVO> commodityAttrMappings = new LinkedHashSet<>();
 	private CommodityAttrAuthority commodityAttrAuthority;
 	
-	public Integer getCommodityAttrId() {
+	public String getCommodityAttrId() {
 		return commodityAttrId;
 	}
-	public void setCommodityAttrId(Integer commodityAttrId) {
+	public void setCommodityAttrId(String commodityAttrId) {
 		this.commodityAttrId = commodityAttrId;
 	}
 	public CommodityTypeVO getCommodityTypeVO() {

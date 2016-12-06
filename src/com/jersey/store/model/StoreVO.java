@@ -8,15 +8,15 @@ public class StoreVO extends AbstractVo {
 	 * 
 	 */
 	private static final long serialVersionUID = 4628934097511568808L;
-	private Integer storeId;
+	private String storeId;
 	private StoreType type;
 	private String name;
 
-	public Integer getStoreId() {
+	public String getStoreId() {
 		return this.storeId;
 	}
 
-	public void setStoreId(Integer storeId) {
+	public void setStoreId(String storeId) {
 		this.storeId = storeId;
 	}
 

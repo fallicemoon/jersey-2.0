@@ -12,7 +12,7 @@ public class SellCaseVO extends AbstractVo {
 	 * 
 	 */
 	private static final long serialVersionUID = -2114817843335424889L;
-	private Integer sellCaseId;
+	private String sellCaseId;
 	private String addressee;
 	private String phone;
 	private String address;
@@ -93,11 +93,11 @@ public class SellCaseVO extends AbstractVo {
 		this.uncollected = uncollected;
 	}
 
-	public Integer getSellCaseId() {
+	public String getSellCaseId() {
 		return this.sellCaseId;
 	}
 
-	public void setSellCaseId(Integer sellCaseId) {
+	public void setSellCaseId(String sellCaseId) {
 		this.sellCaseId = sellCaseId;
 	}
 

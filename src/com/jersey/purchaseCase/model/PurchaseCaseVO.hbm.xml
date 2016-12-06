@@ -6,7 +6,7 @@
     <class name="com.jersey.purchaseCase.model.PurchaseCaseVO" table="purchase_case" >
         
         <id name="purchaseCaseId" column="purchase_case_id">
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
         
         <set name="commoditys" table="commodity" lazy="false" order-by="commodityId asc">

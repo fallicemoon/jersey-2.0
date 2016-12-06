@@ -13,16 +13,16 @@ public class CommodityTypeVO extends AbstractVo {
 	 */
 	private static final long serialVersionUID = -7806107519331559770L;
 	
-	private Integer commodityTypeId;
+	private String commodityTypeId;
 	private String commodityType;
 	private Authority authority;
 	private Set<CommodityVO> commoditys;
 	private Set<CommodityAttrVO> commodityAttrs;
 	
-	public Integer getCommodityTypeId() {
+	public String getCommodityTypeId() {
 		return commodityTypeId;
 	}
-	public void setCommodityTypeId(Integer commodityTypeId) {
+	public void setCommodityTypeId(String commodityTypeId) {
 		this.commodityTypeId = commodityTypeId;
 	}
 	public String getCommodityType() {

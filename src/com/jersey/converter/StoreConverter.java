@@ -18,8 +18,7 @@ public class StoreConverter implements Converter<String, StoreVO> {
 	
 	@Override
 	public StoreVO convert(String id) {
-		Integer storeId = Integer.valueOf(id);
-		return storeService.getOne(Integer.valueOf(storeId));
+		return storeService.getOne(id);
 	}
 
 }

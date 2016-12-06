@@ -6,7 +6,7 @@
 	<class name="com.jersey.userConfig.model.UserConfigVO" table="user_config">
 
 		<id name="userConfigId" column="user_config_id">
-			<generator class="identity" />
+			<generator class="assigned" />
 		</id>
 
 		<property name="userName" column="user_name" />

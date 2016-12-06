@@ -6,7 +6,7 @@
     <class name="com.jersey.userConfig.model.CommodityAttrVO" table="commodity_attr" >
         
         <id name="commodityAttrId" column="commodity_attr_id">
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
                 
         <many-to-one name="commodityTypeVO" class="com.jersey.userConfig.model.CommodityTypeVO" lazy="false">

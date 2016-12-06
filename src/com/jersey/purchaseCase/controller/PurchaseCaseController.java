@@ -39,7 +39,7 @@ public class PurchaseCaseController {
 		Set<String> keySet = pathVariableMap.keySet();
 		if (keySet.contains("id")) {
 			String purchaseCaseId = pathVariableMap.get("id");
-			map.put("purchaseCase", purchaseCaseService.getOne(Integer.valueOf(purchaseCaseId)));
+			map.put("purchaseCase", purchaseCaseService.getOne(purchaseCaseId));
 		}
 	}
 
@@ -64,7 +64,7 @@ public class PurchaseCaseController {
 
 	// 準備更新
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getOne(@PathVariable("id") Integer id, Map<String, Object> map) {
+	public String getOne(@PathVariable("id") String id, Map<String, Object> map) {
 		return UPDATE;
 	}
 
@@ -80,7 +80,7 @@ public class PurchaseCaseController {
 
 	// 修改
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public String update(@PathVariable("id") Integer id, @ModelAttribute("purchaseCase") PurchaseCaseVO vo,
+	public String update(@PathVariable("id") String id, @ModelAttribute("purchaseCase") PurchaseCaseVO vo,
 			Map<String, Object> map) {
 		purchaseCaseService.update(vo);
 //		List<PurchaseCaseVO> list = new ArrayList<>();
@@ -110,7 +110,7 @@ public class PurchaseCaseController {
 
 	// 取得可以新增到進貨的商品
 	@RequestMapping(value = "/getCommodityList/{id}", method = RequestMethod.GET)
-	public String getCommodityList(@PathVariable("id") Integer purchaseCaseId, Map<String, Object> map) {
+	public String getCommodityList(@PathVariable("id") String purchaseCaseId, Map<String, Object> map) {
 		map.put("purchaseCaseId", purchaseCaseId);
 		// 取得已經在進貨單中的商品清單
 		map.put("commodityListInPurchaseCase", purchaseCaseService.getCommoditysByPurchaseCaseId(purchaseCaseId));
@@ -121,7 +121,7 @@ public class PurchaseCaseController {
 
 	// 新增商品到進貨
 	@RequestMapping(value = "/addCommodity", method = RequestMethod.PUT)
-	public String addCommodity(@RequestParam(value = "purchaseCaseId", required = true) Integer purchaseCaseId,
+	public String addCommodity(@RequestParam(value = "purchaseCaseId", required = true) String purchaseCaseId,
 			@RequestParam(value = "commodityIds", required = true) String[] commodityIds) {
 		Integer[] ids = new Integer[commodityIds.length];
 		for (int i = 0; i < commodityIds.length; i++) {

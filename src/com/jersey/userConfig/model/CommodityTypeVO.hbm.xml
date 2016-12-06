@@ -6,7 +6,7 @@
     <class name="com.jersey.userConfig.model.CommodityTypeVO" table="commodity_type" >
         
         <id name="commodityTypeId" column="commodity_type_id">
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
         
         <property name="commodityType" column="commodity_type" />

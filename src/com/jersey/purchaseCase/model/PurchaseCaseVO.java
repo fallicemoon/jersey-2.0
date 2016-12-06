@@ -13,7 +13,7 @@ public class PurchaseCaseVO extends AbstractVo {
 	 * 
 	 */
 	private static final long serialVersionUID = 4582143556997503363L;
-	private Integer purchaseCaseId;
+	private String purchaseCaseId;
 	private SellCaseVO sellCaseVO;
 	private StoreVO store;
 	private String progress;
@@ -45,11 +45,11 @@ public class PurchaseCaseVO extends AbstractVo {
 		this.agentTrackingNumberLink = agentTrackingNumberLink;
 	}
 
-	public Integer getPurchaseCaseId() {
+	public String getPurchaseCaseId() {
 		return this.purchaseCaseId;
 	}
 
-	public void setPurchaseCaseId(Integer purchaseCaseId) {
+	public void setPurchaseCaseId(String purchaseCaseId) {
 		this.purchaseCaseId = purchaseCaseId;
 	}
 

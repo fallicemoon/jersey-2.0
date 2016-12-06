@@ -154,7 +154,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 		return getHelper(Restrictions.isNull("sellCaseVO"));
 	}
 
-	public boolean updateSellCaseId(Integer sellCaseId, Integer[] purchaseCaseIds) {
+	public boolean updateSellCaseId(String sellCaseId, Integer[] purchaseCaseIds) {
 		Session session = hibernateTools.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();

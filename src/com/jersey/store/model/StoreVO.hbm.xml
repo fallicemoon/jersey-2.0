@@ -6,7 +6,7 @@
     <class name="com.jersey.store.model.StoreVO" table="store" >
         
         <id name="storeId" column="store_id">
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
         
         <property name="type" column="type">

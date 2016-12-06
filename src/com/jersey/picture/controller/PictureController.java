@@ -41,7 +41,7 @@ public class PictureController {
 
 
 	@RequestMapping(value = "/getOne/{pictureId}", method = RequestMethod.GET)
-	public void getPicture(@PathVariable("pictureId") Integer pictureId, HttpServletResponse response) {
+	public void getPicture(@PathVariable("pictureId") String pictureId, HttpServletResponse response) {
 		response.setContentType(PICTURE_CONTENT_TYPE);
 		try {
 			if (pictureService.validateReadPicAuthority(pictureId)) {
@@ -53,9 +53,9 @@ public class PictureController {
 	}
 	
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
-	public String getAll(@PathVariable("commodityId") Integer commodityId, Map<String, Object> map) {
+	public String getAll(@PathVariable("commodityId") String commodityId, Map<String, Object> map) {
 		if (pictureService.validatePicPageAuthority(commodityId)) {
-			Set<Integer> pictureIds = pictureService.getPictureIds(commodityId);
+			Set<String> pictureIds = pictureService.getPictureIds(commodityId);
 			map.put("pictureIds", pictureIds);
 			map.put("commodity", commodityService.getOne(commodityId));
 			return UPLOAD_PICTURE;
@@ -64,7 +64,7 @@ public class PictureController {
 	}
 
 	@RequestMapping(value = "/uploadPicture", method = RequestMethod.POST)
-	public String uploadPicture(@PathVariable("commodityId") Integer commodityId, HttpServletRequest request,
+	public String uploadPicture(@PathVariable("commodityId") String commodityId, HttpServletRequest request,
 			Map<String, Object> map) {
 		if (request.getContentType() != null && request.getContentType().startsWith("multipart/form-data")) {
 			Set<String> errors = new LinkedHashSet<>();
@@ -83,7 +83,7 @@ public class PictureController {
 			}
 		}
 		// exception 導回頁面取得所有圖片
-		Set<Integer> pictureIds = pictureService.getPictureIds(commodityId);
+		Set<String> pictureIds = pictureService.getPictureIds(commodityId);
 		map.put("pictureIds", pictureIds);
 		map.put("commodity", commodityService.getOne(commodityId));
 		return UPLOAD_PICTURE;
@@ -111,7 +111,7 @@ public class PictureController {
 	}
 	
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
-	public void download (@PathVariable("commodityId") Integer commodityId, @RequestParam("pictureIds") String[] pictureIds, HttpServletResponse response) {
+	public void download (@PathVariable("commodityId") String commodityId, @RequestParam("pictureIds") String[] pictureIds, HttpServletResponse response) {
 		response.setHeader("Content-disposition", "attachment; filename=" + commodityId + ".zip");
 		try {
 			pictureService.getPicturesZip(pictureIds, response.getOutputStream());
@@ -122,7 +122,7 @@ public class PictureController {
 	}
 	
 	@RequestMapping(value = "/downloadAll", method = RequestMethod.GET)
-	public void downloadAll (@PathVariable("commodityId") Integer commodityId, HttpServletResponse response) {
+	public void downloadAll (@PathVariable("commodityId") String commodityId, HttpServletResponse response) {
 		response.setHeader("Content-disposition", "attachment; filename=" + commodityId + ".zip");
 		try {
 			pictureService.getPicturesZip(commodityId, response.getOutputStream());

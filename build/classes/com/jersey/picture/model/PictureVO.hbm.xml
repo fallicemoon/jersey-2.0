@@ -6,7 +6,7 @@
     <class name="com.jersey.picture.model.PictureVO" table="picture" >
         
         <id name="pictureId" column="picture_id">
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
         
         <many-to-one name="commodityVO" class="com.jersey.commodity.model.CommodityVO" lazy="false">

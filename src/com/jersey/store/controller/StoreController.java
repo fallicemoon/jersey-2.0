@@ -42,7 +42,7 @@ public class StoreController {
 		Set<String> keySet = pathVariableMap.keySet();
 		if(keySet.contains("id")){
 			String storeId = pathVariableMap.get("id");
-			map.put("store", storeService.getOne(Integer.valueOf(storeId)));
+			map.put("store", storeService.getOne(storeId));
 		}
 	}
 	
@@ -67,7 +67,7 @@ public class StoreController {
 	
 	//準備更新
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public String getOne (@PathVariable("id") Integer id, Map<String, Object> map) {
+	public String getOne (@PathVariable("id") String id, Map<String, Object> map) {
 		return UPDATE;
 	}
 	
@@ -91,7 +91,7 @@ public class StoreController {
 	
 	//修改
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public String update (@PathVariable("id") Integer id, @ModelAttribute(value="store") StoreVO vo, Map<String, Object> map) {
+	public String update (@PathVariable("id") String id, @ModelAttribute(value="store") StoreVO vo, Map<String, Object> map) {
 		storeService.update(vo);
 //		List<StoreVO> list = new ArrayList<>();
 //		list.add(vo);

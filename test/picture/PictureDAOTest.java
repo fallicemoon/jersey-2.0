@@ -1,10 +1,8 @@
 package picture;
 
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import com.jersey.picture.model.PictureDAO;
 import com.jersey.picture.model.PictureVO;
@@ -20,33 +18,5 @@ public class PictureDAOTest {
 	}
 	
 	
-	@Test
-	public void getPictureIds () {
-		list = pictureDAO.getPictureIds(28);
-		System.out.println(list);
-	}
-	
-	@Test
-	public void getPicturesByCommodityId () {
-		list = pictureDAO.getPicturesByCommodityId(50);
-		System.out.println(list);
-	}
-	
-	@Test
-	public void getCommodityIdPictureCountMap () {
-		Map<Integer, Integer> map = pictureDAO.getCommodityIdPictureCountMap();
-		System.out.println(map);
-	}
-	
-	@Test
-	public void getCommodityIdPictureCount () {
-		Integer count = pictureDAO.getCommodityIdPictureCount(28);
-		System.out.println(count);
-	}
-	
-	@Test
-	public void getOne () {
-		System.out.println(pictureDAO.getOne(200));
-	} 
 
 }

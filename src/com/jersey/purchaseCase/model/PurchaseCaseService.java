@@ -26,7 +26,7 @@ public class PurchaseCaseService {
 		return this.purchaseCaseDAO.getAllOfNotProgress("進貨完成");
 	}
 
-	public PurchaseCaseVO getOne(Integer id) {
+	public PurchaseCaseVO getOne(String id) {
 		return this.purchaseCaseDAO.getOne(id);
 	}
 
@@ -42,7 +42,7 @@ public class PurchaseCaseService {
 		return this.purchaseCaseDAO.delete(ids);
 	}
 
-	public Set<CommodityVO> getCommoditysByPurchaseCaseId(Integer id) {
+	public Set<CommodityVO> getCommoditysByPurchaseCaseId(String id) {
 		PurchaseCaseVO vo = this.purchaseCaseDAO.getOne(id);
 		if (vo != null)
 			return vo.getCommoditys();
@@ -53,7 +53,7 @@ public class PurchaseCaseService {
 		return commodityDAO.getByPurchaseCaseIdIsNull();
 	}
 
-	public void addPurchaseCaseIdToCommoditys(Integer purchaseCaseId, Integer[] commodityIds) {
+	public void addPurchaseCaseIdToCommoditys(String purchaseCaseId, Integer[] commodityIds) {
 		PurchaseCaseVO purchaseCaseVO = getOne(purchaseCaseId);
 		commodityDAO.updatePurchaseCaseId(purchaseCaseVO, commodityIds);
 	}

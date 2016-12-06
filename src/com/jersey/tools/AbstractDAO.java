@@ -89,7 +89,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 	} 
 
 	@Override
-	public E getOne(Integer id) {
+	public E getOne(String id) {
 		Session session = hibernateTools.getSession();
 		session.getTransaction().begin();
 		E vo = null;

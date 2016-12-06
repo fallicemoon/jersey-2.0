@@ -10,7 +10,7 @@ public class PictureVO extends AbstractVo{
 	 * 
 	 */
 	private static final long serialVersionUID = -6563278643281171369L;
-	private Integer pictureId;
+	private String pictureId;
 	private CommodityVO commodityVO;
 	private Integer sequenceId;
 	private Blob picture;
@@ -24,11 +24,11 @@ public class PictureVO extends AbstractVo{
 		this.fileName = fileName;
 	}
 
-	public Integer getPictureId() {
+	public String getPictureId() {
 		return this.pictureId;
 	}
 
-	public void setPictureId(Integer pictureId) {
+	public void setPictureId(String pictureId) {
 		this.pictureId = pictureId;
 	}
 
