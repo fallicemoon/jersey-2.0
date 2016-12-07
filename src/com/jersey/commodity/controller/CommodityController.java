@@ -1,7 +1,5 @@
 package com.jersey.commodity.controller;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +21,6 @@ import com.jersey.commodity.model.CommodityAttrMappingVO;
 import com.jersey.commodity.model.CommodityService;
 import com.jersey.commodity.model.CommodityVO;
 import com.jersey.tools.JerseyEnum.Authority;
-import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 import com.jersey.tools.JerseyTools;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
@@ -52,19 +49,10 @@ public class CommodityController {
 				commodityTypeVO = vo;
 			}
 		}
-		//把adminHidden的拿掉，但不能影響到session裡面的map
-		List<CommodityAttrVO> temp = new ArrayList<>(commodityTypeAttrMap.get(commodityTypeVO));
-		Iterator<CommodityAttrVO> commodityAttrVOIterator = temp.iterator();
-		while (commodityAttrVOIterator.hasNext()) {
-			CommodityAttrVO commodityAttrVO = commodityAttrVOIterator.next();
-			if(commodityAttrVO.getCommodityAttrAuthority()==CommodityAttrAuthority.ADMIN_HIDDEN){
-				commodityAttrVOIterator.remove();
-			}
-		}
 		
 		map.put("commodityTypeId", commodityTypeId);
-		map.put("commodityAttrList", temp);
-		//ADMIN_HIDDEN有拿掉了，不用再拿
+		map.put("commodityAttrList", commodityService.getVisibleCommodityAttr(commodityTypeVO));
+		//ADMIN_HIDDEN在getDisplayVo有拿掉了，不用再拿
 		map.put("commodityList", commodityService.getAll(commodityTypeVO, page));
 		map.put("pages", commodityService.getPages(commodityTypeVO));
 		return LIST;

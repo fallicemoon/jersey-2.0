@@ -42,8 +42,8 @@ public class PictureService {
 	@Autowired
 	private UserSession userSession;
 
-	// 單檔上限30MB
-	private final Long singleFileSizeMax = 31457280L;
+	// 單檔上限6MB
+	private final Long singleFileSizeMax = 6291456L;
 
 	public void uploadPicture(HttpServletRequest request)
 			throws SizeLimitExceededException, IOException, FileUploadException {

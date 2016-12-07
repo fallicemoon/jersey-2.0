@@ -1,9 +1,9 @@
 package com.jersey.commodity.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -117,6 +117,24 @@ public class CommodityService {
 		return pictureDAO.getCommodityIdPictureCount(commodityId);
 	}
 	
+	/**
+	 * 取得此使用者在此商品種類下可見的屬性
+	 * @param commodityTypeVO
+	 * @return
+	 */
+	public List<CommodityAttrVO> getVisibleCommodityAttr (CommodityTypeVO commodityTypeVO) {
+		//把adminHidden的拿掉，但不能影響到session裡面的map, 所以要用new的
+		List<CommodityAttrVO> list = new ArrayList<>(userSession.getCommodityTypeAttrMap().get(commodityTypeVO));
+		Iterator<CommodityAttrVO> commodityAttrVOIterator = list.iterator();
+		while (commodityAttrVOIterator.hasNext()) {
+			CommodityAttrVO commodityAttrVO = commodityAttrVOIterator.next();
+			if(commodityAttrVO.getCommodityAttrAuthority()==CommodityAttrAuthority.ADMIN_HIDDEN){
+				commodityAttrVOIterator.remove();
+			}
+		}
+		return list;
+	}
+	
 	public CommodityDisplayVO getCommodityDisplayVO (CommodityVO commodityVO) {
 		CommodityDisplayVO commodityDisplayVO = null;
 		if (commodityVO!=null) {
@@ -138,21 +156,13 @@ public class CommodityService {
 		return commodityDisplayVO;
 	}
 	
-	public List<CommodityDisplayVO> getCommodityDisplayVO (List<CommodityVO> list) {
+	public List<CommodityDisplayVO> getCommodityDisplayVO (Collection<CommodityVO> list) {
 		List<CommodityDisplayVO> newList = new ArrayList<>();
 		for (CommodityVO commodityDisplayVO : list) {
 			newList.add(getCommodityDisplayVO(commodityDisplayVO));
 		}
 		return newList;
 	} 
-	
-	public List<CommodityDisplayVO> getCommodityDisplayVO (Set<CommodityVO> set) {
-		List<CommodityDisplayVO> newList = new ArrayList<>();
-		for (CommodityVO commodityDisplayVO : set) {
-			newList.add(getCommodityDisplayVO(commodityDisplayVO));
-		}
-		return newList;
-	}
 	
 	public CommodityAttrMappingVO getCommodityAttrMappingVO(String commodityAttrMappingId) {
 		return commodityAttrMappingDAO.getOne(commodityAttrMappingId);
@@ -161,33 +171,6 @@ public class CommodityService {
 	public List<CommodityAttrMappingVO> getCommodityAttrMappingVOList(CommodityVO commodityVO) {
 		return commodityAttrMappingDAO.getByCommodityVO(commodityVO);
 	}
-	
-	
-	
-
-	
-//	public List<CommodityDisplayVO> getCommodityDisplayVOList (String commodityType, Collection<CommodityVO> commodityList) {
-//		Map<Integer, Integer> pictureCountMap = getCommodityIdPictureCountMap();
-//		List<CommodityAttrVO> commodityAttrList = userConfigService.getCommodityAttrMap().get(commodityType);
-//		List<CommodityDisplayVO> newList = new ArrayList<>();
-//		for (CommodityVO commodityVO : commodityList) {
-//			CommodityDisplayVO commodityDisplayVO = new CommodityDisplayVO();
-//			Tools.copyBeanProperties(commodityVO, commodityDisplayVO);
-//			//pictureCount
-//			Integer count = pictureCountMap.get(commodityDisplayVO.getCommodityId());
-//			commodityDisplayVO.setPictureCount(count==null ? 0:count);
-//			//commodityAttr
-//			Map<String, String> commodityAttrValueMap = new LinkedHashMap<>();
-//			List<CommodityAttrMappingVO> commodityAttrMappingList = commodityAttrMappingDAO.getByCommodityVO(commodityVO);
-//			for (CommodityAttrVO commodityAttrVO : commodityAttrList) {
-//				commodityAttrValueMap.put(commodityAttrVO.getCommodityAttr());
-//			}
-//			commodityDisplayVO.setCommodityAttrValueMap(commodityAttrValueMap);
-//			newList.add(commodityDisplayVO);
-//		}
-//		return newList;
-//	}
-	
 	
 	
 }

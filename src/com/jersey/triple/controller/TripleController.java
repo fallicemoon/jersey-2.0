@@ -21,7 +21,6 @@ import com.jersey.sellCase.model.SellCaseService;
 import com.jersey.sellCase.model.SellCaseVO;
 import com.jersey.sellCase.model.SellCaseWithBenefitVO;
 import com.jersey.triple.model.TripleService;
-import com.jersey.userConfig.model.UserSession;
 
 @Controller
 @RequestMapping("/triple")
@@ -37,8 +36,6 @@ public class TripleController {
 	private SellCaseService SellCaseService;
 	@Autowired
 	private TripleService tripleService;
-	@Autowired
-	private UserSession userSession;
 		
 	@RequestMapping(value = "/commodity/{id}", method = RequestMethod.GET)
 	public String commodity (@PathVariable("id") String commodityId, Map<String, Object> map) {

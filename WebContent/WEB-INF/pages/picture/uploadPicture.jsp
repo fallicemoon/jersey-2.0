@@ -125,7 +125,7 @@ span {
     <label for="inputEmail3" class="col-sm-2 control-label">圖片(須為jpg / gif / png)：</label>
   		<div class="col-lg-6">
     		<div class="input-group">
-      		<input type="file" class="form-control" placeholder="請選擇圖片" name="picture" multiple>檔案須小於30MB!
+      		<input type="file" class="form-control" placeholder="請選擇圖片" name="picture" multiple>檔案須小於6MB!
     		</div>
   		</div>
     </div>
