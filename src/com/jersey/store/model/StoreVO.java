@@ -8,17 +8,8 @@ public class StoreVO extends AbstractVo {
 	 * 
 	 */
 	private static final long serialVersionUID = 4628934097511568808L;
-	private String storeId;
 	private StoreType type;
 	private String name;
-
-	public String getStoreId() {
-		return this.storeId;
-	}
-
-	public void setStoreId(String storeId) {
-		this.storeId = storeId;
-	}
 
 	public StoreType getType() {
 		return this.type;
@@ -40,7 +31,7 @@ public class StoreVO extends AbstractVo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((storeId == null) ? 0 : storeId.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -54,10 +45,10 @@ public class StoreVO extends AbstractVo {
 		if (getClass() != obj.getClass())
 			return false;
 		StoreVO other = (StoreVO) obj;
-		if (storeId == null) {
-			if (other.storeId != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!storeId.equals(other.storeId))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}

@@ -49,7 +49,7 @@ public class TripleController {
 		CommodityVO commodityVO = commodityService.getOne(commodityId);
 		tripleService.generateTriple(commodityVO, commodityList, purchaseCaseList, sellCaseWithBenefitList);
 
-		map.put("title", "商品:" + commodityVO.getCommodityId() + "/" + commodityVO.getItemName());
+		map.put("title", "商品:" + commodityVO.getId() + "/" + commodityVO.getItemName());
 		map.put("commodityList", commodityList);
 		map.put("purchaseCaseList", purchaseCaseList);
 		map.put("sellCaseList", sellCaseWithBenefitList);
@@ -66,7 +66,7 @@ public class TripleController {
 		tripleService.generateTriple(purchaseCaseVO, commoditys, purchaseCaseList, sellCaseList);
 
 		map.put("title",
-				"進貨:" + purchaseCaseVO.getPurchaseCaseId() + "/" + purchaseCaseVO.getStore().getName());
+				"進貨:" + purchaseCaseVO.getId() + "/" + purchaseCaseVO.getStore().getName());
 		map.put("commodityList", commoditys);
 		map.put("purchaseCaseList", purchaseCaseList);
 		map.put("sellCaseList", sellCaseList);
@@ -82,7 +82,7 @@ public class TripleController {
 
 		tripleService.generateTriple(sellCaseVO, commoditys, purchaseCases, sellCaseList);
 
-		map.put("title", "出貨:" + sellCaseVO.getSellCaseId() + "/" + sellCaseVO.getAddressee());
+		map.put("title", "出貨:" + sellCaseVO.getId() + "/" + sellCaseVO.getAddressee());
 		map.put("commodityList", commoditys);
 		map.put("purchaseCaseList", purchaseCases);
 		map.put("sellCaseList", sellCaseList);

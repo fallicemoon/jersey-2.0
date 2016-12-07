@@ -4,9 +4,10 @@
 
 <hibernate-mapping>
 	<class name="com.jersey.systemParam.model.SystemParamVO" table="system_param">
-		<id name="name" column="name">
+		<id name="id" column="system_param_id">
 			<generator class="assigned"></generator>
 		</id>
+		<property name="name" column="name" />
 		<property name="value" column="value" />
 		<property name="type" column="type" />	
 		<property name="createTime" column="create_time" />

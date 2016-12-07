@@ -20,11 +20,18 @@ public class PrimaryKeyGenerator {
 	//公開對外的pool
 	private static Map<PrimaryKey, PrimaryKeyGenerator> generatorMap = new HashMap<>();
 	public static PrimaryKeyGenerator getPrimaryKeyGenerator (PrimaryKey primaryKey) {
+		if (primaryKey==null) {
+			throw new NullPointerException();
+		}
 		if (generatorMap.get(primaryKey)==null) {
 			generatorMap.put(primaryKey, new PrimaryKeyGenerator(primaryKey));
 		} 
 		return generatorMap.get(primaryKey);
-	} 
+	}
+	
+	public static PrimaryKeyGenerator getPrimaryKeyGenerator (Class<? extends AbstractVo> type) {
+		return getPrimaryKeyGenerator(PrimaryKey.findByType(type));
+	}
 	
 	private static DateFormat DATE_FORMAT =  new SimpleDateFormat("yyyyMMdd");
 	

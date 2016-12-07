@@ -12,7 +12,6 @@ public class UserConfigVO extends AbstractVo{
 	
 	private String userName;
 	private Authority authority;
-	private Integer userConfigId;
 	private Integer commodityPageSize;
 	private Integer purchaseCasePageSize;
 	private Integer sellCasePageSize;
@@ -29,12 +28,6 @@ public class UserConfigVO extends AbstractVo{
 	}
 	public void setAuthority(Authority authority) {
 		this.authority = authority;
-	}
-	public Integer getUserConfigId() {
-		return userConfigId;
-	}
-	public void setUserConfigId(Integer userConfigId) {
-		this.userConfigId = userConfigId;
 	}
 	public Integer getCommodityPageSize() {
 		return commodityPageSize;

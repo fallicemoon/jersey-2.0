@@ -122,7 +122,7 @@ public class CommodityService {
 		if (commodityVO!=null) {
 			commodityDisplayVO = new CommodityDisplayVO();
 			JerseyTools.copyBeanProperties(commodityVO, commodityDisplayVO);
-			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getCommodityId()));
+			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getId()));
 			//刪掉此權限不能看的屬性(adminHidden一定看不到)
 			Iterator<CommodityAttrMappingVO> iterator = commodityVO.getCommodityAttrMappings().iterator();
 			while (iterator.hasNext()) {

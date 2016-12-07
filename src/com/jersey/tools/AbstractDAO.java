@@ -110,12 +110,13 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		return vo;
 	}
 
-
 	@Override
 	public E create(E vo) {
 		Session session = hibernateTools.getSession();
 		try {
 			session.beginTransaction();
+			PrimaryKeyGenerator generator = PrimaryKeyGenerator.getPrimaryKeyGenerator(voType);
+			vo.setId(generator.getNextPrimaryKey());
 			session.save(vo);
 			session.getTransaction().commit();
 			return vo;

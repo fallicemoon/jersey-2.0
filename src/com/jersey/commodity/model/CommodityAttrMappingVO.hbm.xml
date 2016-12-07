@@ -5,7 +5,7 @@
 <hibernate-mapping>
     <class name="com.jersey.commodity.model.CommodityAttrMappingVO" table="commodity_attr_mapping" >
         
-        <id name="commodityAttrMappingId" column="commodity_attr_mapping_id">
+        <id name="id" column="commodity_attr_mapping_id">
             <generator class="assigned"/>
         </id>
         

@@ -5,7 +5,7 @@
 <hibernate-mapping>
     <class name="com.jersey.commodity.model.CommodityVO" table="commodity" >
         
-        <id name="commodityId" column="commodity_id">
+        <id name="id" column="commodity_id">
             <generator class="assigned"/>
         </id>
         

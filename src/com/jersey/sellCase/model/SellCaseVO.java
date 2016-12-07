@@ -12,7 +12,6 @@ public class SellCaseVO extends AbstractVo {
 	 * 
 	 */
 	private static final long serialVersionUID = -2114817843335424889L;
-	private String sellCaseId;
 	private String addressee;
 	private String phone;
 	private String address;
@@ -93,14 +92,6 @@ public class SellCaseVO extends AbstractVo {
 		this.uncollected = uncollected;
 	}
 
-	public String getSellCaseId() {
-		return this.sellCaseId;
-	}
-
-	public void setSellCaseId(String sellCaseId) {
-		this.sellCaseId = sellCaseId;
-	}
-
 	public String getAddress() {
 		return this.address;
 	}
@@ -159,7 +150,7 @@ public class SellCaseVO extends AbstractVo {
 
 	@Override
 	public String toString() {
-		return "SellCaseVO [sellCaseId=" + sellCaseId + ", addressee=" + addressee + ", phone=" + phone + ", address="
+		return "SellCaseVO [sellCaseId=" + getId() + ", addressee=" + addressee + ", phone=" + phone + ", address="
 				+ address + ", description=" + description + ", trackingNumber=" + trackingNumber + ", transportMethod="
 				+ transportMethod + ", isShipping=" + isShipping + ", income=" + income + ", transportCost="
 				+ transportCost + ", collected=" + collected + ", uncollected=" + uncollected + ", shippingTime="
@@ -170,7 +161,7 @@ public class SellCaseVO extends AbstractVo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((sellCaseId == null) ? 0 : sellCaseId.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -183,10 +174,10 @@ public class SellCaseVO extends AbstractVo {
 		if (getClass() != obj.getClass())
 			return false;
 		SellCaseVO other = (SellCaseVO) obj;
-		if (sellCaseId == null) {
-			if (other.sellCaseId != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!sellCaseId.equals(other.sellCaseId))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}

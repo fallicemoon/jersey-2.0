@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.jersey.commodity.model.CommodityAttrMappingVO;
+import com.jersey.commodity.model.CommodityVO;
+import com.jersey.picture.model.PictureVO;
+import com.jersey.purchaseCase.model.PurchaseCaseVO;
+import com.jersey.sellCase.model.SellCaseVO;
+import com.jersey.store.model.StoreVO;
+import com.jersey.userConfig.model.CommodityAttrVO;
+import com.jersey.userConfig.model.CommodityTypeVO;
+
 public class JerseyEnum {
 
 	public enum StoreType {
@@ -76,27 +85,42 @@ public class JerseyEnum {
 	}
 	
 	public enum PrimaryKey {
-		COMMODITY_ID("CY", 6),
-		PURCHASE_CASE_ID("PC", 6),
-		SELL_CASE_ID("SC", 6),
-		STORE_ID("SE", 6),
-		PICTURE_ID("PE", 6),
-		USER_CONFIG_ID("UC", 6),
-		COMMODITY_ATTR_ID("CA", 6),
-		COMMODITY_ATTR_MAPPING_ID("CM", 6),
-		COMMODITY_TYPE_ID("CT", 6);
+		COMMODITY_ID(CommodityVO.class, "CY", 6),
+		PURCHASE_CASE_ID(PurchaseCaseVO.class, "PC", 6),
+		SELL_CASE_ID(SellCaseVO.class, "SC", 6),
+		STORE_ID(StoreVO.class, "SE", 6),
+		PICTURE_ID(PictureVO.class, "PE", 6),
+		USER_CONFIG_ID(UserConfig.class, "UC", 6),
+		COMMODITY_ATTR_ID(CommodityAttrVO.class, "CA", 6),
+		COMMODITY_ATTR_MAPPING_ID(CommodityAttrMappingVO.class, "CM", 6),
+		COMMODITY_TYPE_ID(CommodityTypeVO.class, "CT", 6);
 		
+		private Class<?> type;
 		private String prefix;
 		private Integer length;
-		private PrimaryKey (String prefix, Integer length) {
+		private PrimaryKey (Class<?> type, String prefix, Integer length) {
+			this.type = type;
 			this.prefix = prefix;
 			this.length = length;
+		}
+		
+		public Class<?> getType() {
+			return type;
 		}
 		public String getPrefix() {
 			return prefix;
 		}
 		public Integer getLength() {
 			return length;
+		}
+		
+		public static PrimaryKey findByType (Class<? extends AbstractVo> type) {
+			for (PrimaryKey primaryKey : PrimaryKey.values()) {
+				if (primaryKey.type==type) {
+					return primaryKey;
+				}
+			}
+			return null;
 		}
 	}
 	

@@ -34,23 +34,12 @@ import com.jersey.userConfig.model.UserSession;
 public class CommodityController {
 	private static final String LIST = "commodity/list";
 	private static final String ADD = "commodity/add";
-//	private static final String UPDATE = "commodity/update";
 	private static final String REDIRECT_LIST = "redirect:getAll";
 
 	@Autowired
 	private CommodityService commodityService;
 	@Autowired
 	private UserSession userSession;
-
-	// for update commodity用
-//	@ModelAttribute
-//	public void getCommodity(Map<String, Object> map, @PathVariable Map<String, String> pathVariableMap) {
-//		Set<String> keySet = pathVariableMap.keySet();
-//		if (keySet.contains("id")) {
-//			String storeId = pathVariableMap.get("id");
-//			map.put("commodity", commodityService.getOne(Integer.valueOf(storeId)));
-//		}
-//	}
 
 	//根據商品種類和登入者權限取得商品, 根據使用者權限取得商品屬性
 	@RequestMapping(value = "/{commodityTypeId}/getAll", method = RequestMethod.GET)
@@ -59,7 +48,7 @@ public class CommodityController {
 		Map<CommodityTypeVO, List<CommodityAttrVO>> commodityTypeAttrMap = userSession.getCommodityTypeAttrMap();
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
 		for (CommodityTypeVO vo : commodityTypeAttrMap.keySet()) {
-			if (vo.getCommodityTypeId().equals(commodityTypeId)) {
+			if (vo.getId().equals(commodityTypeId)) {
 				commodityTypeVO = vo;
 			}
 		}
@@ -85,7 +74,7 @@ public class CommodityController {
 	@RequestMapping(value = "/{commodityTypeId}", method = RequestMethod.GET)
 	public String get(@PathVariable(value="commodityTypeId") String commodityTypeId, Map<String, Object> map) {
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
-		commodityTypeVO.setCommodityTypeId(commodityTypeId);
+		commodityTypeVO.setId(commodityTypeId);
 		map.put("commodityTypeId", commodityTypeId);
 		return ADD;
 	}
@@ -105,7 +94,7 @@ public class CommodityController {
 		//新增商品
 		vo.setIsStored(true);
 		CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
-		commodityTypeVO.setCommodityTypeId(commodityTypeId);
+		commodityTypeVO.setId(commodityTypeId);
 		vo.setCommodityTypeVO(commodityTypeVO);
 		//避免使用者沒有傳入數字
 		vo.setCost(vo.getCost()==null ? 0:vo.getCost());
@@ -147,7 +136,7 @@ public class CommodityController {
 			//commodityAttrMap此map key-value為commodityAttrMappingVO的id-value
 			Map<String, Object> commodityAttrMap = json.getJSONObject("commodityAttr").toMap();
 			for (CommodityAttrMappingVO commodityAttrMappingVO : commodityAttrMappings) {
-				String commodityAttrMappingId = commodityAttrMappingVO.getCommodityAttrMappingId().toString();
+				String commodityAttrMappingId = commodityAttrMappingVO.getId().toString();
 				if (commodityAttrMap.keySet().contains(commodityAttrMappingId)){
 					commodityAttrMappingVO.setCommodityAttrValue(StringUtils.trimToEmpty(commodityAttrMap.get(commodityAttrMappingId).toString()));
 				}
@@ -228,7 +217,7 @@ public class CommodityController {
 			
 			clone = commodityService.create(clone);
 			JSONObject json = JerseyTools.getSuccessJson();
-			json.put("commodityId", clone.getCommodityId());
+			json.put("commodityId", clone.getId());
 			return json.toString();
 		} catch (Exception e) {
 			e.printStackTrace();

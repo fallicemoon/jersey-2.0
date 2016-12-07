@@ -5,7 +5,7 @@
 <hibernate-mapping>
 	<class name="com.jersey.userConfig.model.UserConfigVO" table="user_config">
 
-		<id name="userConfigId" column="user_config_id">
+		<id name="id" column="user_config_id">
 			<generator class="assigned" />
 		</id>
 

@@ -12,7 +12,6 @@ public class CommodityVO extends AbstractVo {
 	 * 
 	 */
 	private static final long serialVersionUID = 5376904358224813395L;
-	private String commodityId;
 	private PurchaseCaseVO purchaseCaseVO;
 	private String itemName;
 
@@ -80,14 +79,6 @@ public class CommodityVO extends AbstractVo {
 
 	public void setAuthority(Authority authority) {
 		this.authority = authority;
-	}
-
-	public String getCommodityId() {
-		return this.commodityId;
-	}
-
-	public void setCommodityId(String commodityId) {
-		this.commodityId = commodityId;
 	}
 
 	public String getItemName() {
@@ -246,7 +237,7 @@ public class CommodityVO extends AbstractVo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((commodityId == null) ? 0 : commodityId.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -259,10 +250,10 @@ public class CommodityVO extends AbstractVo {
 		if (getClass() != obj.getClass())
 			return false;
 		CommodityVO other = (CommodityVO) obj;
-		if (commodityId == null) {
-			if (other.commodityId != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!commodityId.equals(other.commodityId))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}

@@ -75,7 +75,7 @@ public class UserConfigController {
 				return json.toString();
 			}
 			commodityTypeVO = userConfigService.createCommodityType(commodityTypeVO);
-			return JerseyTools.getSuccessJson().put("commodityTypeId", commodityTypeVO.getCommodityTypeId()).toString();
+			return JerseyTools.getSuccessJson().put("commodityTypeId", commodityTypeVO.getId()).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return JerseyTools.getFailJson("新增商品類別失敗").toString();
@@ -95,7 +95,7 @@ public class UserConfigController {
 			
 			CommodityAttrVO result = userConfigService.createCommodityAttr(commodityAttrVO);
 			return JerseyTools.getSuccessJson()
-					.put("commodityAttrId", result.getCommodityAttrId())
+					.put("commodityAttrId", result.getId())
 					.put("commodityType", result.getCommodityTypeVO().getCommodityType())
 					.put("commodityAttr", result.getCommodityAttr())
 					.put("commodityAttrAuthority", result.getCommodityAttrAuthority())
@@ -141,7 +141,7 @@ public class UserConfigController {
 			CommodityAttrVO commodityAttrVO = userConfigService.getCommodityAttrVOByCommodityAttrId(commodityAttrId);
 			String oldCommodityAttr = commodityAttrVO.getCommodityAttr();
 			
-			commodityAttrVO.setCommodityAttrId(commodityAttrId);
+			commodityAttrVO.setId(commodityAttrId);
 			commodityAttrVO.setCommodityAttr(newCommodityAttr);
 			commodityAttrVO.setCommodityAttrAuthority(commodityAttrAuthority);
 			
@@ -166,7 +166,7 @@ public class UserConfigController {
 	public String removeCommodityAttr (@PathVariable("commodityAttrId") String commodityAttrId, Map<String, Object> map) {
 		try {
 			CommodityAttrVO commodityAttrVO = new CommodityAttrVO();
-			commodityAttrVO.setCommodityAttrId(commodityAttrId);
+			commodityAttrVO.setId(commodityAttrId);
 			userConfigService.removeCommodityAttr(commodityAttrVO);
 			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {
@@ -180,7 +180,7 @@ public class UserConfigController {
 	public String removeCommodityType (@PathVariable("commodityTypeId") String commodityTypeId, Map<String, Object> map) {
 		try {
 			CommodityTypeVO commodityTypeVO = new CommodityTypeVO();
-			commodityTypeVO.setCommodityTypeId(commodityTypeId);
+			commodityTypeVO.setId(commodityTypeId);
 			userConfigService.removeCommodityType(commodityTypeVO);
 			return JerseyTools.getSuccessJson().toString();
 		} catch (Exception e) {

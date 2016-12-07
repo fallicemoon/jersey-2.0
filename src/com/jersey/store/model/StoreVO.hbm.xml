@@ -5,7 +5,7 @@
 <hibernate-mapping>
     <class name="com.jersey.store.model.StoreVO" table="store" >
         
-        <id name="storeId" column="store_id">
+        <id name="id" column="store_id">
             <generator class="assigned"/>
         </id>
         

@@ -69,7 +69,7 @@ public class PictureService {
 
 		Set<String> set = new TreeSet<>();
 		for (PictureVO pictureVO : list) {
-			set.add(pictureVO.getPictureId());
+			set.add(pictureVO.getId());
 		}
 		return set;
 	}
@@ -237,7 +237,7 @@ public class PictureService {
 
 		PictureVO pictureVO = new PictureVO();
 		CommodityVO commodityVO = new CommodityVO();
-		commodityVO.setCommodityId(commodityId);
+		commodityVO.setId(commodityId);
 		pictureVO.setCommodityVO(commodityVO);
 
 		if (commodityId!=null && picture!=null) {

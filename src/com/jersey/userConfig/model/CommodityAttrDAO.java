@@ -16,7 +16,7 @@ public class CommodityAttrDAO extends AbstractDAO<CommodityAttrVO> {
 	public CommodityAttrDAO() {
 		super(CommodityAttrVO.class, "commodityAttrId");
 	}
-	
+
 	public List<CommodityAttrVO> getCommodityAttrByCommodityType(Authority authority, CommodityTypeVO commodityTypeVO) {
 		if (Authority.ADMIN == authority) {
 			return getHelper(Order.asc("commodityAttrId"), Restrictions.eq("commodityTypeVO", commodityTypeVO));
@@ -26,6 +26,4 @@ public class CommodityAttrDAO extends AbstractDAO<CommodityAttrVO> {
 		}
 	}
 
-	
-	
 }

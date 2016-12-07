@@ -13,7 +13,6 @@ public class PurchaseCaseVO extends AbstractVo {
 	 * 
 	 */
 	private static final long serialVersionUID = 4582143556997503363L;
-	private String purchaseCaseId;
 	private SellCaseVO sellCaseVO;
 	private StoreVO store;
 	private String progress;
@@ -43,14 +42,6 @@ public class PurchaseCaseVO extends AbstractVo {
 
 	public void setAgentTrackingNumberLink(String agentTrackingNumberLink) {
 		this.agentTrackingNumberLink = agentTrackingNumberLink;
-	}
-
-	public String getPurchaseCaseId() {
-		return this.purchaseCaseId;
-	}
-
-	public void setPurchaseCaseId(String purchaseCaseId) {
-		this.purchaseCaseId = purchaseCaseId;
 	}
 
 	public StoreVO getStore() {
@@ -151,7 +142,7 @@ public class PurchaseCaseVO extends AbstractVo {
 
 	@Override
 	public String toString() {
-		return "PurchaseCaseVO [purchaseCaseId=" + purchaseCaseId + ", sellCaseVO=" + sellCaseVO + ", store=" + store
+		return "PurchaseCaseVO [purchaseCaseId=" + getId() + ", sellCaseVO=" + sellCaseVO + ", store=" + store
 				+ ", progress=" + progress + ", shippingCompany=" + shippingCompany + ", trackingNumber="
 				+ trackingNumber + ", trackingNumberLink=" + trackingNumberLink + ", agent=" + agent
 				+ ", agentTrackingNumber=" + agentTrackingNumber + ", agentTrackingNumberLink="
@@ -163,7 +154,7 @@ public class PurchaseCaseVO extends AbstractVo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((purchaseCaseId == null) ? 0 : purchaseCaseId.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 
@@ -176,10 +167,10 @@ public class PurchaseCaseVO extends AbstractVo {
 		if (getClass() != obj.getClass())
 			return false;
 		PurchaseCaseVO other = (PurchaseCaseVO) obj;
-		if (purchaseCaseId == null) {
-			if (other.purchaseCaseId != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!purchaseCaseId.equals(other.purchaseCaseId))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}

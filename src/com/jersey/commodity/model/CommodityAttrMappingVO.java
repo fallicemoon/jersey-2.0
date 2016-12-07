@@ -10,17 +10,10 @@ public class CommodityAttrMappingVO extends AbstractVo implements Comparable<Com
 	 */
 	private static final long serialVersionUID = 1103527345568677121L;
 	
-	private String commodityAttrMappingId;
 	private CommodityVO commodityVO;
 	private CommodityAttrVO commodityAttrVO;
 	private String commodityAttrValue;
 	
-	public String getCommodityAttrMappingId() {
-		return commodityAttrMappingId;
-	}
-	public void setCommodityAttrMappingId(String commodityAttrMappingId) {
-		this.commodityAttrMappingId = commodityAttrMappingId;
-	}
 	public CommodityVO getCommodityVO() {
 		return commodityVO;
 	}
@@ -42,14 +35,14 @@ public class CommodityAttrMappingVO extends AbstractVo implements Comparable<Com
 	
 	@Override
 	public String toString() {
-		return "CommodityAttrMappingVO [commodityAttrMappingId=" + commodityAttrMappingId + ", commodityVO="
+		return "CommodityAttrMappingVO [commodityAttrMappingId=" + getId() + ", commodityVO="
 				+ commodityVO + ", commodityAttrVO=" + commodityAttrVO + ", commodityAttrValue=" + commodityAttrValue + "]";
 	}
 	@Override
 	public int compareTo(CommodityAttrMappingVO o) {
 		//commodity裡面的屬性值是用SortedSet來排序
-		Integer self = Integer.valueOf(this.commodityAttrVO.getCommodityAttrId().substring(2));
-		Integer other = Integer.valueOf(o.commodityAttrVO.getCommodityAttrId().substring(2));
+		Integer self = Integer.valueOf(this.commodityAttrVO.getId().substring(2));
+		Integer other = Integer.valueOf(o.commodityAttrVO.getId().substring(2));
 		return self-other;
 	}
 

@@ -14,18 +14,11 @@ public class CommodityAttrVO extends AbstractVo{
 	 */
 	private static final long serialVersionUID = 7656268428089108516L;
 
-	private String commodityAttrId;
 	private CommodityTypeVO commodityTypeVO;
 	private String commodityAttr;
 	private Set<CommodityAttrMappingVO> commodityAttrMappings = new LinkedHashSet<>();
 	private CommodityAttrAuthority commodityAttrAuthority;
 	
-	public String getCommodityAttrId() {
-		return commodityAttrId;
-	}
-	public void setCommodityAttrId(String commodityAttrId) {
-		this.commodityAttrId = commodityAttrId;
-	}
 	public CommodityTypeVO getCommodityTypeVO() {
 		return commodityTypeVO;
 	}
@@ -55,7 +48,7 @@ public class CommodityAttrVO extends AbstractVo{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((commodityAttrId == null) ? 0 : commodityAttrId.hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		return result;
 	}
 	@Override
@@ -67,10 +60,10 @@ public class CommodityAttrVO extends AbstractVo{
 		if (getClass() != obj.getClass())
 			return false;
 		CommodityAttrVO other = (CommodityAttrVO) obj;
-		if (commodityAttrId == null) {
-			if (other.commodityAttrId != null)
+		if (getId() == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!commodityAttrId.equals(other.commodityAttrId))
+		} else if (!getId().equals(other.getId()))
 			return false;
 		return true;
 	}
