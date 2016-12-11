@@ -16,7 +16,7 @@ public class UserConfigDAO extends AbstractDAO<UserConfigVO> {
 	private HibernateTools hibernateTools;
 	
 	public UserConfigDAO() {
-		super(UserConfigVO.class, "userConfigId");
+		super(UserConfigVO.class);
 	}
 	
 	public UserConfigVO getByUserName (String userName) {

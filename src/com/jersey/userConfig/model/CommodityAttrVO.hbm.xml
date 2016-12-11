@@ -15,7 +15,7 @@
         
         <property name="commodityAttr" column="commodity_attr" />
         
-        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" order-by="commodityAttrMappingId asc" cascade="all,delete-orphan">
+        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" order-by="id asc" cascade="all,delete-orphan">
         	<key><column name="commodity_attr_id"></column></key>
         	<one-to-many class="com.jersey.commodity.model.CommodityAttrMappingVO" />
         </set>

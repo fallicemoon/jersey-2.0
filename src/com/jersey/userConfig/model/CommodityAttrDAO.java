@@ -14,7 +14,7 @@ import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
 public class CommodityAttrDAO extends AbstractDAO<CommodityAttrVO> {
 
 	public CommodityAttrDAO() {
-		super(CommodityAttrVO.class, "commodityAttrId");
+		super(CommodityAttrVO.class);
 	}
 
 	public List<CommodityAttrVO> getCommodityAttrByCommodityType(Authority authority, CommodityTypeVO commodityTypeVO) {

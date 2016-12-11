@@ -58,7 +58,7 @@ span {
 						return $(this).val();
 					}).get();
 
-					$.ajax("/jersey/picture/${requestScope.commodity.commodityId}", {
+					$.ajax("/jersey/picture/${requestScope.commodity.id}", {
 						type : "PUT",
 						data : JSON.stringify(pictureIds),
 						success : function(data) {
@@ -110,7 +110,7 @@ span {
     </tr>
     </thead>
 	<tr>
-  	  <td><a href="/jersey/triple/commodity/${requestScope.commodity.commodityId}">${requestScope.commodity.commodityId} - <c:out value="${requestScope.commodity.itemName}" /></a>
+  	  <td><a href="/jersey/triple/commodity/${requestScope.commodity.id}">${requestScope.commodity.id} - <c:out value="${requestScope.commodity.itemName}" /></a>
   	  		<c:if test="${!empty requestScope.commodity.link}"><a href="${requestScope.commodity.link}" target="_blank"> 連結</a></c:if>
   	  		<c:if test="${empty requestScope.commodity.link}"></c:if></td>
   	  <td><c:out value="${requestScope.commodity.cost}" /></td>
@@ -119,8 +119,8 @@ span {
   	</tr>
   	</table>
   	<%-- 在url和input裡面都要放commodityId, 不然吃不到 --%>
-	<form action="/jersey/picture/${requestScope.commodity.commodityId}/uploadPicture" method="POST" enctype="multipart/form-data" class="form-horizontal">
-    <input type="hidden" name="commodityId" value="${requestScope.commodity.commodityId}">
+	<form action="/jersey/picture/${requestScope.commodity.id}/uploadPicture" method="POST" enctype="multipart/form-data" class="form-horizontal">
+    <input type="hidden" name="commodityId" value="${requestScope.commodity.id}">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">圖片(須為jpg / gif / png)：</label>
   		<div class="col-lg-6">
@@ -147,8 +147,8 @@ span {
 			<c:if test="${status.index%4 == 0}"><tr></c:if>
 			<td>
 			<input type="checkbox" name="pictureIds" value="${pictureId}" id="${pictureId}" style="margin-left:200px"><br>
-			<a href="/jersey/picture/${requestScope.commodity.commodityId}/getOne/${pictureId}" class="lightbox">
-				<img src="/jersey/picture/${requestScope.commodity.commodityId}/getOne/${pictureId}" class="picture">
+			<a href="/jersey/picture/${requestScope.commodity.id}/getOne/${pictureId}" class="lightbox">
+				<img src="/jersey/picture/${requestScope.commodity.id}/getOne/${pictureId}" class="picture">
 			</a>
 			</td>
 			<c:if test="${status.index%4 == 3}"></tr></c:if>

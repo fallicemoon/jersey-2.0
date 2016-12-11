@@ -11,12 +11,12 @@
 <body>
 	<br/><br/>
 
-	<form action="/jersey/sellCase/${sellCase.sellCaseId}" method="post" class="form-horizontal">
+	<form action="/jersey/sellCase/${sellCase.id}" method="post" class="form-horizontal">
 	<input type="hidden" name="_method" value="PUT">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">出貨編號：</label>
     	<div class="col-sm-10">
-    	<input type="hidden" name="sellCaseId" value="${sellCase.sellCaseId}">${sellCase.sellCaseId}
+    	<input type="hidden" name="sellCaseId" value="${sellCase.id}">${sellCase.id}
     	</div>
     </div>
     
@@ -24,7 +24,7 @@
 	<label for="inputEmail3" class="col-sm-2 control-label">進貨編號/商家名稱：</label>
 	    <div class="col-sm-10">
 	    	<c:forEach items="${sellCase.purchaseCases}" var="purchaseCase">
-	    		${purchaseCase.purchaseCaseId}-${purchaseCase.store.name}
+	    		${purchaseCase.id}-${purchaseCase.store.name}
 	    	</c:forEach>
 	    </div>
 	</div>

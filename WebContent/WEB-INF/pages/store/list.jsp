@@ -89,12 +89,12 @@
   	<c:forEach items="${storeList}" var="vo">
   	<tr>
   	  <td>
-		<input type="checkbox" name="storeIds" value="${vo.storeId}">
+		<input type="checkbox" name="storeIds" value="${vo.id}">
   	  </td>
   	  <td>
 		<button name="update" type="button" class="btn btn-warning" data-toggle="modal">修改</button>
   	  </td>
-  	  <td>${vo.storeId} - <c:out value="${vo.name}" /></td>
+  	  <td>${vo.id} - <c:out value="${vo.name}" /></td>
   	  <c:if test="${vo.type=='STORE'}"><td>商店</td></c:if>
   	  <c:if test="${vo.type=='SHIPPING_COMPANY'}"><td>託運公司</td></c:if>
   	</tr>

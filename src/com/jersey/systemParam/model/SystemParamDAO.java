@@ -17,8 +17,8 @@ public class SystemParamDAO extends AbstractDAO<SystemParamVO> {
 	@Autowired
 	private HibernateTools hibernateTools;
 
-	public SystemParamDAO(Class<SystemParamVO> type, String pk) {
-		super(SystemParamVO.class, "name");
+	public SystemParamDAO() {
+		super(SystemParamVO.class);
 	}
 	
 	/**

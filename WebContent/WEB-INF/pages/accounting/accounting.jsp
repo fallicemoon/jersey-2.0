@@ -21,7 +21,7 @@
 		</thead>
 		<c:forEach items="${requestScope.sellCaseList}" var="sellCase">
 		<tr>
-		<td>${sellCase.sellCaseId}  ${sellCase.addressee}</td>
+		<td>${sellCase.id}  ${sellCase.addressee}</td>
 <%-- 		<jsp:include page="/SellCaseServlet"> --%>
 <%--   	  		<jsp:param value="getOne" name="action"/> --%>
 <%--   	  		<jsp:param value="${sellCase.sellCaseId}" name="sellCaseId"/> --%>

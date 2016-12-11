@@ -11,12 +11,12 @@
 <body>
 	<br/><br/>
 	
-	<form action="/jersey/purchaseCase/${purchaseCase.purchaseCaseId}" method="post" class="form-horizontal">
+	<form action="/jersey/purchaseCase/${purchaseCase.id}" method="post" class="form-horizontal">
 	<input type="hidden" name="_method" value="PUT">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">進貨編號：</label>
     	<div class="col-sm-10">
-    	<input type="hidden" name="purchaseCaseId" value="${purchaseCase.purchaseCaseId}">${purchaseCase.purchaseCaseId}
+    	<input type="hidden" name="purchaseCaseId" value="${purchaseCase.id}">${purchaseCase.id}
     	</div>
     </div>
         
@@ -24,7 +24,7 @@
 	<label for="inputEmail3" class="col-sm-2 control-label">商品編號/商品名稱：</label>
 	    <div class="col-sm-10">
 	    	<c:forEach items="${purchaseCase.commoditys}" var="commodity">
-	    		${commodity.commodityId}-${commodity.itemName}
+	    		${commodity.id}-${commodity.itemName}
 	    	</c:forEach>
 	    </div>
 	</div>
@@ -35,8 +35,8 @@
     	<select name="store">
     		<c:forEach items="${applicationScope.store}" var="vo">
     			<c:choose>
-    			<c:when test="${vo.storeId==purchaseCase.store.storeId}"><option value="${vo.storeId}" selected="selected">${vo.name}</option></c:when>
-				<c:otherwise><option value="${vo.storeId}">${vo.name}</option></c:otherwise>	
+    			<c:when test="${vo.id==purchaseCase.store.id}"><option value="${vo.id}" selected="selected">${vo.name}</option></c:when>
+				<c:otherwise><option value="${vo.id}">${vo.name}</option></c:otherwise>	
     			</c:choose>
     		</c:forEach>
     	</select>
@@ -85,8 +85,8 @@
     	<select name="shippingCompany">
     		<c:forEach items="${applicationScope.shippingCompany}" var="vo">
     			<c:choose>
-    			<c:when test="${vo.storeId==purchaseCase.shippingCompany.storeId}"><option value="${vo.storeId}" selected="selected">${vo.name}</option></c:when>
-				<c:otherwise><option value="${vo.storeId}">${vo.name}</option></c:otherwise>	
+    			<c:when test="${vo.id==purchaseCase.shippingCompany.id}"><option value="${vo.id}" selected="selected">${vo.name}</option></c:when>
+				<c:otherwise><option value="${vo.id}">${vo.name}</option></c:otherwise>	
     			</c:choose>
     		</c:forEach>
     	</select>

@@ -10,6 +10,7 @@ import com.jersey.picture.model.PictureVO;
 import com.jersey.purchaseCase.model.PurchaseCaseVO;
 import com.jersey.sellCase.model.SellCaseVO;
 import com.jersey.store.model.StoreVO;
+import com.jersey.systemParam.model.SystemParamVO;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
 
@@ -93,7 +94,8 @@ public class JerseyEnum {
 		USER_CONFIG_ID(UserConfig.class, "UC", 6),
 		COMMODITY_ATTR_ID(CommodityAttrVO.class, "CA", 6),
 		COMMODITY_ATTR_MAPPING_ID(CommodityAttrMappingVO.class, "CM", 6),
-		COMMODITY_TYPE_ID(CommodityTypeVO.class, "CT", 6);
+		COMMODITY_TYPE_ID(CommodityTypeVO.class, "CT", 6),
+		SYSTEM_PARAM_ID(SystemParamVO.class, "SP", 6);
 		
 		private Class<?> type;
 		private String prefix;

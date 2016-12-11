@@ -19,7 +19,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 	private HibernateTools hibernateTools;
 	
 	public PurchaseCaseDAO() {
-		super(PurchaseCaseVO.class, "purchaseCaseId");
+		super(PurchaseCaseVO.class);
 	}
 
 	public List<PurchaseCaseVO> getAllOfNotProgress(String progress) {
@@ -93,7 +93,7 @@ public class PurchaseCaseDAO extends AbstractDAO<PurchaseCaseVO> {
 		try {
 			session.beginTransaction();
 			session.createQuery("delete from CommodityVO vo where vo.purchaseCaseVO.purchaseCaseId in (:ids)").setParameterList("ids", ids).executeUpdate();
-			session.createQuery("delete from PurchaseCaseVO vo where vo.purchaseCaseId in (:ids)").setParameterList("ids", ids).executeUpdate();
+			session.createQuery("delete from PurchaseCaseVO vo where vo.id in (:ids)").setParameterList("ids", ids).executeUpdate();
 			session.getTransaction().commit();
 			return true;
 		} catch (HibernateException e) {

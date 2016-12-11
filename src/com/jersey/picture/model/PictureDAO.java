@@ -29,7 +29,7 @@ public class PictureDAO extends AbstractDAO<PictureVO> {
 	private final static String GET_NEXT_SEQUENCE_ID = "select MAX(sequenceId)+1 from PictureVO where commodityVO = :commodityVO";
 
 	public PictureDAO() {
-		super(PictureVO.class, "pictureId");
+		super(PictureVO.class);
 	}
 
 	public List<PictureVO> getPictureIds(String commodityId) {

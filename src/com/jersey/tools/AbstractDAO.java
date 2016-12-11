@@ -21,12 +21,11 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 	private HibernateTools hibernateTools;
 	
 	private Class<E> voType;
-	private String pk;
+	private final static String PK = "id";
 
-	public AbstractDAO(Class<E> type, String pk) {
+	public AbstractDAO(Class<E> type) {
 		// 實際上vo的型別
 		this.voType = type;
-		this.pk = pk;
 	}
 	
 	@Override
@@ -162,7 +161,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		Session session = hibernateTools.getSession();
 		try {
 			session.beginTransaction();
-			session.createQuery("delete from " + voType.getSimpleName() + " vo where vo." + pk + " in (:ids)")
+			session.createQuery("delete from " + voType.getSimpleName() + " vo where vo." + PK + " in (:ids)")
 					.setParameterList("ids", ids).executeUpdate();
 			session.getTransaction().commit();
 			return true;

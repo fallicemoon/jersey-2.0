@@ -10,7 +10,7 @@
 <c:import url="/WEB-INF/pages/header.jsp"/>
 <body>
 	<br/><br/>
-	<form action="/jersey/store/${store.storeId}" method="post" class="form-horizontal">
+	<form action="/jersey/store/${store.id}" method="post" class="form-horizontal">
 	<input type="hidden" name="_method" value="PUT">
     <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">商家名稱：</label>

@@ -9,7 +9,6 @@
 		</id>
 		<property name="name" column="name" />
 		<property name="value" column="value" />
-		<property name="type" column="type" />	
 		<property name="createTime" column="create_time" />
 		<property name="lastModifyTime" column="last_modify_time" />
 	</class>

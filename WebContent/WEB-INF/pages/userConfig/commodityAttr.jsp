@@ -15,7 +15,7 @@
 		//商品種類和權限對應的陣列
 		var commodityTypeToAuthority = {};
 		<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
-		commodityTypeToAuthority[${commodityAttr.key.commodityTypeId}] = '${commodityAttr.key.authority}';
+			commodityTypeToAuthority[${commodityAttr.key.id}] = '${commodityAttr.key.authority}';
 		</c:forEach>
 		
 		function init () {
@@ -321,7 +321,7 @@
 		<div class="col-sm-1">
 			<select class="form-control" name="commodityTypeId">
 				<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
-					<option value="${commodityAttr.key.commodityTypeId}">${commodityAttr.key.commodityType}</option>
+					<option value="${commodityAttr.key.id}">${commodityAttr.key.commodityType}</option>
 				</c:forEach>
 			</select>
 		</div>
@@ -352,7 +352,7 @@
 							<select class="form-control prepareUpdateCommodityType">
 								<option value="all">全部</option>
 								<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
-									<option value="${commodityAttr.key.commodityTypeId}">${commodityAttr.key.commodityType}</option>
+									<option value="${commodityAttr.key.id}">${commodityAttr.key.commodityType}</option>
 								</c:forEach>
 							</select>
 							<input class="form-control updateCommodityType" type="text" name="commodityType">
@@ -386,8 +386,8 @@
 		</thead>
 		<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
 			<c:forEach items="${commodityAttr.value}" var="commodityAttrVO">
-				<tr class="${commodityAttrVO.commodityTypeVO.commodityTypeId}">
-					<td><button name="removeCommodityAttr" class="btn btn-danger" value="${commodityAttrVO.commodityAttrId}">刪除</button></td>
+				<tr class="${commodityAttrVO.commodityTypeVO.id}">
+					<td><button name="removeCommodityAttr" class="btn btn-danger" value="${commodityAttrVO.id}">刪除</button></td>
 					<td>${commodityAttrVO.commodityTypeVO.commodityType}</td>
 					<td>
 						<div class="prepareUpdateCommodityAttr">${commodityAttrVO.commodityAttr}</div>
@@ -403,7 +403,7 @@
 					</td>
 					<td>
 						<button name="prepareUpdateCommodityAttr" class="btn btn-warning">修改商品屬性</button>
-						<button name="updateCommodityAttr" class="btn btn-success" value="${commodityAttrVO.commodityAttrId}">確認修改</button>
+						<button name="updateCommodityAttr" class="btn btn-success" value="${commodityAttrVO.id}">確認修改</button>
 					</td>
 				</tr>
 			</c:forEach>

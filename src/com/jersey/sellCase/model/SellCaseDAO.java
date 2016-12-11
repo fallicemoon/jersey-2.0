@@ -12,7 +12,7 @@ import com.jersey.tools.AbstractDAO;
 public class SellCaseDAO extends AbstractDAO<SellCaseVO> {
 
 	public SellCaseDAO() {
-		super(SellCaseVO.class, "sellCaseId");
+		super(SellCaseVO.class);
 	}
 
 	public List<SellCaseVO> getUncollectedNotZero() {

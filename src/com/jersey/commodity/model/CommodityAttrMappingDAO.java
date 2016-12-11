@@ -18,7 +18,7 @@ public class CommodityAttrMappingDAO extends AbstractDAO<CommodityAttrMappingVO>
 	private HibernateTools hibernateTools;
 	
 	public CommodityAttrMappingDAO() {
-		super(CommodityAttrMappingVO.class, "commodityAttrMappingId");
+		super(CommodityAttrMappingVO.class);
 	}
 	
 	public List<CommodityAttrMappingVO> getByCommodityVO (CommodityVO commodityVO) {

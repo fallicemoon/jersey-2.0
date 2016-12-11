@@ -21,7 +21,7 @@ public class CommodityTypeDAO extends AbstractDAO<CommodityTypeVO> {
 	private HibernateTools hibernateTools;
 	
 	public CommodityTypeDAO() {
-		super(CommodityTypeVO.class, "commodityTypeId");
+		super(CommodityTypeVO.class);
 	}
 	
 	public List<CommodityTypeVO> getAll (Authority authority) {

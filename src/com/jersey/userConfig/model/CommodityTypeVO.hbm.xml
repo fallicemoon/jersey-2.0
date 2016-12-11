@@ -17,12 +17,12 @@
         	</type>
         </property>
         
-        <set name="commoditys" table="commodity" lazy="false" order-by="commodityId asc">
+        <set name="commoditys" table="commodity" lazy="false" order-by="id asc">
         	<key><column name="commodity_type_id"></column></key>
         	<one-to-many class="com.jersey.commodity.model.CommodityVO" />
         </set>
         
-        <set name="commodityAttrs" table="commodity_attr" lazy="false" order-by="commodityAttrId asc">
+        <set name="commodityAttrs" table="commodity_attr" lazy="false" order-by="id asc">
         	<key><column name="commodity_type_id"></column></key>
         	<one-to-many class="com.jersey.userConfig.model.CommodityAttrVO" />
         </set>

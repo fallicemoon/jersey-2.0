@@ -36,14 +36,14 @@
   	<c:forEach items="${purchaseCaseListNotInSellCase}" var="vo">
   	<tr>
   	  <td>
-		<input type="checkbox" name="purchaseCaseIds" value="${vo.purchaseCaseId}">
+		<input type="checkbox" name="purchaseCaseIds" value="${vo.id}">
   	  </td>
 <%--   	  <jsp:include page="/StoreServlet"> --%>
 <%--   	  	<jsp:param value="getOne" name="action"/> --%>
 <%--   	  	<jsp:param value="${vo.store}" name="storeId"/> --%>
 <%--   	  </jsp:include> --%>
-  	  <td>${vo.purchaseCaseId} - <c:out value="${vo.store.name}" /></td>
-  	  <td><c:forEach items="${vo.commoditys}" var="commodity">${commodity.commodityId}-${commodity.itemName}<br></c:forEach></td>
+  	  <td>${vo.id} - <c:out value="${vo.store.name}" /></td>
+  	  <td><c:forEach items="${vo.commoditys}" var="commodity">${commodity.id}-${commodity.itemName}<br></c:forEach></td>
   	  <td>${vo.progress}</td>
 <%--   	  <jsp:include page="/StoreServlet"> --%>
 <%--   	  	<jsp:param value="getOne" name="action"/> --%>
@@ -94,10 +94,10 @@
   	<c:forEach items="${purchaseCaseListInSellCase}" var="vo">
   	<tr>
   	  <td>
-		<input type="checkbox" name="purchaseCaseIds" value="${vo.purchaseCaseId}">
+		<input type="checkbox" name="purchaseCaseIds" value="${vo.id}">
   	  </td>
-  	  <td>${vo.purchaseCaseId} - <c:out value="${vo.store.name}" /></td>
-  	  <td><c:forEach items="${vo.commoditys}" var="commodity"> ${commodity.commodityId}-${commodity.itemName}<br></c:forEach></td>
+  	  <td>${vo.id} - <c:out value="${vo.store.name}" /></td>
+  	  <td><c:forEach items="${vo.commoditys}" var="commodity"> ${commodity.id}-${commodity.itemName}<br></c:forEach></td>
   	  <td>${vo.progress}</td>
   	  <td><c:out value="${vo.store.name}" /></td>
   	  <c:if test="${!empty vo.trackingNumberLink}"><td><c:out value="${vo.trackingNumber}" /><a href="${vo.trackingNumberLink}" target="_blank"> 連結</a></c:if>

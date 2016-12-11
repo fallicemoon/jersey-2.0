@@ -398,10 +398,10 @@
 
 			<c:forEach items="${commodityList}" var="vo">
 				<tr>
-					<td><input type="checkbox" name="commodityIds" value="${vo.commodityId}"></td>
+					<td><input type="checkbox" name="commodityIds" value="${vo.id}"></td>
 					<td>
 						<c:if test="${sessionScope['scopedTarget.userSession'].admin}">
-						<button name="update" type="button" value="${vo.commodityId}" class="btn btn-warning">修改</button>
+						<button name="update" type="button" value="${vo.id}" class="btn btn-warning">修改</button>
 						</c:if>
 					</td>
 					<td>
@@ -410,7 +410,7 @@
 						</a>
 					</td>
 					<td>
-						<a href="/jersey/triple/commodity/${vo.commodityId}"><div class="itemName"><c:out value="${vo.itemName}" /></div></a>
+						<a href="/jersey/triple/commodity/${vo.id}"><div class="itemName"><c:out value="${vo.itemName}" /></div></a>
 						<input type="hidden" name="itemName" value="<c:out value="${vo.itemName}" />">
 						
 						<div class="link"><a href="${vo.link}" target="_blank" ${empty vo.link? 'style="display:none"':''}>連結</a></div>
@@ -420,7 +420,7 @@
 					<c:forEach items="${vo.commodityAttrMappings}" var="commodityAttrMappingVO">
 						<td>
 							<div class="${commodityAttrMappingVO.commodityAttrVO.commodityAttr}"><c:out value="${commodityAttrMappingVO.commodityAttrValue}" /></div>
-							<input type="hidden" class="commodityAttrMapping" name="${commodityAttrMappingVO.commodityAttrMappingId}" value="${commodityAttrMappingVO.commodityAttrValue}">
+							<input type="hidden" class="commodityAttrMapping" name="${commodityAttrMappingVO.id}" value="${commodityAttrMappingVO.commodityAttrValue}">
 						</td>
 					</c:forEach>
 					<td>

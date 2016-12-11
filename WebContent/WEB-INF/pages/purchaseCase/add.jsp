@@ -18,7 +18,7 @@
     	<div class="col-sm-10">
     	<select name="store">
     		<c:forEach items="${applicationScope.store}" var="vo">
-				<option value="${vo.storeId}">${vo.name}</option>
+				<option value="${vo.id}">${vo.name}</option>
     		</c:forEach>
     	</select>
     	</div>
@@ -65,7 +65,7 @@
     	<div class="col-sm-10">
     	<select name="shippingCompany">
     		<c:forEach items="${applicationScope.shippingCompany}" var="vo">
-    			<option value="${vo.storeId}">${vo.name}</option>
+    			<option value="${vo.id}">${vo.name}</option>
     		</c:forEach>
     	</select>
     	</div>

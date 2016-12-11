@@ -29,11 +29,11 @@
   	<c:forEach items="${requestScope.commodityList}" var="vo">
   	<tr>
   	  <td>
-		<input type="checkbox" name="commodityIds" value="${vo.commodityId}">
+		<input type="checkbox" name="commodityIds" value="${vo.id}">
   	  </td>
-  	  <td><a href="/jersey/picture/${vo.commodityId}/getAll"><button type="button" class="btn ${vo.pictureCount!=0 ? 'btn-success':'btn-danger'}" data-toggle="modal">${vo.pictureCount}</button></a></td>
+  	  <td><a href="/jersey/picture/${vo.id}/getAll"><button type="button" class="btn ${vo.pictureCount!=0 ? 'btn-success':'btn-danger'}" data-toggle="modal">${vo.pictureCount}</button></a></td>
   	  
-  	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" />
+  	  <td>${vo.id} - <c:out value="${vo.itemName}" />
   	  		<c:if test="${!empty vo.link}"><a href="${vo.link}" target="_blank"> 連結</a></c:if>
   	  		<c:if test="${empty vo.link}"></c:if></td>
   	  <td>${vo.authority=='ADMIN' ? '未上架':'已上架'}</td>
@@ -71,16 +71,16 @@
   	<c:forEach items="${requestScope.purchaseCaseList}" var="vo">
   	<tr>
 	  <td>
-  	    <input type="checkbox" name="purchaseCaseIds" value="${vo.purchaseCaseId}">
+  	    <input type="checkbox" name="purchaseCaseIds" value="${vo.id}">
   	  </td>
   	  <td>
-		<a href="/jersey/purchaseCase/${vo.purchaseCaseId}"><button type="button" class="btn btn-warning">修改</button></a>
+		<a href="/jersey/purchaseCase/${vo.id}"><button type="button" class="btn btn-warning">修改</button></a>
   	  </td>
   	  <td>
-	    <a href="/jersey/purchaseCase/getCommodityList/${vo.purchaseCaseId}"><button type="button" class="btn btn-success">匯入商品</button></a>
+	    <a href="/jersey/purchaseCase/getCommodityList/${vo.id}"><button type="button" class="btn btn-success">匯入商品</button></a>
 	  </td>
-  	  <td>${vo.purchaseCaseId} - <c:out value="${vo.store.name}" /></td>
-  	  <td><c:forEach items="${vo.commoditys}" var="commodity">${commodity.commodityId}-${commodity.itemName}<br></c:forEach></td>
+  	  <td>${vo.id} - <c:out value="${vo.store.name}" /></td>
+  	  <td><c:forEach items="${vo.commoditys}" var="commodity">${commodity.id}-${commodity.itemName}<br></c:forEach></td>
   	  <td>${vo.progress}</td>
   	  <td><c:out value="${vo.shippingCompany.name}" /></td>
   	  <td><c:out value="${vo.trackingNumber}" /><c:if test="${!empty vo.trackingNumberLink}"><a href="${vo.trackingNumberLink}" target="_blank"> 連結</a></c:if>
@@ -130,13 +130,13 @@
   	<c:forEach items="${sellCaseList}" var="vo">
   	<tr>
   	  <td>
-  	  	<input type="checkbox" name="sellCaseIds" value="${vo.sellCaseId}">
+  	  	<input type="checkbox" name="sellCaseIds" value="${vo.id}">
   	  </td>
   	  <td>
-  	  	<a href="/jersey/sellCase/${vo.sellCaseId}"><button type="button" class="btn btn-warning">修改</button></a>
+  	  	<a href="/jersey/sellCase/${vo.id}"><button type="button" class="btn btn-warning">修改</button></a>
   	  </td>
-  	  <td><a href="/jersey/sellCase/getPurchaseCaseList/${vo.sellCaseId}"><button type="button" class="btn btn-success">匯入進貨</button></a></td>
-  	  <td>${vo.sellCaseId} - <c:out value="${vo.addressee}" /></td>
+  	  <td><a href="/jersey/sellCase/getPurchaseCaseList/${vo.id}"><button type="button" class="btn btn-success">匯入進貨</button></a></td>
+  	  <td>${vo.id} - <c:out value="${vo.addressee}" /></td>
   	  <td>${vo.income}</td>
   	  <c:if test="${vo.isShipping}"><td>是</td></c:if>
   	  <c:if test="${!vo.isShipping}"><td>否</td></c:if>
@@ -152,7 +152,7 @@
 		  <c:if test="${vo.estimateBenefit >= 0}"><span style="color: blue">${vo.estimateBenefit}</span></c:if>
 	  </td>
   	  <td><c:forEach items="${vo.purchaseCases}" var="purchaseCase">
-  	  	${purchaseCase.purchaseCaseId}-${purchaseCase.store.name}<br>
+  	  	${purchaseCase.id}-${purchaseCase.store.name}<br>
   	  </c:forEach></td>
 	  <td>${vo.transportMethod}</td>
 	  <td><c:out value="${vo.phone}" /></td>

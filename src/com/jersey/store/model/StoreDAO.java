@@ -12,7 +12,7 @@ import com.jersey.tools.JerseyEnum.StoreType;
 public class StoreDAO extends AbstractDAO<StoreVO> {
 
 	public StoreDAO() {
-		super(StoreVO.class, "storeId");
+		super(StoreVO.class);
 	}
 
 	public List<StoreVO> getStoreListByType(StoreType type) {

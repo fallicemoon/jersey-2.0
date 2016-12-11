@@ -26,7 +26,7 @@
   <ul class="dropdown-menu">
   	<c:forEach items="${sessionScope['scopedTarget.userSession'].commodityTypeAttrMap}" var="commodityTypeAttr">
   		<li>
-  			<a href="/jersey/commodity/${commodityTypeAttr.key.commodityTypeId}/getAll" ${commodityTypeAttr.key.authority=='ADMIN' ? 'style="color:red;"':'' }>${commodityTypeAttr.key.commodityType}</a>
+  			<a href="/jersey/commodity/${commodityTypeAttr.key.id}/getAll" ${commodityTypeAttr.key.authority=='ADMIN' ? 'style="color:red;"':'' }>${commodityTypeAttr.key.commodityType}</a>
   		</li>
   	</c:forEach>
   </ul>

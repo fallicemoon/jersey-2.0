@@ -9,7 +9,7 @@
             <generator class="assigned"/>
         </id>
         
-        <set name="purchaseCases" table="purchase_case" lazy="false" order-by="purchaseCaseId asc" >
+        <set name="purchaseCases" table="purchase_case" lazy="false" order-by="id asc" >
         	<key><column name="sell_case_id"></column></key>
         	<one-to-many class="com.jersey.purchaseCase.model.PurchaseCaseVO" />
         </set>

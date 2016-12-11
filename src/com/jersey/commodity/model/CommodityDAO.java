@@ -23,7 +23,7 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 	private HibernateTools hibernateTools;
 	
 	public CommodityDAO() {
-		super(CommodityVO.class, "commodityId");
+		super(CommodityVO.class);
 	}
 	
 	public List<CommodityVO> getAll (Authority authority, CommodityTypeVO commodityTypeVO) {
@@ -131,9 +131,9 @@ public class CommodityDAO extends AbstractDAO<CommodityVO> {
 		Session session = hibernateTools.getSession();
 		try {
 			session.beginTransaction();
-			session.createQuery("delete from PictureVO vo where vo.commodityVO.commodityId in (:ids)").setParameterList("ids", ids).executeUpdate();
-			session.createQuery("delete from CommodityAttrMappingVO vo where vo.commodityVO.commodityId in (:ids)").setParameterList("ids", ids).executeUpdate();
-			session.createQuery("delete from CommodityVO vo where vo.commodityId in (:ids)").setParameterList("ids", ids).executeUpdate();
+			session.createQuery("delete from PictureVO vo where vo.commodityVO.id in (:ids)").setParameterList("ids", ids).executeUpdate();
+			session.createQuery("delete from CommodityAttrMappingVO vo where vo.commodityVO.id in (:ids)").setParameterList("ids", ids).executeUpdate();
+			session.createQuery("delete from CommodityVO vo where vo.id in (:ids)").setParameterList("ids", ids).executeUpdate();
 			session.getTransaction().commit();
 			return true;
 		} catch (HibernateException e) {

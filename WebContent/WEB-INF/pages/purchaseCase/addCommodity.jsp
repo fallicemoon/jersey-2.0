@@ -27,9 +27,9 @@
   	<c:forEach items="${commodityListNotInPurchaseCase}" var="vo">
   	<tr>
   	  <td>
-		<input type="checkbox" name="commodityIds" value="${vo.commodityId}">
+		<input type="checkbox" name="commodityIds" value="${vo.id}">
   	  </td>
-  	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" /><c:if test="${vo.link != null}"><a href="${vo.link}" target="_blank">連結</a></c:if>
+  	  <td>${vo.id} - <c:out value="${vo.itemName}" /><c:if test="${vo.link != null}"><a href="${vo.link}" target="_blank">連結</a></c:if>
   	  		<c:if test="${vo.link == null}"></c:if></td>
   	  <td>${vo.authority=='ADMIN' ? '未上架':'已上架'}</td>
   	  <td>${vo.isStored ? '是':'否'}</td>
@@ -57,9 +57,9 @@
   	<c:forEach items="${commodityListInPurchaseCase}" var="vo">
   	<tr>
   	  <td>
-		<input type="checkbox" name="commodityIds" value="${vo.commodityId}">
+		<input type="checkbox" name="commodityIds" value="${vo.id}">
   	  </td>
-  	  <td>${vo.commodityId} - <c:out value="${vo.itemName}" /><c:if test="${vo.link != null}"><a href="${vo.link}" target="_blank">連結</a></c:if>
+  	  <td>${vo.id} - <c:out value="${vo.itemName}" /><c:if test="${vo.link != null}"><a href="${vo.link}" target="_blank">連結</a></c:if>
   	  		<c:if test="${vo.link == null}"></c:if></td>
   	  <td>${vo.authority=='ADMIN' ? '未上架':'已上架'}</td>
   	  <td>${vo.isStored ? '是':'否'}</td>
