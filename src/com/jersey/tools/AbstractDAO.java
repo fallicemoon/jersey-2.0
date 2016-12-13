@@ -19,7 +19,9 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 
 	@Autowired
 	private HibernateTools hibernateTools;
-	
+	@Autowired
+	private PrimaryKeyGeneratorPool primaryKeyGeneratorPool;
+
 	private Class<E> voType;
 	private final static String PK = "id";
 
@@ -27,7 +29,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		// 實際上vo的型別
 		this.voType = type;
 	}
-	
+
 	@Override
 	public List<E> getAll() {
 		Session session = hibernateTools.getSession();
@@ -52,11 +54,11 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		List<E> list;
 		try {
 			Query query = session.createQuery("from " + voType.getName());
-			//分頁
-			Integer firstResult = pageSize*(page-1);
+			// 分頁
+			Integer firstResult = pageSize * (page - 1);
 			query.setFirstResult(firstResult);
 			query.setMaxResults(pageSize);
-			
+
 			list = query.list();
 			session.getTransaction().commit();
 		} catch (HibernateException e) {
@@ -66,9 +68,9 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		}
 		return list;
 	}
-	
+
 	@Override
-	public Long getTotalCount (Criterion... criterions) {
+	public Long getTotalCount(Criterion... criterions) {
 		Session session = hibernateTools.getSession();
 		session.beginTransaction();
 		try {
@@ -78,14 +80,14 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 					criteria.add(criterion);
 				}
 			}
-			Long count = (Long)criteria.setProjection(Projections.rowCount()).uniqueResult();
+			Long count = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 			session.getTransaction().commit();
 			return count;
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
 			return null;
 		}
-	} 
+	}
 
 	@Override
 	public E getOne(String id) {
@@ -114,7 +116,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		Session session = hibernateTools.getSession();
 		try {
 			session.beginTransaction();
-			PrimaryKeyGenerator generator = PrimaryKeyGenerator.getPrimaryKeyGenerator(voType);
+			PrimaryKeyGenerator generator = primaryKeyGeneratorPool.getPrimaryKeyGenerator(voType);
 			vo.setId(generator.getNextPrimaryKey());
 			session.save(vo);
 			session.getTransaction().commit();
@@ -226,7 +228,7 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 	public List<E> getHelper(String[] columnNames, Criterion... criterions) {
 		return getHelper(columnNames, null, criterions);
 	}
-	
+
 	@Override
 	public List<E> getHelper(Order order, Criterion... criterions) {
 		return getHelper(null, order, criterions);

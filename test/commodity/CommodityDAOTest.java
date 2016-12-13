@@ -6,11 +6,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jersey.commodity.model.CommodityDAO;
 import com.jersey.commodity.model.CommodityVO;
+import com.jersey.tools.JerseyEnum.PrimaryKey;
 
 import sun.net.www.content.text.plain;
 
@@ -35,7 +37,7 @@ public class CommodityDAOTest {
 	
 	@Test
 	public void getOne () {
-		//System.out.println(commodityDAO.getOne(85));
+		System.out.println(StringUtils.leftPad("", 6, "9"));
 	}
 	
 
