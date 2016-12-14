@@ -3,6 +3,7 @@ package com.jersey.systemParam.model;
 import java.util.Date;
 
 import org.hibernate.LockOptions;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,8 +37,13 @@ public class SystemParamDAO extends AbstractDAO<SystemParamVO> {
 			//TODO 要做壓力測試
 			LockOptions lockOptions = LockOptions.UPGRADE;
 			lockOptions.setTimeOut(3000);
-			SystemParamVO vo = (SystemParamVO) session.get(SystemParamVO.class, primaryKey, lockOptions);
-			vo.setValue(vo.getValue() + poolSize);
+			Query query = session.createQuery("from SystemParamVO vo where vo.name=:name");
+			query.setLockOptions(lockOptions);
+			query.setString("name", primaryKey.toString());
+			
+			SystemParamVO vo = (SystemParamVO)query.uniqueResult();
+			Integer value = Integer.valueOf(vo.getValue()) + poolSize;
+			vo.setValue(value.toString());
 			vo.setLastModifyTime(new Date());
 			session.update(vo);
 			//session.getTransaction().commit();

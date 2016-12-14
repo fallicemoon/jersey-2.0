@@ -22,7 +22,7 @@
         	<one-to-many class="com.jersey.commodity.model.CommodityVO" />
         </set>
         
-        <set name="commodityAttrs" table="commodity_attr" lazy="false" order-by="id asc">
+        <set name="commodityAttrs" table="commodity_attr" lazy="false" cascade="all-delete-orphan" order-by="id asc">
         	<key><column name="commodity_type_id"></column></key>
         	<one-to-many class="com.jersey.userConfig.model.CommodityAttrVO" />
         </set>

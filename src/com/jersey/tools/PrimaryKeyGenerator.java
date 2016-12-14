@@ -20,7 +20,7 @@ public class PrimaryKeyGenerator {
 	private final Integer dbMaxValue;
 	private Integer currentValue;
 	private Integer maxValue;
-	private static final Integer POOL_SIZE = 50;
+	private static final Integer POOL_SIZE = 3;
 
 	public PrimaryKeyGenerator(PrimaryKey primaryKey, SystemParamDAO systemParamDAO) {
 		this.systemParamDAO = systemParamDAO;
@@ -52,7 +52,7 @@ public class PrimaryKeyGenerator {
 		}
 		// 生成下個流水號
 		Integer prefixZeroLength = primaryKey.getLength() - currentValue.toString().length();
-		String nextValue = String.format("%0" + prefixZeroLength + "d", currentValue.toString());
+		String nextValue = String.format("%0" + prefixZeroLength + "d", currentValue);
 		currentValue++;
 		return nextValue;
 	}

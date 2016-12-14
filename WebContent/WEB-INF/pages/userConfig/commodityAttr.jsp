@@ -15,7 +15,7 @@
 		//商品種類和權限對應的陣列
 		var commodityTypeToAuthority = {};
 		<c:forEach items="${requestScope.commodityAttrMap}" var="commodityAttr">
-			commodityTypeToAuthority[${commodityAttr.key.id}] = '${commodityAttr.key.authority}';
+			commodityTypeToAuthority['${commodityAttr.key.id}'] = '${commodityAttr.key.authority}';
 		</c:forEach>
 		
 		function init () {
@@ -112,7 +112,7 @@
 							}
 							alertify.success("新增商品屬性成功");
 							tr = tr.eq(0).clone();
-							tr.addClass(commodityAttrVO.commodityTypeId);
+							tr.removeClass().addClass(commodityAttrVO.commodityTypeId);
 							tr.find("td:nth-child(1) button[name=removeCommodityAttr]").val(data.commodityAttrId);
 							tr.find("td:nth-child(2)").text(data.commodityType);
 							tr.find("td:nth-child(3) div").text(data.commodityAttr);
