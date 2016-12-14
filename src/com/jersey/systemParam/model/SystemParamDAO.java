@@ -22,6 +22,7 @@ public class SystemParamDAO extends AbstractDAO<SystemParamVO> {
 	}
 	
 	/**
+	 * 因為此方法是在create時才會呼叫，所以不用開新Transaction (開了會nested transaction, Hibernate不支援)
 	 * 跟DB要號並更新, 所以要lock row
 	 * Exception拋到最外面由controller處理(顯示新增失敗訊息)
 	 * @param primaryKey
@@ -30,8 +31,8 @@ public class SystemParamDAO extends AbstractDAO<SystemParamVO> {
 	 */
 	public SystemParamVO getPrimaryKeyValueAndUpdate (PrimaryKey primaryKey, Integer poolSize) {
 		Session session = hibernateTools.getSession();
-		session.beginTransaction();
-		try {
+		//session.beginTransaction();
+//		try {
 			//TODO 要做壓力測試
 			LockOptions lockOptions = LockOptions.UPGRADE;
 			lockOptions.setTimeOut(3000);
@@ -39,13 +40,13 @@ public class SystemParamDAO extends AbstractDAO<SystemParamVO> {
 			vo.setValue(vo.getValue() + poolSize);
 			vo.setLastModifyTime(new Date());
 			session.update(vo);
-			session.getTransaction().commit();
+			//session.getTransaction().commit();
 			return vo;
-		} catch (Exception e) {
-			session.getTransaction().rollback();
-			e.printStackTrace();
-			throw e;
-		}
+//		} catch (Exception e) {
+//			//session.getTransaction().rollback();
+//			e.printStackTrace();
+//			throw e;
+//		}
 	}
 	
 	/**
