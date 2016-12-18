@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import com.jersey.picture.model.PictureDAO;
 import com.jersey.tools.JerseyEnum.Authority;
 import com.jersey.tools.JerseyEnum.CommodityAttrAuthority;
+import com.jersey.tools.JerseyEnum.PrimaryKey;
 import com.jersey.tools.JerseyTools;
+import com.jersey.tools.PrimaryKeyGeneratorPool;
 import com.jersey.userConfig.model.CommodityAttrVO;
 import com.jersey.userConfig.model.CommodityTypeVO;
 import com.jersey.userConfig.model.UserConfigVO;
@@ -30,6 +32,8 @@ public class CommodityService {
 	private PictureDAO pictureDAO;
 	@Autowired
 	private UserSession userSession;
+	@Autowired
+	private PrimaryKeyGeneratorPool primaryKeyGeneratorPool;
 	
 	/**
 	 * 取得所有商品種類
@@ -96,6 +100,7 @@ public class CommodityService {
 			SortedSet<CommodityAttrMappingVO> commodityAttrMappings = new TreeSet<>();
 			for (CommodityAttrVO commodityAttrVO : commodityAttrVOs) {
 				CommodityAttrMappingVO commodityAttrMappingVO = new CommodityAttrMappingVO();
+				commodityAttrMappingVO.setId(primaryKeyGeneratorPool.getPrimaryKeyGenerator(PrimaryKey.COMMODITY_ATTR_MAPPING_ID).getNextPrimaryKey());
 				commodityAttrMappingVO.setCommodityVO(vo);
 				commodityAttrMappingVO.setCommodityAttrVO(commodityAttrVO);
 				commodityAttrMappings.add(commodityAttrMappingVO);
@@ -139,7 +144,7 @@ public class CommodityService {
 		CommodityDisplayVO commodityDisplayVO = null;
 		if (commodityVO!=null) {
 			commodityDisplayVO = new CommodityDisplayVO();
-			JerseyTools.copyBeanProperties(commodityVO, commodityDisplayVO);
+			JerseyTools.copyAbstractVoProperties(commodityVO, commodityDisplayVO);
 			commodityDisplayVO.setPictureCount(getCommodityIdPictureCount(commodityVO.getId()));
 			//刪掉此權限不能看的屬性(adminHidden一定看不到)
 			Iterator<CommodityAttrMappingVO> iterator = commodityVO.getCommodityAttrMappings().iterator();

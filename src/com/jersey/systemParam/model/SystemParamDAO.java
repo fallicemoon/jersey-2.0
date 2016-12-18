@@ -1,10 +1,12 @@
 package com.jersey.systemParam.model;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.hibernate.LockOptions;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,27 +34,39 @@ public class SystemParamDAO extends AbstractDAO<SystemParamVO> {
 	 */
 	public SystemParamVO getPrimaryKeyValueAndUpdate (PrimaryKey primaryKey, Integer poolSize) {
 		Session session = hibernateTools.getSession();
-		//session.beginTransaction();
-//		try {
+		Transaction transaction = session.getTransaction();
+		
+		//因為Hibernate不支援nested transaction, 所以只好這樣寫了QQ......
+		boolean flag = transaction.isActive();
+		if (!flag) {
+			session.beginTransaction();
+		}
+		
+		try {
 			//TODO 要做壓力測試
 			LockOptions lockOptions = LockOptions.UPGRADE;
 			lockOptions.setTimeOut(3000);
-			Query query = session.createQuery("from SystemParamVO vo where vo.name=:name");
+			Query<SystemParamVO> query = session.createQuery("from SystemParamVO vo where vo.name=:name", SystemParamVO.class);
 			query.setLockOptions(lockOptions);
-			query.setString("name", primaryKey.toString());
+			query.setParameter("name", primaryKey.toString());
 			
-			SystemParamVO vo = (SystemParamVO)query.uniqueResult();
+			Optional<SystemParamVO> optional = query.uniqueResultOptional();
+			SystemParamVO vo = optional.get();
 			Integer value = Integer.valueOf(vo.getValue()) + poolSize;
 			vo.setValue(value.toString());
 			vo.setLastModifyTime(new Date());
 			session.update(vo);
-			//session.getTransaction().commit();
+			if (!flag) {
+				session.getTransaction().commit();
+			}
 			return vo;
-//		} catch (Exception e) {
-//			//session.getTransaction().rollback();
-//			e.printStackTrace();
-//			throw e;
-//		}
+		} catch (Exception e) {
+			if (!flag) {
+				session.getTransaction().rollback();
+			}
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 	/**

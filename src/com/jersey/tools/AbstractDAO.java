@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
+import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,8 +36,8 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		session.getTransaction().begin();
 		List<E> list;
 		try {
-			Query query = session.createQuery("from " + voType.getName());
-			list = query.list();
+			Query<E> query = session.createQuery("from " + voType.getName());
+			list = query.getResultList();
 			session.getTransaction().commit();
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();
@@ -53,13 +53,13 @@ public abstract class AbstractDAO<E extends AbstractVo> implements DAOInterface<
 		session.getTransaction().begin();
 		List<E> list;
 		try {
-			Query query = session.createQuery("from " + voType.getName());
+			Query<E> query = session.createQuery("from " + voType.getName());
 			// 分頁
 			Integer firstResult = pageSize * (page - 1);
 			query.setFirstResult(firstResult);
 			query.setMaxResults(pageSize);
 
-			list = query.list();
+			list = query.getResultList();
 			session.getTransaction().commit();
 		} catch (HibernateException e) {
 			session.getTransaction().rollback();

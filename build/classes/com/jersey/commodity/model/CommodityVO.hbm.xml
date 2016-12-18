@@ -45,6 +45,8 @@
 		<property name="authority">
 			<type name="org.hibernate.type.EnumType">
 				<param name="enumClass">com.jersey.tools.JerseyEnum$Authority</param>
+				<param name="type">12</param>
+        		<!-- 12 is java.sql.Types.VARCHAR -->
 			</type>
 		</property>
         

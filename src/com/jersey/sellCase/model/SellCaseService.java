@@ -128,7 +128,7 @@ public class SellCaseService {
 		SellCaseWithBenefitVO sellCaseWithBenefitVo = null;
 		if (sellCaseVO != null) {
 			sellCaseWithBenefitVo = new SellCaseWithBenefitVO();
-			JerseyTools.copyBeanProperties(sellCaseVO, sellCaseWithBenefitVo);
+			JerseyTools.copyAbstractVoProperties(sellCaseVO, sellCaseWithBenefitVo);
 
 			Integer costs = 0;
 			Integer agentCosts = 0;

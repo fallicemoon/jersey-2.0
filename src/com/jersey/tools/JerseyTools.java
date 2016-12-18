@@ -1,6 +1,7 @@
 package com.jersey.tools;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,12 +18,16 @@ public class JerseyTools {
 	 * @param old
 	 * @param target
 	 */
-	public static void copyBeanProperties(Object old, Object target, String... notCopyFields) {
+	public static void copyAbstractVoProperties(AbstractVo old, AbstractVo target, String... notCopyFields) {
 		Field[] oldFields = old.getClass().getDeclaredFields();
+		Set<Field> oldFieldSet = new HashSet<>(Arrays.asList(oldFields));
+		//把AbstractVo這個父類別的變數也加進來
+		oldFieldSet.addAll(new HashSet<>(Arrays.asList(AbstractVo.class.getDeclaredFields())));
+		
 		Set<String> notCopyFieldSet = new HashSet<>();
 		Collections.addAll(notCopyFieldSet, notCopyFields);
 		notCopyFieldSet.add(serialVersionUID);
-		for (Field field : oldFields) {
+		for (Field field : oldFieldSet) {
 			boolean flag = field.isAccessible();
 			if (notCopyFieldSet.contains(field.getName())){
 				continue;

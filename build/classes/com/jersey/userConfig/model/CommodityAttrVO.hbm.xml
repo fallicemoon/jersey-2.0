@@ -15,7 +15,7 @@
         
         <property name="commodityAttr" column="commodity_attr" />
         
-        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" order-by="id asc" cascade="all,delete-orphan">
+        <set name="commodityAttrMappings" table="commodity_attr_mapping" lazy="false" order-by="id asc">
         	<key><column name="commodity_attr_id"></column></key>
         	<one-to-many class="com.jersey.commodity.model.CommodityAttrMappingVO" />
         </set>
@@ -23,6 +23,8 @@
         <property name="commodityAttrAuthority" column="commodity_attr_authority">
         	<type name="org.hibernate.type.EnumType">
         		<param name="enumClass">com.jersey.tools.JerseyEnum$CommodityAttrAuthority</param>
+        		<param name="type">12</param>
+        		<!-- 12 is java.sql.Types.VARCHAR -->
         	</type>
         </property>
         

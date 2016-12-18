@@ -192,12 +192,12 @@ public class CommodityController {
 			
 			//因為是複製, 所以把PK清掉
 			CommodityVO clone = new CommodityVO();
-			JerseyTools.copyBeanProperties(commodityVO, clone, "id", "commodityAttrMappings");
+			JerseyTools.copyAbstractVoProperties(commodityVO, clone, "id", "commodityAttrMappings");
 			SortedSet<CommodityAttrMappingVO> commodityAttrMappings = new TreeSet<>();
 			if (commodityVO.getCommodityAttrMappings()!=null) {
 				for (CommodityAttrMappingVO oldVo : commodityVO.getCommodityAttrMappings()) {
 					CommodityAttrMappingVO newVo = new CommodityAttrMappingVO();
-					JerseyTools.copyBeanProperties(oldVo, newVo, "id", "commodityVO");
+					JerseyTools.copyAbstractVoProperties(oldVo, newVo, "id", "commodityVO");
 					commodityAttrMappings.add(newVo);
 				};
 			}

@@ -62,8 +62,9 @@ public class TripleController {
 		PurchaseCaseVO purchaseCaseVO = purchaseCaseService.getOne(purchaseCaseId);
 		tripleService.generateTriple(purchaseCaseVO, commoditys, purchaseCaseList, sellCaseList);
 
+		String storeName = purchaseCaseVO.getStore()==null ? "":purchaseCaseVO.getStore().getName();
 		map.put("title",
-				"進貨:" + purchaseCaseVO.getId() + "/" + purchaseCaseVO.getStore().getName());
+				"進貨:" + purchaseCaseVO.getId() + "/" + storeName);
 		map.put("commodityList", commoditys);
 		map.put("purchaseCaseList", purchaseCaseList);
 		map.put("sellCaseList", sellCaseList);

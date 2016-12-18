@@ -48,7 +48,7 @@
      	<property name="idleConnectionTestPeriod" value="300" />
     </bean>
 
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" destroy-method="destroy">
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" destroy-method="destroy">
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
@@ -68,7 +68,7 @@
 		</property>
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
 				<!--是否要顯示實際操作資料庫時的SQL -->
 				<prop key="hibernate.show_sql">true</prop>
 				<!-- Disable the second-level cache -->

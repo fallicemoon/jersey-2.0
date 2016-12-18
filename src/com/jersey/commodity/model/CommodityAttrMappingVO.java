@@ -41,9 +41,8 @@ public class CommodityAttrMappingVO extends AbstractVo implements Comparable<Com
 	@Override
 	public int compareTo(CommodityAttrMappingVO o) {
 		//commodity裡面的屬性值是用SortedSet來排序
-		Integer self = Integer.valueOf(this.commodityAttrVO.getId().substring(2));
-		Integer other = Integer.valueOf(o.commodityAttrVO.getId().substring(2));
-		return self-other;
+		return this.commodityAttrVO.getId().compareTo(o.commodityAttrVO.getId());
+		
 	}
 
 }

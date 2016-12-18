@@ -64,6 +64,7 @@ public class UserConfigService {
 	}
 	
 	public void removeCommodityType (CommodityTypeVO commodityTypeVO) {
+		commodityTypeVO.setCommodityAttrs(null);
 		commodityTypeDAO.delete(commodityTypeVO);
 		initCommodityAttrMap();
 	}
