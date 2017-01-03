@@ -128,19 +128,19 @@ public class PurchaseCaseController {
 			ids[i] = Integer.valueOf(commodityIds[i]);
 		}
 		purchaseCaseService.addPurchaseCaseIdToCommoditys(purchaseCaseId, ids);
-		return REDIRECT_ADD_COMMODITY.replace("{id}", purchaseCaseId.toString());
+		return REDIRECT_ADD_COMMODITY.replace("{id}", purchaseCaseId);
 	}
 
 	// 移除進貨裡面的商品
 	@RequestMapping(value = "/removeCommodity", method = RequestMethod.PUT)
-	public String removeCommodity(@RequestParam(value = "purchaseCaseId", required = true) Integer purchaseCaseId,
+	public String removeCommodity(@RequestParam(value = "purchaseCaseId", required = true) String purchaseCaseId,
 			@RequestParam(value = "commodityIds", required = true) String[] commodityIds) {
 		Integer[] ids = new Integer[commodityIds.length];
 		for (int i = 0; i < commodityIds.length; i++) {
 			ids[i] = Integer.valueOf(commodityIds[i]);
 		}
 		purchaseCaseService.deletePurchasCaseIdFromCommoditys(ids);
-		return REDIRECT_ADD_COMMODITY.replace("{id}", purchaseCaseId.toString());
+		return REDIRECT_ADD_COMMODITY.replace("{id}", purchaseCaseId);
 	}
 
 }

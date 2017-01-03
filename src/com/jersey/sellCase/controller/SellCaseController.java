@@ -128,19 +128,19 @@ public class SellCaseController {
 			ids[i] = Integer.valueOf(purchaseCaseIds[i]);
 		}
 		sellCaseService.addSellCaseIdToPurchaseCases(sellCaseId, ids);
-		return REDIRECT_ADD_PURCHASE_CASE.replace("{id}", sellCaseId.toString());
+		return REDIRECT_ADD_PURCHASE_CASE.replace("{id}", sellCaseId);
 	}
 
 	// 移除出貨裡面的進貨
 	@RequestMapping(value = "/removePurchaseCase", method = RequestMethod.PUT)
-	public String removeCommodity(@RequestParam(value = "sellCaseId", required = true) Integer sellCaseId,
+	public String removeCommodity(@RequestParam(value = "sellCaseId", required = true) String sellCaseId,
 			@RequestParam(value = "purchaseCaseIds", required = true) String[] purchaseCaseIds) {
 		Integer[] ids = new Integer[purchaseCaseIds.length];
 		for (int i = 0; i < purchaseCaseIds.length; i++) {
 			ids[i] = Integer.valueOf(purchaseCaseIds[i]);
 		}
 		sellCaseService.deleteSellCaseIdFromPurchaseCases(ids);
-		return REDIRECT_ADD_PURCHASE_CASE.replace("{id}", sellCaseId.toString());
+		return REDIRECT_ADD_PURCHASE_CASE.replace("{id}", sellCaseId);
 	}
 
 }

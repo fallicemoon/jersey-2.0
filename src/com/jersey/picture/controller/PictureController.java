@@ -70,7 +70,7 @@ public class PictureController {
 			Set<String> errors = new LinkedHashSet<>();
 			try {
 				pictureService.uploadPicture(request);
-				return REDIRECT_PICTURE.replace(COMMODITY_ID, commodityId.toString());
+				return REDIRECT_PICTURE.replace(COMMODITY_ID, commodityId);
 			} catch (SizeLimitExceededException e) {
 				e.printStackTrace();
 				errors.add("上傳檔案需小於30MB!");
